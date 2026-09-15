@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<style>
+  body { margin: 0; font-family: Inter, system-ui, sans-serif; background: #ffffff; color: #1E2B3C; font-size: 16px; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #0062B8; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  a:hover { color: #00417d; text-decoration-thickness: 2px; }
+  :focus-visible { outline: 3px solid #1E2B3C; outline-offset: 3px; box-shadow: inset 0 0 0 3px #fff; border-radius: 4px; }
+  button { font: inherit; color: inherit; }
+  input, textarea, select { font: inherit; }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; display: flex; flex-direction: column">
+
+  <header style="border-bottom: 1px solid #dce1e7; background: #fff; position: sticky; top: 0; z-index: 20">
+    <div style="max-width: 1180px; margin: 0 auto; padding: 14px 24px; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap">
+      <button onClick="{{ goHome }}" style="display: flex; align-items: center; gap: 12px; background: none; border: none; padding: 0; cursor: pointer">
+        <img src="digdir-logo.svg" alt="Digdir" width="30" height="30" style="flex: none; display: block" />
+        <span style="display: flex; align-items: baseline; gap: 10px">
+          <span style="font-size: 22px; font-weight: 600; letter-spacing: -0.01em">Saman</span>
+          <span style="font-size: 13px; color: #65707D">Digdir</span>
+        </span>
+      </button>
+      <div style="display: flex; align-items: center; gap: 10px">
+        <span style="font-size: 14px; color: #44505f">Adélie Elisabeth Dorseuil</span>
+        <span role="img" aria-label="Adélie Elisabeth Dorseuil" style="width: 32px; height: 32px; border-radius: 9999px; background: #eaeef2 url('uploads/Adelie.jpg') center top / cover no-repeat"></span>
+      </div>
+      </div>
+      <nav style="display: flex; gap: 4px; flex-wrap: wrap">
+        <sc-for list="{{ nav }}" as="item" hint-placeholder-count="7">
+          <button onClick="{{ item.go }}" style="{{ item.style }}" style-hover="background: #f2f4f6">{{ item.label }}</button>
+        </sc-for>
+      </nav>
+    </div>
+  </header>
+
+  <main style="flex: 1; width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 24px 96px">
+
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 24px 40px; padding-bottom: 8px">
+        <img src="uploads/Artboard 55@4x.png" alt="" style="order: 2; flex: 0 1 340px; min-width: 0; max-width: 340px; height: auto; margin-bottom: 24px" />
+        <section style="order: 1; flex: 1 1 32rem; min-width: 0; padding: 64px 0 40px; max-width: 720px; display: flex; flex-direction: column; gap: 18px">
+          <span style="font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #0062B8">Rammeverk for team og leveranser</span>
+          <h1 style="margin: 0; font-size: 44px; font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; text-wrap: pretty">Slik jobber vi sammen med leveranser i Digdir</h1>
+          <p style="margin: 0; font-size: 19px; line-height: 1.6; color: #44505f; text-wrap: pretty">Saman definerer hva som skal eller bør gjøres likt på tvers av team og enheter som jobber med leveranser, og hva som fortsatt skal være fleksibelt og opp til det enkelte team eller enhet.</p>
+        </section>
+        </div>
+
+        <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: 16px; padding-bottom: 24px">
+          <sc-for list="{{ areas }}" as="area" hint-placeholder-count="8">
+            <button onClick="{{ area.go }}" style="text-align: left; display: flex; flex-direction: column; gap: 10px; padding: 24px; background: #fff; border: 1px solid #dce1e7; border-radius: 8px; cursor: pointer; height: 100%" style-hover="border-color: #0062B8; box-shadow: 0 0 1px rgba(0,0,0,.16), 0 2px 4px rgba(0,0,0,.08)">
+              <span style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+                <span style="{{ area.iconWrapStyle }}">
+                  <i data-lucide="{{ area.icon }}" style="width: 22px; height: 22px"></i>
+                </span>
+                <span style="font-size: 13px; color: #65707D; white-space: nowrap">{{ area.count }}</span>
+              </span>
+              <span style="font-size: 20px; font-weight: 600">{{ area.title }}</span>
+              <span style="font-size: 15px; line-height: 1.55; color: #44505f">{{ area.desc }}</span>
+            </button>
+          </sc-for>
+        </section>
+
+        <section style="margin-top: 32px; padding: 32px; border-radius: 8px; background: #eef4fa; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 28px 40px">
+          <div style="display: flex; flex-direction: column; gap: 10px">
+            <h2 style="margin: 0; font-size: 22px; font-weight: 600">Ny i Digdir?</h2>
+            <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #44505f">Start med organisasjonen og begrepene. Da blir resten av rammeverket lettere å lese.</p>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px">
+              <button onClick="{{ goOrg }}" style="padding: 9px 16px; border-radius: 4px; border: none; background: #0062B8; color: #fff; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #00417d">Se organisasjonen</button>
+              <button onClick="{{ goBegreper }}" style="padding: 9px 16px; border-radius: 4px; border: 1px solid #0062B8; background: transparent; color: #0062B8; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #dbe8f5">Begreper</button>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 10px">
+            <h2 style="margin: 0; font-size: 22px; font-weight: 600">Skal du etablere et team?</h2>
+            <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #44505f">Veiviseren tar deg gjennom fire spørsmål og foreslår teamtype, mandatkrav og roller.</p>
+            <div style="margin-top: 4px">
+              <button onClick="{{ goVeiviser }}" style="padding: 9px 16px; border-radius: 4px; border: none; background: #0062B8; color: #fff; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #00417d">Start veiviseren</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isTeams }}">
+      <div style="padding-top: 40px; display: flex; flex-direction: column; gap: 28px">
+        <div style="display: flex; flex-direction: column; gap: 10px; max-width: 680px">
+          <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Teamoversikt</h1>
+          <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f">Alle team i Digdir, hva de leverer og hvorfor de finnes. Team registrerer og vedlikeholder informasjonen selv.</p>
+        </div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center">
+          <input value="{{ query }}" onChange="{{ setQuery }}" placeholder="Søk i team, leveranser og enheter" style="flex: 1 1 260px; min-width: 0; padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; background: #fff" />
+          <div style="display: flex; gap: 6px; flex-wrap: wrap">
+            <sc-for list="{{ typeFilters }}" as="f" hint-placeholder-count="5">
+              <button onClick="{{ f.go }}" style="{{ f.style }}">{{ f.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <p style="margin: -12px 0 0; font-size: 14px; color: #65707D">{{ teamCountLabel }}</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 16px">
+          <sc-for list="{{ visibleTeams }}" as="team" hint-placeholder-count="6">
+            <button onClick="{{ team.go }}" style="text-align: left; display: flex; flex-direction: column; gap: 12px; padding: 22px; border: 1px solid #dce1e7; border-radius: 8px; background: #fff; cursor: pointer; height: 100%" style-hover="border-color: #0062B8">
+              <span style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap">
+                <span style="{{ team.tagStyle }}">{{ team.type }}</span>
+                
+              </span>
+              <span style="font-size: 19px; font-weight: 600; line-height: 1.3">{{ team.name }}</span>
+              <span style="font-size: 15px; line-height: 1.55; color: #44505f">{{ team.purpose }}</span>
+              <span style="display: flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 6px; font-size: 13px; color: #65707D">{{ team.metaLabel }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <sc-if value="{{ noTeams }}">
+          <p style="margin: 0; padding: 32px; border: 1px dashed #b3c9e1; border-radius: 8px; text-align: center; color: #44505f">Ingen team passer søket. Prøv et annet ord eller fjern filteret.</p>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isTeam }}">
+      <div style="padding-top: 28px; display: flex; flex-direction: column; gap: 32px">
+        <button onClick="{{ goTeams }}" style="align-self: flex-start; background: none; border: none; padding: 0; color: #0062B8; font-size: 15px; cursor: pointer; text-decoration: underline">Tilbake til teamoversikten</button>
+        <div style="display: flex; flex-direction: column; gap: 14px; max-width: 760px">
+          <span style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
+            <span style="{{ team.tagStyle }}">{{ team.type }}</span>
+            <span style="font-size: 14px; color: #65707D">{{ team.unitPath }}</span>
+          </span>
+          <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">{{ team.name }}</h1>
+          <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #44505f">{{ team.purpose }}</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); gap: 24px; align-items: start">
+
+          <section style="display: flex; flex-direction: column; gap: 16px; padding: 24px; border: 1px solid #dce1e7; border-radius: 8px">
+            <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px">
+              <h2 style="margin: 0; font-size: 20px; font-weight: 600">Mandat</h2>
+              <sc-if value="{{ notEditing }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ startEdit }}" style="padding: 7px 14px; border-radius: 4px; border: 1px solid #0062B8; background: transparent; color: #0062B8; font-size: 14px; font-weight: 500; cursor: pointer" style-hover="background: #eef4fa">Rediger mandat</button>
+              </sc-if>
+            </div>
+            <sc-if value="{{ mandateIncomplete }}">
+              <p style="margin: 0; padding: 12px 14px; border-radius: 4px; background: #fdf3e6; border: 1px solid #f0d3a8; font-size: 15px; line-height: 1.5; color: #4a3413">Mandatet er ikke komplett. Teamet fyller ut resten selv.</p>
+            </sc-if>
+            <sc-if value="{{ savedNotice }}">
+              <p style="margin: 0; padding: 12px 14px; border-radius: 4px; background: #e6f3ec; color: #12402c; font-size: 15px; border: 1px solid #b7dcc7">Mandatet er lagret. Endringen er synlig for alle i Digdir.</p>
+            </sc-if>
+            <sc-if value="{{ notEditing }}" hint-placeholder-val="{{ true }}">
+              <div style="display: flex; flex-direction: column; gap: 18px">
+                <sc-for list="{{ mandateFields }}" as="f" hint-placeholder-count="4">
+                  <div style="display: flex; flex-direction: column; gap: 6px">
+                    <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">{{ f.label }}</span>
+                    <span style="{{ f.valueStyle }}">{{ f.value }}</span>
+                  </div>
+                </sc-for>
+                <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 4px; border-top: 1px solid #dce1e7">
+                  <h3 style="margin: 0; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D; padding-top: 12px">Andre rammer</h3>
+                  <sc-for list="{{ mandateFrames }}" as="f" hint-placeholder-count="6">
+                    <div style="display: flex; flex-direction: column; gap: 4px">
+                      <span style="font-size: 15px; font-weight: 600">{{ f.label }}</span>
+                      <span style="{{ f.valueStyle }}">{{ f.value }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <p style="margin: 0; font-size: 13px; color: #65707D">{{ mandateStatus }} · {{ revisedLabel }}</p>
+              </div>
+            </sc-if>
+            <sc-if value="{{ editing }}">
+              <div style="display: flex; flex-direction: column; gap: 18px">
+                <sc-for list="{{ mandateInputs }}" as="f" hint-placeholder-count="4">
+                  <label style="display: flex; flex-direction: column; gap: 6px">
+                    <span style="font-size: 15px; font-weight: 500">{{ f.label }}</span>
+                    <span style="font-size: 14px; color: #65707D">{{ f.help }}</span>
+                    <textarea value="{{ f.value }}" onChange="{{ f.onChange }}" rows="4" style="padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; resize: vertical; line-height: 1.5"></textarea>
+                  </label>
+                </sc-for>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap">
+                  <button onClick="{{ saveEdit }}" style="padding: 10px 18px; border-radius: 4px; border: none; background: #0062B8; color: #fff; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #00417d">Lagre mandat</button>
+                  <button onClick="{{ cancelEdit }}" style="padding: 10px 18px; border-radius: 4px; border: 1px solid #65707D; background: transparent; font-size: 15px; cursor: pointer" style-hover="background: #f2f4f6">Avbryt</button>
+                </div>
+              </div>
+            </sc-if>
+          </section>
+
+          <div style="display: flex; flex-direction: column; gap: 24px">
+            <section style="display: flex; flex-direction: column; gap: 14px; padding: 24px; border: 1px solid #dce1e7; border-radius: 8px">
+              <h2 style="margin: 0; font-size: 20px; font-weight: 600">Hvem er vi?</h2>
+              <div style="display: flex; flex-direction: column; gap: 0">
+                <sc-for list="{{ team.members }}" as="m" hint-placeholder-count="5">
+                  <button onClick="{{ m.open }}" style="text-align: left; width: 100%; display: flex; align-items: center; gap: 12px; padding: 10px 6px; border: none; border-top: 1px solid #eaeef2; background: transparent; cursor: pointer" style-hover="background: #f2f4f6">
+                    <span role="img" aria-label="{{ m.name }}" style="{{ m.avatarStyle }}">{{ m.initials }}</span>
+                    <span style="font-size: 16px">{{ m.name }}</span>
+                    <span style="margin-left: auto; font-size: 14px; color: #44505f; text-align: right">{{ m.role }}</span>
+                  </button>
+                </sc-for>
+              </div>
+              <sc-if value="{{ noMembers }}">
+                <p style="margin: 0; font-size: 15px; color: #65707D">Ingen medlemmer registrert ennå.</p>
+              </sc-if>
+            </section>
+            <section style="display: flex; flex-direction: column; gap: 14px; padding: 24px; border: 1px solid #dce1e7; border-radius: 8px">
+              <h2 style="margin: 0; font-size: 20px; font-weight: 600">Verktøy teamet bruker</h2>
+              <sc-if value="{{ noTools }}">
+                <p style="margin: 0; font-size: 15px; color: #65707D">Ingen verktøy registrert ennå.</p>
+              </sc-if>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap">
+                <sc-for list="{{ team.tools }}" as="t" hint-placeholder-count="4">
+                  <span style="padding: 6px 12px; border-radius: 9999px; background: #f2f4f6; font-size: 14px">{{ t }}</span>
+                </sc-for>
+              </div>
+            </section>
+            <section style="display: flex; flex-direction: column; gap: 14px; padding: 24px; border: 1px solid #dce1e7; border-radius: 8px">
+              <h2 style="margin: 0; font-size: 20px; font-weight: 600">Prinsipper teamet følger</h2>
+              <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; line-height: 1.5">
+                <sc-for list="{{ team.principles }}" as="p" hint-placeholder-count="3">
+                  <li>{{ p }}</li>
+                </sc-for>
+              </ul>
+              <button onClick="{{ goPrinsipper }}" style="align-self: flex-start; background: none; border: none; padding: 0; color: #0062B8; font-size: 15px; cursor: pointer; text-decoration: underline">Se alle prinsipper</button>
+            </section>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isRoller }}">
+      <div style="padding-top: 40px; display: flex; flex-direction: column; gap: 28px">
+        <div style="display: flex; flex-direction: column; gap: 10px; max-width: 720px">
+          <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Roller og ansvar</h1>
+          <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f">Rollene er beskrevet etter RAMO: rolle, ansvar, myndighet og oppgaver. Når rammene er klare, blir det lettere å samarbeide og enklere å ta gode beslutninger.</p>
+        </div>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap">
+          <sc-for list="{{ roleTypeFilters }}" as="f" hint-placeholder-count="5">
+            <button onClick="{{ f.go }}" style="{{ f.style }}">{{ f.label }}</button>
+          </sc-for>
+        </div>
+        <sc-if value="{{ hasRoleNote }}">
+          <p style="margin: 0; padding: 12px 14px; border-radius: 4px; background: #e6f2fd; font-size: 15px; line-height: 1.55; color: #1E2B3C">{{ roleFilterNote }}</p>
+        </sc-if>
+        <div style="display: flex; flex-direction: column; gap: 20px">
+          <sc-for list="{{ roles }}" as="r" hint-placeholder-count="3">
+            <section style="display: flex; flex-direction: column; gap: 18px; padding: 28px; border: 1px solid #dce1e7; border-radius: 8px">
+              <div style="display: flex; flex-direction: column; gap: 6px">
+                <h2 style="margin: 0; font-size: 24px; font-weight: 600">{{ r.name }}</h2>
+                <p style="margin: 0; font-size: 15px; color: #65707D">{{ r.scope }}</p>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 20px 28px">
+                <sc-for list="{{ r.ramo }}" as="x" hint-placeholder-count="4">
+                  <div style="display: flex; flex-direction: column; gap: 6px">
+                    <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #0062B8">{{ x.label }}</span>
+                    <span style="font-size: 15px; line-height: 1.55; color: #1E2B3C">{{ x.value }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </section>
+          </sc-for>
+        </div>
+        <section style="display: flex; flex-direction: column; gap: 16px; padding: 28px; border-radius: 8px; background: #f2f4f6">
+          <h2 style="margin: 0; font-size: 22px; font-weight: 600">Variasjoner per teamtype</h2>
+          <sc-if value="{{ noVariants }}">
+            <p style="margin: 0; font-size: 16px; color: #44505f">Ingen variasjoner for denne teamtypen. Rollene gjelder slik de er beskrevet over.</p>
+          </sc-if>
+          <div style="display: flex; flex-direction: column; gap: 14px">
+            <sc-for list="{{ roleVariants }}" as="v" hint-placeholder-count="2">
+              <div style="display: grid; grid-template-columns: minmax(0, 160px) minmax(0, 1fr); gap: 20px; padding-top: 14px; border-top: 1px solid #cfd6de">
+                <span style="font-size: 16px; font-weight: 600">{{ v.type }}</span>
+                <span style="font-size: 16px; line-height: 1.55; color: #44505f">{{ v.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isVeiviser }}">
+      <div style="padding-top: 40px; display: flex; flex-direction: column; gap: 28px; max-width: 760px">
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Veiviser for teamtype</h1>
+          <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f">Fire spørsmål som hjelper deg å finne riktig teamtype. Valgt teamtype avgjør hvilke prinsipper, roller og verktøy som anbefales videre.</p>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center">
+          <sc-for list="{{ wizardDots }}" as="d" hint-placeholder-count="4">
+            <span style="{{ d.style }}"></span>
+          </sc-for>
+          <span style="margin-left: 8px; font-size: 14px; color: #65707D">{{ wizardProgress }}</span>
+        </div>
+
+        <sc-if value="{{ wizardQuestion }}" hint-placeholder-val="{{ true }}">
+          <section style="display: flex; flex-direction: column; gap: 22px; padding: 32px; border: 1px solid #dce1e7; border-radius: 8px">
+            <h2 style="margin: 0; font-size: 26px; font-weight: 600; line-height: 1.3">{{ wizardQuestion.title }}</h2>
+            <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #44505f">{{ wizardQuestion.intro }}</p>
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <span style="font-size: 15px; font-weight: 600">Vurder:</span>
+              <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; line-height: 1.5; color: #44505f">
+                <sc-for list="{{ wizardQuestion.bullets }}" as="b" hint-placeholder-count="4">
+                  <li>{{ b }}</li>
+                </sc-for>
+              </ul>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <sc-for list="{{ wizardQuestion.options }}" as="o" hint-placeholder-count="2">
+                <button onClick="{{ o.go }}" style="text-align: left; display: flex; flex-direction: column; gap: 6px; padding: 18px 20px; border: 1px solid #9aa5b1; border-radius: 8px; background: #fff; cursor: pointer" style-hover="border-color: #0062B8; background: #f7fafd">
+                  <span style="font-size: 17px; font-weight: 600">{{ o.label }}</span>
+                  <span style="font-size: 15px; line-height: 1.5; color: #44505f">{{ o.hint }}</span>
+                </button>
+              </sc-for>
+            </div>
+            <sc-if value="{{ canGoBack }}">
+              <button onClick="{{ wizardBack }}" style="align-self: flex-start; background: none; border: none; padding: 0; color: #0062B8; font-size: 15px; cursor: pointer; text-decoration: underline">Forrige spørsmål</button>
+            </sc-if>
+          </section>
+        </sc-if>
+
+        <sc-if value="{{ wizardResult }}">
+          <section style="display: flex; flex-direction: column; gap: 22px; padding: 32px; border: 1px solid #0062B8; border-radius: 8px; background: #f7fafd">
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #0062B8">{{ wizardResult.kicker }}</span>
+              <h2 style="margin: 0; font-size: 30px; font-weight: 600">{{ wizardResult.title }}</h2>
+              <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #1E2B3C">{{ wizardResult.body }}</p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <span style="font-size: 15px; font-weight: 600">{{ wizardResult.listTitle }}</span>
+              <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; line-height: 1.5">
+                <sc-for list="{{ wizardResult.points }}" as="p" hint-placeholder-count="3">
+                  <li>{{ p }}</li>
+                </sc-for>
+              </ul>
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap">
+              <button onClick="{{ goToolsForResult }}" style="padding: 10px 18px; border-radius: 4px; border: none; background: #0062B8; color: #fff; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #00417d">Se verktøy</button>
+              <button onClick="{{ goRolesForResult }}" style="padding: 10px 18px; border-radius: 4px; border: 1px solid #0062B8; background: transparent; color: #0062B8; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #dbe8f5">Se roller</button>
+              <button onClick="{{ wizardReset }}" style="padding: 10px 18px; border-radius: 4px; border: 1px solid #65707D; background: transparent; font-size: 15px; cursor: pointer" style-hover="background: #f2f4f6">Start på nytt</button>
+            </div>
+          </section>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isVerktoy }}">
+      <div style="padding-top: 40px; display: flex; flex-direction: column; gap: 28px">
+        <div style="display: flex; flex-direction: column; gap: 10px; max-width: 720px">
+          <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Verktøykasse</h1>
+          <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f">Anbefalte metoder, maler og verktøy. Noe må du forholde deg til, men i det store handler det om å velge verktøyet som passer formålet.</p>
+        </div>
+        <input value="{{ query }}" onChange="{{ setQuery }}" placeholder="Søk i verktøykassen" style="width: 100%; padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px" />
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: -12px">
+          <span style="font-size: 14px; color: #65707D">Verktøytype</span>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap">
+            <sc-for list="{{ toolFilters }}" as="f" hint-placeholder-count="6">
+              <button onClick="{{ f.go }}" style="{{ f.style }}">{{ f.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: -12px">
+          <span style="font-size: 14px; color: #65707D">Teamtype</span>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap">
+            <sc-for list="{{ toolTeamFilters }}" as="f" hint-placeholder-count="5">
+              <button onClick="{{ f.go }}" style="{{ f.style }}">{{ f.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 16px">
+          <sc-for list="{{ visibleTools }}" as="t" hint-placeholder-count="6">
+            <article style="display: flex; flex-direction: column; gap: 12px; padding: 22px; border: 1px solid #dce1e7; border-radius: 8px; height: 100%">
+              <span style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap">
+                <span style="padding: 3px 10px; border-radius: 9999px; background: #f2f4f6; font-size: 13px; font-weight: 500; color: #44505f">{{ t.type }}</span>
+                <span style="font-size: 13px; color: #65707D">{{ t.forWhom }}</span>
+              </span>
+              <h2 style="margin: 0; font-size: 19px; font-weight: 600; line-height: 1.3">{{ t.name }}</h2>
+              <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #44505f">{{ t.desc }}</p>
+              <span style="margin-top: auto; padding-top: 6px; font-size: 14px; color: #0062B8">{{ t.link }}</span>
+            </article>
+          </sc-for>
+        </div>
+        <sc-if value="{{ noTools2 }}">
+          <p style="margin: 0; padding: 32px; border: 1px dashed #b3c9e1; border-radius: 8px; text-align: center; color: #44505f">Ingen verktøy passer filtrene. Prøv en annen kombinasjon.</p>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isBegreper }}">
+      <div style="padding-top: 40px; display: flex; flex-direction: column; gap: 28px; max-width: 860px">
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Begreper</h1>
+          <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f">Målet er ikke at alle skal bruke identisk språk, men at vi har et felles referansepunkt for hva vi legger i de viktigste begrepene.</p>
+        </div>
+        <input value="{{ query }}" onChange="{{ setQuery }}" placeholder="Søk i begrepene" style="padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; max-width: 420px" />
+        <div style="display: flex; flex-direction: column; gap: 0">
+          <sc-for list="{{ visibleTerms }}" as="t" hint-placeholder-count="8">
+            <div style="display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr); gap: 12px 28px; padding: 22px 0; border-top: 1px solid #dce1e7">
+              <span style="font-size: 18px; font-weight: 600">{{ t.term }}</span>
+              <div style="display: flex; flex-direction: column; gap: 8px">
+                <span style="font-size: 16px; line-height: 1.6; color: #1E2B3C">{{ t.definition }}</span>
+                <span style="font-size: 14px; color: #65707D">{{ t.source }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isPrinsipper }}">
+      <div style="padding-top: 40px; display: flex; flex-direction: column; gap: 28px">
+        <div style="display: flex; flex-direction: column; gap: 10px; max-width: 720px">
+          <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Prinsipper</h1>
+          <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f">Seks grunnleggende prinsipper som gjelder for alle team, i tillegg til prinsipper knyttet til ledelse, arkitektur og det enkelte teamet.</p>
+        </div>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap">
+          <sc-for list="{{ principleFilters }}" as="f" hint-placeholder-count="4">
+            <button onClick="{{ f.go }}" style="{{ f.style }}">{{ f.label }}</button>
+          </sc-for>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); gap: 16px">
+          <sc-for list="{{ visiblePrinciples }}" as="p" hint-placeholder-count="6">
+            <article style="display: flex; flex-direction: column; gap: 12px; padding: 26px; border: 1px solid #dce1e7; border-radius: 8px; height: 100%">
+              <span style="display: flex; align-items: center; gap: 10px">
+                <span style="font-size: 14px; font-weight: 600; color: #0062B8">{{ p.num }}</span>
+                <span style="padding: 3px 10px; border-radius: 9999px; background: #e6f2fd; color: #0b4d80; font-size: 13px; font-weight: 500">{{ p.area }}</span>
+              </span>
+              <h2 style="margin: 0; font-size: 21px; font-weight: 600; line-height: 1.3">{{ p.title }}</h2>
+              <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #44505f">{{ p.body }}</p>
+            </article>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isStyring }}">
+      <div style="padding-top: 40px; display: flex; flex-direction: column; gap: 28px; max-width: 900px">
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Styringsfundament</h1>
+          <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f">Digdirs visjon, samfunnsoppdrag, målbilde, verdier, brukergrupper og institusjonelle roller, samlet på én side.</p>
+        </div>
+        <p style="margin: 0; padding: 14px 16px; border-radius: 4px; background: #fdf2da; border: 1px solid #ecd69a; font-size: 15px; line-height: 1.55; color: #1E2B3C">MVP under testing i lederlaget fram til november. Fundamentet blir evaluert og justert av fasiliteringsgruppen i desember.</p>
+
+        <section style="display: flex; flex-direction: column; gap: 10px; padding: 32px; border-radius: 8px; background: #1E2B3C; color: #fff">
+          <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.75">Vår visjon</span>
+          <p style="margin: 0; font-size: 32px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em">Saman for ein enklare digital kvardag</p>
+        </section>
+
+        <section style="display: flex; flex-direction: column; gap: 10px; padding: 26px; border-radius: 8px; background: #e6f2fd">
+          <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #0062B8">Vårt samfunnsoppdrag</span>
+          <p style="margin: 0; font-size: 21px; font-weight: 500; line-height: 1.4">Vi bidrar til ein effektiv, brukerretta og samordna digitalisering av offentleg sektor</p>
+        </section>
+
+        <section style="display: flex; flex-direction: column; gap: 16px">
+          <h2 style="margin: 0; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Vårt målbilde</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: 16px; align-items: start">
+            <sc-for list="{{ goals }}" as="g" hint-placeholder-count="4">
+              <article style="display: flex; flex-direction: column; border: 1px solid #dce1e7; border-radius: 8px; overflow: hidden; height: 100%">
+                <h3 style="{{ g.headStyle }}">{{ g.title }}</h3>
+                <ul style="margin: 0; padding: 18px 18px 22px 36px; display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.5; color: #44505f">
+                  <sc-for list="{{ g.points }}" as="p" hint-placeholder-count="4">
+                    <li>{{ p }}</li>
+                  </sc-for>
+                </ul>
+              </article>
+            </sc-for>
+          </div>
+        </section>
+
+        <section style="display: flex; flex-direction: column; gap: 16px">
+          <h2 style="margin: 0; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Våre verdiar</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 16px">
+            <sc-for list="{{ values }}" as="v" hint-placeholder-count="3">
+              <article style="display: flex; flex-direction: column; gap: 10px; padding: 24px; border-radius: 8px; background: #f2f4f6; height: 100%">
+                <h3 style="margin: 0; font-size: 22px; font-weight: 600">{{ v.name }}</h3>
+                <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #44505f">{{ v.text }}</p>
+              </article>
+            </sc-for>
+          </div>
+        </section>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 16px">
+          <section style="display: flex; flex-direction: column; gap: 14px; padding: 26px; border: 1px solid #dce1e7; border-radius: 8px">
+            <h2 style="margin: 0; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Våre brukarar</h2>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap">
+              <sc-for list="{{ audiences }}" as="a" hint-placeholder-count="4">
+                <span style="padding: 8px 14px; border-radius: 9999px; background: #e6f2fd; color: #0b4d80; font-size: 15px; font-weight: 500">{{ a }}</span>
+              </sc-for>
+            </div>
+            <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #44505f">Vi jobbar brukerretta, tek utgangspunkt i behova til brukargruppene våre og tek hensyn til ulike perspektiv.</p>
+          </section>
+          <section style="display: flex; flex-direction: column; gap: 14px; padding: 26px; border: 1px solid #dce1e7; border-radius: 8px">
+            <h2 style="margin: 0; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Våre roller</h2>
+            <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 10px; font-size: 16px; line-height: 1.5">
+              <sc-for list="{{ instRoles }}" as="r" hint-placeholder-count="4">
+                <li>{{ r }}</li>
+              </sc-for>
+            </ul>
+          </section>
+        </div>
+
+        <p style="margin: 0; font-size: 14px; line-height: 1.55; color: #65707D">Styringsfundamentet er inspirert av kompasset til Mattilsynet og strategy house-modellen, og samler Digdirs strategiske og kulturmessige ambisjonar på éin stad.</p>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isOrg }}">
+      <div style="padding-top: 40px; display: flex; flex-direction: column; gap: 32px">
+        <div style="display: flex; flex-direction: column; gap: 10px; max-width: 760px">
+          <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Organisasjon</h1>
+          <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f">Digdir er todelt: en fast linjeorganisasjon der personalansvaret ligger, og tverrgående strukturer som opprettes og legges ned etter behov.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 16px">
+          <section style="display: flex; flex-direction: column; gap: 10px; padding: 26px; border-radius: 8px; background: #eef4fa">
+            <h2 style="margin: 0; font-size: 20px; font-weight: 600">Linjeorganisasjon (vertikalt)</h2>
+            <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #1E2B3C">Bestemme hvilke fagmiljøer og ressurser Digdir trenger, og hvordan vi skal utvikle og forvalte dem.</p>
+          </section>
+          <section style="display: flex; flex-direction: column; gap: 10px; padding: 26px; border-radius: 8px; background: #f2f4f6">
+            <h2 style="margin: 0; font-size: 20px; font-weight: 600">Tverrgående strukturer (horisontalt)</h2>
+            <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #1E2B3C">Bestemme hvordan vi samler kompetansen og løser behovet på tvers.</p>
+          </section>
+        </div>
+
+        <section style="display: flex; flex-direction: column; gap: 16px">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+            <h2 style="margin: 0; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Organisasjonskart</h2>
+            <span style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #65707D">
+              <span style="width: 14px; height: 14px; border: 1px solid #F45F63; border-radius: 3px; display: inline-block"></span>
+              Bistår og rådgir hele Digdir
+            </span>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 0">
+            <button onClick="{{ goDirektor }}" style="padding: 14px 32px; border: none; border-radius: 4px; background: #1E2B3C; color: #fff; font-size: 15px; font-weight: 600; letter-spacing: 0.06em; cursor: pointer" style-hover="background: #0062B8">DIREKTØR</button>
+            <div style="width: 2px; height: 28px; background: #cfd6de"></div>
+            <div style="width: 100%; height: 2px; background: #cfd6de"></div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 16px; align-items: start">
+            <sc-for list="{{ orgTree }}" as="d" hint-placeholder-count="7">
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 0">
+                <div style="width: 2px; height: 16px; background: #cfd6de"></div>
+                <button onClick="{{ d.go }}" style="{{ d.headStyle }}" style-hover="background: #0062B8">
+                  <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; opacity: 0.8">{{ d.code }}</span>
+                  <span style="font-size: 16px; font-weight: 600; line-height: 1.3">{{ d.name }}</span>
+                  <span style="font-size: 12px; opacity: 0.8">{{ d.size }}</span>
+                </button>
+                <div style="width: 100%; display: flex; flex-direction: column; gap: 8px; padding-top: 10px">
+                  <sc-for list="{{ d.children }}" as="a" hint-placeholder-count="4">
+                    <div style="display: flex; flex-direction: column; gap: 6px">
+                      <button onClick="{{ a.go }}" style="{{ a.style }}" style-hover="border-color: #0062B8; color: #0062B8">{{ a.name }}</button>
+                      <div style="display: flex; flex-direction: column; gap: 4px; padding-left: 14px; border-left: 2px solid #eaeef2">
+                        <sc-for list="{{ a.children }}" as="s" hint-placeholder-count="0">
+                          <button onClick="{{ s.go }}" style="{{ s.style }}" style-hover="background: #e6f2fd; color: #0062B8">{{ s.name }}</button>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <section style="display: flex; flex-direction: column; gap: 16px; padding: 28px; border: 1px solid #dce1e7; border-radius: 8px">
+          <h2 style="margin: 0; font-size: 22px; font-weight: 600">Tredelt porteføljestyring</h2>
+          <div style="display: flex; flex-direction: column; gap: 0">
+            <sc-for list="{{ portfolio }}" as="p" hint-placeholder-count="3">
+              <div style="display: grid; grid-template-columns: minmax(0, 200px) minmax(0, 1fr); gap: 12px 28px; padding: 18px 0; border-top: 1px solid #dce1e7">
+                <span style="display: flex; flex-direction: column; gap: 4px">
+                  <span style="font-size: 17px; font-weight: 600">{{ p.level }}</span>
+                  <span style="font-size: 14px; color: #65707D">{{ p.who }}</span>
+                </span>
+                <span style="font-size: 16px; line-height: 1.55; color: #44505f">{{ p.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isDirektor }}">
+      <div style="padding-top: 28px; display: flex; flex-direction: column; gap: 32px; max-width: 900px">
+        <div style="display: flex; gap: 8px; align-items: center; font-size: 15px">
+          <button onClick="{{ goOrg }}" style="background: none; border: none; padding: 0; color: #0062B8; cursor: pointer; text-decoration: underline">Organisasjon</button>
+          <span style="color: #65707D">/</span>
+          <span style="color: #65707D">Direktør</span>
+        </div>
+
+        <div style="display: flex; gap: 32px; flex-wrap: wrap; align-items: flex-start">
+          <img src="https://www.digdir.no/sites/sogn/files/styles/sm/public/2022-10/Frode%20Danielsen%20portrett.png?itok=piSGNCUS" alt="Frode Danielsen" style="width: 180px; height: 220px; object-fit: cover; object-position: top; border-radius: 4px; background: #eef0f3; flex: none" />
+          <div style="flex: 1 1 22rem; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+            <span style="font-size: 14px; color: #65707D">Digitaliseringsdirektør · toppledergruppen</span>
+            <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Frode Danielsen</h1>
+            <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #44505f">Frode Danielsen har jobba med nasjonale fellesløysingar i 15 år, der han mellom anna har hatt ei sentral rolle i å bygge opp eit sterkt og leveransedyktig forvaltningsmiljø for løysingane. Danielsen er jurist frå Universitetet i Bergen.</p>
+            <div style="display: flex; gap: 8px 24px; flex-wrap: wrap; font-size: 16px">
+              <a href="mailto:frode.danielsen@digdir.no">frode.danielsen@digdir.no</a>
+              <span style="color: #44505f">Mobil: 91 15 60 63</span>
+            </div>
+          </div>
+        </div>
+
+        <section style="display: flex; flex-direction: column; gap: 16px; padding: 26px; border: 1px solid #dce1e7; border-radius: 8px; border-top: 4px solid #F45F63">
+          <span style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
+            <span style="padding: 3px 10px; border-radius: 9999px; background: #fdeaea; color: #8f1f26; font-size: 13px; font-weight: 500">Frode på fredag</span>
+            <span style="font-size: 13px; color: #65707D">4. september 2026 · opptak fra Teams</span>
+          </span>
+          <h2 style="margin: 0; font-size: 22px; font-weight: 600; line-height: 1.3">Digdir 2.0 – ny organisering</h2>
+          <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #1E2B3C; max-width: 640px">«Å flytte bokser og streker på et kart alene bringer oss ikke i mål. Det er det alle vi som må gjøre, gjennom måten vi samarbeider på hver dag.»</p>
+          <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #44505f; max-width: 640px">Arbeidsgiverforslaget til ny organisering, og hva som skjer fram mot at organiseringen trer i kraft 1. januar.</p>
+          <a href="#" style="align-self: flex-start; padding: 10px 18px; border-radius: 4px; background: #0062B8; color: #fff; font-size: 15px; font-weight: 500; text-decoration: none">Se opptaket i Teams</a>
+          <p style="margin: 0; font-size: 13px; color: #65707D">Lenken til opptaket må settes inn.</p>
+        </section>
+
+        <section style="display: flex; flex-direction: column; gap: 16px">
+          <h2 style="margin: 0; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Direktørens ansvar</h2>
+          <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; line-height: 1.55">
+            <li>Leder toppledergruppen, som utgjør syv personer inkludert direktøren.</li>
+            <li>Toppledergruppen er porteføljestyret: beslutter strategisk retning og prioriteringer, og oppretter, følger opp og legger ned innsatsområder og programmer.</li>
+            <li>Tilsynet for digital inkludering deltar ikke fast i toppledergruppen.</li>
+          </ul>
+          <button onClick="{{ goOrg }}" style="align-self: flex-start; background: none; border: none; padding: 0; color: #0062B8; font-size: 15px; cursor: pointer; text-decoration: underline">Se organisasjonskartet</button>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isUnit }}">
+      <div style="padding-top: 28px; display: flex; flex-direction: column; gap: 32px; max-width: 900px">
+        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 15px">
+          <button onClick="{{ goOrg }}" style="background: none; border: none; padding: 0; color: #0062B8; cursor: pointer; text-decoration: underline">Organisasjon</button>
+          <span style="color: #65707D">/</span>
+          <button onClick="{{ unit.goParent }}" style="background: none; border: none; padding: 0; color: #0062B8; cursor: pointer; text-decoration: underline">{{ unit.parentLabel }}</button>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 14px">
+          <span style="font-size: 14px; color: #65707D">{{ unit.meta }}</span>
+          <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">{{ unit.name }}</h1>
+          <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #44505f; max-width: 720px">{{ unit.desc }}</p>
+          <sc-if value="{{ unit.advises }}">
+            <p style="margin: 0; padding: 12px 14px; border-radius: 4px; border: 1px solid #F45F63; font-size: 15px; color: #1E2B3C; align-self: flex-start">Enheten bistår og rådgir hele Digdir, ikke bare sin egen divisjon.</p>
+          </sc-if>
+        </div>
+
+        <section style="display: flex; flex-direction: column; gap: 14px; padding: 26px; border: 1px solid #dce1e7; border-radius: 8px">
+          <h2 style="margin: 0; font-size: 20px; font-weight: 600">Oppgaver</h2>
+          <sc-if value="{{ unit.noTasks }}">
+            <p style="margin: 0; font-size: 15px; color: #65707D">Oppgavene ligger på seksjonene under.</p>
+          </sc-if>
+          <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; line-height: 1.55">
+            <sc-for list="{{ unit.tasks }}" as="task" hint-placeholder-count="5">
+              <li>{{ task }}</li>
+            </sc-for>
+          </ul>
+          <p style="margin: 0; font-size: 13px; color: #65707D">Oppgavelisten er ikke uttømmende.</p>
+        </section>
+
+        <section style="display: flex; flex-direction: column; gap: 16px">
+          <h2 style="margin: 0; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Leder</h2>
+          <sc-if value="{{ noLead }}">
+            <p style="margin: 0; padding: 16px 18px; border: 1px dashed #9aa5b1; border-radius: 8px; font-size: 15px; line-height: 1.55; color: #44505f">Leder er ikke innplassert ennå. Innplasseringsprosessen er planlagt ferdig innen 20. november.</p>
+          </sc-if>
+          <sc-for list="{{ unitLeads }}" as="p" hint-placeholder-count="0">
+            <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap; padding: 20px; border: 1px solid #dce1e7; border-radius: 8px; background: #f2f4f6">
+              <span role="img" aria-label="{{ p.name }}" style="{{ p.leadAvatarStyle }}">{{ p.initialsLabel }}</span>
+              <div style="flex: 1 1 16rem; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+                <span style="font-size: 20px; font-weight: 600">{{ p.name }}</span>
+                <span style="font-size: 15px; color: #44505f">{{ p.role }}</span>
+                <a href="{{ p.mailto }}" style="font-size: 15px">{{ p.email }}</a>
+                <span style="font-size: 15px; color: #44505f">Mobil: {{ p.mobile }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </section>
+
+        <section style="display: flex; flex-direction: column; gap: 16px">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+            <h2 style="margin: 0; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Ansatte</h2>
+            <span style="font-size: 14px; color: #65707D">{{ staffCountLabel }}</span>
+          </div>
+          <sc-if value="{{ examplePeople }}">
+            <p style="margin: 0; padding: 12px 14px; border-radius: 4px; background: #fdf2da; border: 1px solid #ecd69a; font-size: 15px; color: #1E2B3C">Eksempeldata. Ansatte hentes fra HR-systemet når løsningen kobles på.</p>
+          </sc-if>
+          <sc-if value="{{ noStaff }}">
+            <p style="margin: 0; padding: 16px 18px; border: 1px dashed #9aa5b1; border-radius: 8px; font-size: 15px; line-height: 1.55; color: #44505f">Ingen ansatte registrert på denne enheten ennå. Listen hentes fra HR-systemet når løsningen kobles på.</p>
+          </sc-if>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 16px">
+            <sc-for list="{{ unitStaff }}" as="p" hint-placeholder-count="0">
+              <div style="display: flex; gap: 14px; align-items: flex-start; padding: 18px; border: 1px solid #dce1e7; border-radius: 8px; height: 100%">
+                <span role="img" aria-label="{{ p.name }}" style="{{ p.staffAvatarStyle }}">{{ p.initialsLabel }}</span>
+                <div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 3px">
+                  <span style="font-size: 17px; font-weight: 600; line-height: 1.3">{{ p.name }}</span>
+                  <span style="font-size: 14px; color: #44505f">{{ p.role }}</span>
+                  <a href="{{ p.mailto }}" style="font-size: 14px; overflow-wrap: anywhere">{{ p.email }}</a>
+                  <span style="font-size: 14px; color: #65707D">{{ p.mobile }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <sc-if value="{{ unit.hasChildren }}">
+          <section style="display: flex; flex-direction: column; gap: 16px">
+            <h2 style="margin: 0; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Enheter under</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 16px">
+              <sc-for list="{{ unit.children }}" as="c" hint-placeholder-count="3">
+                <button onClick="{{ c.go }}" style="text-align: left; display: flex; flex-direction: column; gap: 8px; padding: 20px; border: 1px solid #dce1e7; border-radius: 8px; background: #fff; cursor: pointer; height: 100%" style-hover="border-color: #0062B8">
+                  <span style="font-size: 13px; color: #65707D">{{ c.level }}</span>
+                  <span style="font-size: 18px; font-weight: 600; line-height: 1.3">{{ c.name }}</span>
+                  <span style="font-size: 15px; line-height: 1.5; color: #44505f">{{ c.desc }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </section>
+        </sc-if>
+      </div>
+    </sc-if>
+
+  </main>
+
+  <sc-if value="{{ hasMember }}">
+    <div onClick="{{ member.close }}" style="position: fixed; inset: 0; z-index: 50; background: rgba(30,43,60,.4); display: grid; place-items: center; padding: 24px">
+      <div style="width: min(100%, 460px); background: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,.12), 0 12px 24px rgba(0,0,0,.14); overflow: hidden">
+        <div style="display: flex; justify-content: flex-end; padding: 12px 12px 0">
+          <button onClick="{{ member.close }}" aria-label="Lukk" style="display: grid; place-items: center; width: 34px; height: 34px; border: none; border-radius: 4px; background: transparent; color: #44505f; cursor: pointer" style-hover="background: #f2f4f6">
+            <i data-lucide="x" style="width: 18px; height: 18px"></i>
+          </button>
+        </div>
+        <div style="display: flex; gap: 20px; flex-wrap: wrap; padding: 0 28px 28px">
+          <span role="img" aria-label="{{ member.name }}" style="{{ member.avatarStyle }}">{{ member.initialsLabel }}</span>
+          <div style="flex: 1 1 14rem; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+            <span style="font-size: 22px; font-weight: 600; line-height: 1.25">{{ member.name }}</span>
+            <div style="display: flex; flex-direction: column; gap: 8px">
+              <span style="display: flex; flex-direction: column; gap: 1px">
+                <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Rolle</span>
+                <span style="font-size: 15px">{{ member.role }}</span>
+              </span>
+              <span style="display: flex; flex-direction: column; gap: 1px">
+                <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Lokasjon</span>
+                <span style="font-size: 15px">{{ member.location }}</span>
+              </span>
+              <span style="display: flex; flex-direction: column; gap: 1px">
+                <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">E-post</span>
+                <a href="{{ member.mailto }}" style="font-size: 15px; overflow-wrap: anywhere">{{ member.email }}</a>
+              </span>
+              <span style="display: flex; flex-direction: column; gap: 1px">
+                <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Mobil</span>
+                <span style="font-size: 15px">{{ member.mobile }}</span>
+              </span>
+              <span style="display: flex; flex-direction: column; gap: 1px">
+                <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Team</span>
+                <span style="font-size: 15px">{{ member.team }}</span>
+              </span>
+            </div>
+            <span style="font-size: 13px; line-height: 1.45; color: #65707D">Navn, rolle og lokasjon er hentet fra baksia.digdir.no. E-postadressen følger Digdirs mønster og er ikke verifisert. Bilde og mobil hentes fra HR-systemet når løsningen kobles på.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ assistantClosed }}" hint-placeholder-val="{{ true }}">
+    <button onClick="{{ openAssistant }}" style="position: fixed; right: 24px; bottom: 24px; z-index: 40; display: flex; align-items: center; gap: 10px; padding: 14px 20px; border: none; border-radius: 9999px; background: #0062B8; color: #fff; font-size: 15px; font-weight: 500; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,.12), 0 12px 24px rgba(0,0,0,.1)" style-hover="background: #00417d">
+      <i data-lucide="sparkles" style="width: 18px; height: 18px"></i>
+      Spør Saman
+    </button>
+  </sc-if>
+
+  <sc-if value="{{ assistantOpen }}">
+    <aside style="position: fixed; right: 24px; bottom: 24px; z-index: 40; width: min(calc(100vw - 48px), 400px); max-height: min(72vh, 640px); display: flex; flex-direction: column; border: 1px solid #dce1e7; border-radius: 8px; background: #fff; box-shadow: 0 4px 8px rgba(0,0,0,.12), 0 12px 24px rgba(0,0,0,.14); overflow: hidden">
+      <div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid #dce1e7; background: #1E2B3C; color: #fff">
+        <i data-lucide="sparkles" style="width: 18px; height: 18px"></i>
+        <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+          <span style="font-size: 15px; font-weight: 600">Spør Saman</span>
+          <span style="font-size: 12px; opacity: 0.75">Svarer ut fra rammeverket</span>
+        </span>
+        <button onClick="{{ closeAssistant }}" aria-label="Lukk assistenten" style="display: grid; place-items: center; width: 32px; height: 32px; border: none; border-radius: 4px; background: transparent; color: #fff; cursor: pointer" style-hover="background: rgba(255,255,255,.16)">
+          <i data-lucide="x" style="width: 18px; height: 18px"></i>
+        </button>
+      </div>
+
+      <div ref="{{ chatRef }}" style="flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 14px">
+        <sc-if value="{{ assistantEmpty }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-direction: column; gap: 12px">
+            <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #44505f">Assistenten kjenner innholdet i Saman: roller og ansvar, teamtyper, prinsipper, verktøykassen og organisasjonen. Forslagene under passer siden du står på.</p>
+            <div style="display: flex; flex-direction: column; gap: 8px">
+              <sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="4">
+                <button onClick="{{ s.go }}" style="text-align: left; padding: 10px 12px; border: 1px solid #dce1e7; border-radius: 4px; background: #fff; font-size: 14px; line-height: 1.45; cursor: pointer" style-hover="border-color: #0062B8; color: #0062B8">{{ s.text }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+        <sc-for list="{{ assistantMessages }}" as="m" hint-placeholder-count="0">
+          <div style="{{ m.wrapStyle }}">
+            <span style="{{ m.labelStyle }}">{{ m.label }}</span>
+            <span style="{{ m.bodyStyle }}">{{ m.text }}</span>
+          </div>
+        </sc-for>
+        <sc-if value="{{ assistantBusy }}">
+          <span style="font-size: 14px; color: #65707D">Tenker …</span>
+        </sc-if>
+      </div>
+
+      <div style="display: flex; gap: 8px; padding: 12px 16px 16px; border-top: 1px solid #dce1e7">
+        <input value="{{ assistantInput }}" onChange="{{ setAssistantInput }}" onKeyDown="{{ assistantKeyDown }}" placeholder="Skriv et spørsmål" aria-label="Spørsmål til assistenten" style="flex: 1 1 auto; min-width: 0; padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px" />
+        <button onClick="{{ sendAssistant }}" aria-label="Send" style="display: grid; place-items: center; width: 42px; border: none; border-radius: 4px; background: #0062B8; color: #fff; cursor: pointer; flex: none" style-hover="background: #00417d">
+          <i data-lucide="arrow-up" style="width: 18px; height: 18px"></i>
+        </button>
+      </div>
+      <p style="margin: 0; padding: 0 16px 14px; font-size: 12px; line-height: 1.45; color: #65707D">Svarene kan inneholde feil. Sjekk mot innholdet i Saman.</p>
+    </aside>
+  </sc-if>
+
+  <footer style="border-top: 1px solid #dce1e7; background: #f2f4f6">
+    <div style="max-width: 1180px; margin: 0 auto; padding: 28px 24px; display: flex; gap: 16px 32px; flex-wrap: wrap; align-items: baseline">
+      <span style="font-size: 15px; font-weight: 600">Saman</span>
+      <span style="font-size: 14px; color: #44505f">Forvaltes av Virksomhetsstyring og utvikling (VSU)</span>
+      <span style="font-size: 14px; color: #65707D; margin-left: auto">Prototype. Team og medlemmer er hentet fra baksia.digdir.no, organisasjonen fra Digdir 2.0.</span>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;visTeamtypefarger&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Visning&quot;},&quot;startside&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;teams&quot;,&quot;veiviser&quot;,&quot;org&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Visning&quot;}}">
+const TYPE_COLORS = {
+  "Produktteam": ["#e6f2fd", "#0b4d80"],
+  "Leveranseteam": ["#eef0f3", "#3c4757"],
+  "Støtteteam": ["#fdf2da", "#5a4208"],
+  "Prosjektteam": ["#fdeaea", "#8f1f26"]
+};
+
+const TEAMS = [
+  { id: "designsystemet", name: "Designsystemet", type: "Produktteam", division: "Portaler og brukeropplevelse", topology: "Stream-aligned", lead: "Marianne Røsvik",
+    unitPath: "Baksia-type: stream-aligned",
+    purpose: "Designsystemet er en verktøykasse med grunnleggende UI-komponenter, retningslinjer og mønstre som skal bidra til effektiv produktutvikling og helhetlige brukeropplevelser.",
+    revised: "ikke registrert",
+    mandate: { oppna: "", formal: "Designsystemet er en verktøykasse med grunnleggende UI-komponenter, retningslinjer og mønstre som skal bidra til effektiv produktutvikling og helhetlige brukeropplevelser. Komponenter fra designsystemet er i bruk i Altinn Studio og i flere av Digdirs løsninger.", ansvarsomrader: "Forenkle og effektivisere arbeidsflyten for designere, utviklere og produktteam.\nTilby grunnleggende UI-komponenter og mønstre der tilgjengelighet og testing er ivaretatt.\nTilby dokumentasjon, retningslinjer og god praksis.\nKoordinere samarbeid mellom team som bruker og bidrar til designsystemet.\nInvolvere andre offentlige aktører i samarbeidet.", ikkeAnsvar: "", myndighet: "" },
+    members: [ { name: "Marianne Røsvik", role: "Produkteier · Stavanger" }, { name: "Michael Marszalek", role: "Tech lead, frontend · Stavanger" }, { name: "Lasse Febakke Straum", role: "Design lead · Oslo" }, { name: "Eirik Backer", role: "Frontend · Oslo" }, { name: "Øyvind Thune", role: "Design og frontend · Leikanger" }, { name: "Tobias Barsnes", role: "Frontend · Leikanger" }, { name: "Frank Dahle", role: "UU-spesialist · Brønnøysund" } ],
+    tools: ["Roadmap i GitHub", "Samstyringsmodell", "Designsystemet"],
+    principles: ["Vi løser reelle brukerbehov", "Vi deler åpent og lærer sammen", "Vi jobber helhetlig og tverrfaglig"] },
+  { id: "altinn-studio", name: "Altinn Studio", type: "Produktteam", division: "Tjenesteutvikling", topology: "Stream-aligned", lead: "Ronny Birkeli og Nina Kylstad",
+    unitPath: "Baksia-type: stream-aligned",
+    purpose: "Altinn Studio er en plattform for utvikling, test, drift og forvaltning av digitale tjenester i offentlig sektor. Teamet er delt opp i mindre squads med ansvar for egne områder av produktet.",
+    revised: "ikke registrert",
+    mandate: { oppna: "", formal: "Offentlige virksomheter trenger å utvikle, teste, drifte og forvalte digitale tjenester uten å bygge egen plattform for det. Altinn Studio skal dekke hele verdikjeden, fra utviklingsverktøy til det som møter sluttbruker når de fyller ut et skjema fra start til slutt.", ansvarsomrader: "Altinn Studio Designer og Altinn Studio Repositories.\nApp frontend og app backend.\nPDF-generering og LocalTest.\nDokumentasjon.\nBidra til Digdirs felles designsystem.\nDevOps-team med totalansvar fra idé til produksjon.", ikkeAnsvar: "", myndighet: "" },
+    members: [ { name: "Ronny Birkeli", role: "Produkteier, strategisk · Leikanger" }, { name: "Nina Kylstad", role: "Produkteier, operativt · Oslo" }, { name: "Hanne Lauritsen", role: "Agil coach · Oslo" }, { name: "David Øvrelid", role: "Frontend, team-arkitekt · Oslo" }, { name: "Martin Othamar", role: "Backend, team-arkitekt · Oslo" }, { name: "Philip Johannes Bruvoll", role: "Frontend, team-arkitekt · Oslo" }, { name: "Anniken Kjos Bråthen", role: "Design lead · Oslo" }, { name: "Gørild Døhl", role: "Innholdsdesigner · Oslo" } ],
+    tools: ["Roadmap i GitHub", "Squad-inndeling", "Designsystemet"],
+    principles: ["Vi leverer i korte, læringsdrevne sykluser", "Vi måler effekt, ikke bare aktivitet"] },
+  { id: "dialogporten", name: "Dialogporten", type: "Produktteam", division: "Meldingsutveksling", topology: "Stream-aligned", lead: "Livar Bergheim",
+    unitPath: "Baksia-type: stream-aligned",
+    purpose: "Dialogporten gjør enkelttjenester tilgjengelige via API-er, uten at du trenger å bruke Altinn Studio når du utvikler tjenesten.",
+    revised: "ikke registrert",
+    mandate: { oppna: "", formal: "I Altinn 3 skal Dialogporten fungere som et API mellom sluttbrukersystemer og tjenesteproduktene i Altinn 3.", ansvarsomrader: "Utvikling og forvaltning av Dialogporten som produkt.\nInfrastruktur knyttet til Dialogporten.\nIntegrasjoner mot andre interne produkter.\nVerktøy og referanseimplementasjoner.\nDokumentasjon.\nSupport for tjenesteeiere, sluttbrukersystemleverandører og andre interne team.", ikkeAnsvar: "", myndighet: "" },
+    members: [ { name: "Livar Bergheim", role: "Produkteier · Leikanger" }, { name: "Bjørn Langfors", role: "Team-arkitekt, backend · Brønnøysund" }, { name: "Magnus Sandgren", role: "Backend · Hamar" }, { name: "Ole-Jørgen Skogstad", role: "Backend · Oslo" }, { name: "Knut Haug", role: "Backend · Oslo" }, { name: "Amund Myrbostad", role: "Backend · Brønnøysund" }, { name: "Kaj André Venjum", role: "Backend · Brønnøysund" }, { name: "Mats Jørgensen", role: "Backend · Brønnøysund" }, { name: "Leif Kristian Helstad", role: "Test- og QA-ansvarlig · Oslo" } ],
+    tools: ["Roadmap i GitHub", "Backlog i GitHub"],
+    principles: ["Vi jobber helhetlig og tverrfaglig", "Vi leverer i korte, læringsdrevne sykluser"] },
+  { id: "data-norge", name: "data.norge.no", type: "Produktteam", division: "Datadeling", topology: "Stream-aligned", lead: "Eli Helen Korsan",
+    unitPath: "Baksia-type: stream-aligned",
+    purpose: "Data.norge.no gir oversikt over hvilke data virksomheter har, og som de kan dele med andre: datasett, begreper, API-er, informasjonsmodeller, tjenester og hendelser.",
+    revised: "ikke registrert",
+    mandate: { oppna: "", formal: "Gi offentlig sektor og andre oversikt over hvilke data som finnes og kan deles, gjennom en nasjonal portal og tilhørende registrerings- og høsteløsninger.", ansvarsomrader: "Data.norge.no, Felles datakatalog, Datalandsbyen og Transportportal.\nBidra til Digdirs felles designsystem.\nDevOps-team med totalansvar fra idé til produksjon.", ikkeAnsvar: "", myndighet: "" },
+    members: [ { name: "Eli Helen Korsan", role: "Produkteier · Brønnøysund" }, { name: "Kurt Stian Fagerbakk", role: "Teamarkitekt · Brønnøysund" }, { name: "Aina Engen", role: "Agile coach · Oslo" }, { name: "Kristiane Kolshus", role: "Frontend · Oslo" }, { name: "Eirik Lillebo", role: "Frontend · Oslo" }, { name: "Hassan Alam", role: "Backend · Oslo" }, { name: "Nils Ove Tendenes", role: "Backend · Oslo" }, { name: "Hans Olav Sund", role: "DevOps-ingeniør · Oslo" } ],
+    tools: ["Roadmap i GitHub", "Begrepskatalogen", "Designsystemet"],
+    principles: ["Vi løser reelle brukerbehov", "Vi deler åpent og lærer sammen"] },
+  { id: "arbeidsflate", name: "Arbeidsflate", type: "Produktteam", division: "Meldingsutveksling", topology: "Stream-aligned", lead: "Mette Saltnes",
+    unitPath: "Baksia-type: stream-aligned",
+    purpose: "Arbeidsflate skal erstatte brukergrensesnittet for innboksen i Altinn 2, og bygger på Digdirs felles designsystem.",
+    revised: "ikke registrert",
+    mandate: { oppna: "", formal: "", ansvarsomrader: "", ikkeAnsvar: "", myndighet: "" },
+    members: [ { name: "Mette Saltnes", role: "Produkteier" } ],
+    tools: ["Designsystemet"],
+    principles: ["Vi løser reelle brukerbehov"] },
+  { id: "plattform", name: "Plattform", type: "Støtteteam", division: "Plattform", topology: "Platform", lead: "Leif Olav S. Bjordal",
+    unitPath: "Baksia-type: platform",
+    purpose: "Lager og vedlikeholder OpenShift Kubernetes-plattformen med støttetjenester som løsningene driftes på, i samarbeid med driftspartner.",
+    revised: "ikke registrert",
+    mandate: { oppna: "", formal: "Gjøre det lettere for andre team å levere, ved å tilby en felles plattform med tilhørende støttetjenester.", ansvarsomrader: "Utvikle, drifte og vedlikeholde Kubernetes/OpenShift-plattformen med tilhørende støttetjenester, i samarbeid med driftspartner.", ikkeAnsvar: "", myndighet: "" },
+    members: [ { name: "Leif Olav S. Bjordal", role: "Teamleder · Leikanger" }, { name: "Bjørn-Erik Strand", role: "Plattformutvikler · Leikanger" }, { name: "Emil Arnesen", role: "Plattformutvikler · Oslo" }, { name: "Jonas Arneberg Saltvik", role: "Plattformutvikler · Oslo" }, { name: "Eskedar Kefialew Workeneh", role: "Plattformutvikler · Oslo" }, { name: "Brage Sande", role: "Plattformutvikler · Oslo" }, { name: "Ola Slålien Thoen", role: "Sikkerhet · Leikanger" }, { name: "Håkon Wiland", role: "Sikkerhet · Leikanger" }, { name: "Justyna Mucha", role: "Driftsleder · Leikanger" } ],
+    tools: ["Kapabilitetskart", "Helsesjekk"],
+    principles: ["Vi bygger stabile team med riktig kapasitet", "Vi deler åpent og lærer sammen"] },
+  { id: "juridisk", name: "Juridisk team", type: "Støtteteam", division: "Juridisk", topology: "Enabling", lead: "Thomas Leirvik Knoph",
+    unitPath: "Baksia-type: enabling",
+    purpose: "Bidrar til at juridiske rammer og vilkår blir ivaretatt i utvikling, drift og forvaltning av produktene. Teamet består av techjurister.",
+    revised: "ikke registrert",
+    mandate: { oppna: "", formal: "Sikre juridisk etterlevelse i utvikling, drift og forvaltning av fellesløsningene, og gi juridisk rådgivning til ledelsen og øvrige.", ansvarsomrader: "Personvern og etterlevelse, inkludert DPIA og risikovurderinger.\nDatabehandleravtaler og personvernerklæringer.\nDokumentasjon og retningslinjer.\nRegelanalyser og regelverksutvikling.\nBruksvilkår.\nInformasjonssikkerhet og beredskap.\nAnskaffelser og kontraktsutforming.", ikkeAnsvar: "", myndighet: "" },
+    members: [ { name: "Thomas Leirvik Knoph", role: "Teamleder, jurist · Brønnøysund" }, { name: "Tore Måsøy", role: "Agile coach · Brønnøysund" }, { name: "Andreas Hermstad", role: "Jurist · Brønnøysund" }, { name: "Oddhild Aasberg", role: "Jurist · Brønnøysund" }, { name: "Benedicte Olsen Sørli", role: "Jurist · Brønnøysund" } ],
+    tools: ["Kapabilitetskart"],
+    principles: ["Vi jobber helhetlig og tverrfaglig"] },
+  { id: "kitt", name: "KI Tilretteleggingsteam", type: "Støtteteam", division: "KI", topology: "Enabling", lead: "Roberto Carrera",
+    unitPath: "Baksia-type: enabling",
+    purpose: "Gjør det trygt, enkelt og verdiskapende for team å ta i bruk kunstig intelligens, gjennom hele produktets livsløp.",
+    revised: "ikke registrert",
+    mandate: { oppna: "", formal: "Støtte team gjennom hele produktets livsløp, fra idé og utforsking til bruk, drift og avvikling, i tråd med Digdirs policy og retningslinjer for generativ KI.", ansvarsomrader: "KI-tilrettelegging: kompetanse, praktiske rammeverk og et nettverk av KI-champions.\nKI-styring: risikoklassifisering, sikkerhet og personvern i designfasen, kostnadsforståelse.\nKI-innovasjon: rammeverk for trygg eksperimentering og samarbeid på tvers.", ikkeAnsvar: "Eie eller drive produktleveranser.", myndighet: "" },
+    members: [ { name: "Roberto Carrera", role: "Teamleder og fagansvarlig for KI" }, { name: "Adi Dahl", role: "Teknisk leder for KI" }, { name: "Dirk Lammering", role: "KI-innovasjonsleder" }, { name: "Ole Bay Hansen", role: "Virtuelt team: produktutvikling · Oslo" }, { name: "Sebastian Duran", role: "Virtuelt team: plattformengineering · Oslo" }, { name: "Eira Marie Sunniva Bjerkeng Scherjon", role: "Virtuelt team: UX og design · Oslo" } ],
+    tools: ["Backlog i GitHub", "Evalueringssjekklister"],
+    principles: ["Vi deler åpent og lærer sammen", "Vi leverer i korte, læringsdrevne sykluser"] },
+  { id: "servicedesk", name: "Servicedesk", type: "Støtteteam", division: "Kundeoppfølging", topology: "Enabling", lead: "Stian Øye",
+    unitPath: "Baksia-type: enabling",
+    purpose: "Sikrer effektiv og brukervennlig kundeoppfølging for alle fellesløsningene, og er hovedkontaktpunkt mot kunder og leverandører.",
+    revised: "ikke registrert",
+    mandate: { oppna: "", formal: "Være hovedkontaktpunkt for kunder og leverandører som har tatt i bruk fellesløsningene, og onboarde alle nye kunder.", ansvarsomrader: "Kundehenvendelser via e-post, telefon og møter.\nOppfølging av kunder og leverandører.\nTeknisk dokumentasjon på Digdir Docs.\nForvaltning og videreutvikling av Microsoft Dynamics CRM.\nIntern dokumentasjon i Confluence.", ikkeAnsvar: "", myndighet: "" },
+    members: [ { name: "Stian Øye", role: "Teamleder" }, { name: "Brage Navarsete", role: "Kundeoppfølging" }, { name: "Birger Sjømæling Andresen", role: "Kundeoppfølging" }, { name: "Karsten Ellema Bjelde", role: "Kundeoppfølging" }, { name: "Justyna Mucha", role: "Kundeoppfølging" }, { name: "Ragnhild Helen Rørvik", role: "Kundeoppfølging" }, { name: "Eyvind Sjøstrøm", role: "Kundeoppfølging" } ],
+    tools: ["Dynamics CRM", "Digdir Docs", "Confluence"],
+    principles: ["Vi løser reelle brukerbehov"] },
+  { id: "einnsyn", name: "eInnsyn", type: "Produktteam", division: "Innsyn og oppslag", topology: "Stream-aligned", lead: "John Eivind Presterud",
+    unitPath: "Baksia-type: stream-aligned",
+    purpose: "Forvalter og videreutvikler eInnsyn, den felles publiseringstjenesten for offentlige postjournaler og møtedokumenter.",
+    revised: "ikke registrert",
+    mandate: { oppna: "", formal: "", ansvarsomrader: "", ikkeAnsvar: "", myndighet: "" },
+    members: [ { name: "John Eivind Presterud", role: "Produkteier" } ],
+    tools: [],
+    principles: ["Vi løser reelle brukerbehov"] },
+  { id: "uustatus", name: "uustatus", type: "Produktteam", division: "Portaler og brukeropplevelse", topology: "Stream-aligned", lead: "Dag Ove Eggum",
+    unitPath: "Baksia-type: stream-aligned",
+    purpose: "Forvalter løsningen der virksomheter registrerer og publiserer tilgjengelighetserklæringer.",
+    revised: "ikke registrert",
+    mandate: { oppna: "", formal: "", ansvarsomrader: "", ikkeAnsvar: "", myndighet: "" },
+    members: [ { name: "Dag Ove Eggum", role: "Produkteier" } ],
+    tools: [],
+    principles: ["Vi løser reelle brukerbehov"] },
+  { id: "sikkerhet", name: "Sikkerhet", type: "Støtteteam", division: "Sikkerhet", topology: "Enabling", lead: "Hein Gabrielsen",
+    unitPath: "Baksia-type: enabling",
+    purpose: "Støtter teamene i sikkerhetsarbeid på tvers av fellesløsningene.",
+    revised: "ikke registrert",
+    mandate: { oppna: "", formal: "", ansvarsomrader: "", ikkeAnsvar: "", myndighet: "" },
+    members: [ { name: "Hein Gabrielsen", role: "Teamleder" } ],
+    tools: [],
+    principles: ["Vi deler åpent og lærer sammen"] },
+  { id: "innplassering", name: "Innplassering Digdir 2.0", type: "Prosjektteam", division: "OU-prosessen", topology: "Prosjekt", lead: "ikke registrert",
+    unitPath: "Midlertidig organisasjon",
+    purpose: "Gjennomfører innplasseringsprosessen for ledere og medarbeidere i ny organisering. Startet 28. september, planlagt ferdig innen 20. november.",
+    revised: "ikke registrert",
+    mandate: { oppna: "", formal: "", ansvarsomrader: "Kartleggingsprosess og innplassering av ledere og medarbeidere i ny organisering.", ikkeAnsvar: "Utformingen av organisasjonskartet, som forhandles mellom arbeidsgiver og fagforeningene.", myndighet: "" },
+    members: [],
+    tools: ["Prosjektveiviseren"],
+    principles: ["Vi deler åpent og lærer sammen"] }
+];
+
+const ROLES = [
+  { name: "Teameier", ramo: [
+    { label: "Rolle", value: "Formelt utpekt som teameier ved etablering av teamet. Teameiere bør ha personalansvar for flere av teammedlemmene og/eller et tyngre fagansvar og risikoeierskap rundt teamets leveranser." },
+    { label: "Ansvar", value: "Sikre at teamet leverer i tråd med virksomhetens mål og har de nødvendige rammer." },
+    { label: "Myndighet", value: "Fastsette mandat, mål/OKR, budsjett og prioriteringer på overordnet nivå." },
+    { label: "Oppgaver", value: "Definere mål og forventninger, godkjenne mandat og teamkontrakt, sikre linjeforankring og riktig bemanning i dialog med andre linjeledere, evaluere teamets måloppnåelse og tilrettelegge for samspill med andre team. Tett dialog med teamleder." } ] },
+  { name: "Teamleder", ramo: [
+    { label: "Rolle", value: "Formelt utpekt som teamleder ved etablering av teamet." },
+    { label: "Ansvar", value: "Lede teamets daglige arbeid og måloppnåelse innenfor mandatet." },
+    { label: "Myndighet", value: "Prioritere daglige aktiviteter, fordele arbeid og følge opp leveranser og kvalitet i tråd med teamets mandat og teamkontrakt." },
+    { label: "Oppgaver", value: "Planlegge, koordinere, følge opp framdrift og leveranser, rapportere til teameier og tilrettelegge for faglig medarbeiderutvikling." } ] },
+  { name: "Teammedlem", ramo: [
+    { label: "Rolle", value: "Formelt utpekt som teammedlem ved etablering av teamet, eller lagt til underveis ved behov." },
+    { label: "Ansvar", value: "Levere faglige bidrag av høy kvalitet i tråd med teamets mål og mandat." },
+    { label: "Myndighet", value: "Gi faglige anbefalinger og ta faglige avgjørelser innenfor delegert fagområde og avtalte rammer." },
+    { label: "Oppgaver", value: "Bidra til felles planlegging og vurderinger, utføre oppgaver og sikre faglig kvalitet innenfor eget kompetanseområde: utvikler, designer, jurist og så videre." } ] }
+];
+
+const ROLE_VARIANTS = [
+  { type: "Prosjektteam", types: ["Prosjektteam"], text: "Rollene som teameier og teamleder omtales henholdsvis som prosjekteier og prosjektleder, og utføres i tråd med Digdirs prosjektveiviser." },
+  { type: "Produktteam", types: ["Produktteam"], text: "Bør ha produkteier, enten kombinert med teamlederrollen eller i tillegg. Rollen utøves i tråd med anbefaling for produktorganisering i offentlig sektor. Begrepet produktleder brukes ikke i Digdir." },
+  { type: "Linjeledere", types: ["Produktteam", "Leveranseteam", "Støtteteam", "Prosjektteam"], text: "I team der medlemmene hører til ulike seksjoner, avdelinger eller divisjoner har teameieren et særskilt ansvar for god dialog om bemanning med alle linjeledere som har en ansatt i teamet." }
+];
+
+const PROJECT_WORDS = [
+  ["andre team", "andre prosjekter"], ["Andre team", "Andre prosjekter"],
+  ["teammedlemmene", "prosjektdeltakerne"], ["Teammedlemmene", "Prosjektdeltakerne"],
+  ["teammedlemmer", "prosjektdeltakere"], ["Teammedlemmer", "Prosjektdeltakere"],
+  ["teammedlem", "prosjektdeltaker"], ["Teammedlem", "Prosjektdeltaker"],
+  ["teameiere", "prosjekteiere"], ["Teameiere", "Prosjekteiere"],
+  ["teameieren", "prosjekteieren"], ["Teameieren", "Prosjekteieren"],
+  ["teameier", "prosjekteier"], ["Teameier", "Prosjekteier"],
+  ["teamlederrollen", "prosjektlederrollen"], ["Teamlederrollen", "Prosjektlederrollen"],
+  ["teamlederen", "prosjektlederen"], ["Teamlederen", "Prosjektlederen"],
+  ["teamleder", "prosjektleder"], ["Teamleder", "Prosjektleder"],
+  ["teamkontrakten", "prosjektkontrakten"], ["Teamkontrakten", "Prosjektkontrakten"],
+  ["teamkontrakt", "prosjektkontrakt"], ["Teamkontrakt", "Prosjektkontrakt"],
+  ["teamets", "prosjektets"], ["Teamets", "Prosjektets"],
+  ["teamet", "prosjektet"], ["Teamet", "Prosjektet"],
+  ["teamene", "prosjektene"], ["Teamene", "Prosjektene"],
+  ["teamtyper", "prosjekttyper"], ["Teamtyper", "Prosjekttyper"],
+  ["team", "prosjekt"], ["Team", "Prosjekt"]
+];
+
+const toProject = (text) => {
+  let out = text;
+  PROJECT_WORDS.forEach((p) => { out = out.split(p[0]).join(p[1]); });
+  return out;
+};
+
+const projectRamo = (ramo) => ramo.map((x) => ({ label: x.label, value: toProject(x.value) }));
+
+const ROLE_EXTRA = {
+  "Prosjektteam": [
+    { name: "Prosjekteier", ramo: projectRamo(ROLES[0].ramo) },
+    { name: "Prosjektleder", ramo: projectRamo(ROLES[1].ramo) },
+    { name: "Prosjektdeltaker", ramo: projectRamo(ROLES[2].ramo) }
+  ],
+  "Produktteam": [ { name: "Produkteier", ramo: [
+    { label: "Rolle", value: "Produktteam bør ha produkteier, enten kombinert med teamlederrollen eller som egen rolle i tillegg. Begrepet produktleder brukes ikke i Digdir. Rollen utøves i tråd med anbefaling for produktorganisering i offentlig sektor." },
+    { label: "Ansvar", value: "En produkteier har ansvar for å sikre at produktteamet jobber med de riktige behovene og prioriteringene innenfor produktets mål, mandat og rammer. Rollen skal bidra til at produktet utvikles og forbedres over tid på en måte som gir verdi for brukerne og bidrar til ønskede nytteverdier for virksomheten og samfunnet." },
+    { label: "Myndighet", value: "Forvalter og prioriterer produktkøen innenfor produktets mål, mandat og rammer." },
+    { label: "Oppgaver", value: "Produkteieren har vanligvis ansvar for å forvalte og prioritere produktkøen, avklare behov og forventninger med interessenter, og sørge for at teamets arbeid henger sammen med produktstrategien og virksomhetens mål." } ] } ]
+};
+
+const WIZARD = [
+  { key: "team", title: "Egner oppgaven seg for teamarbeid?",
+    intro: "Team er en egnet arbeidsform når oppgaven løses bedre gjennom tett samarbeid og felles ansvar enn ved at enkeltpersoner arbeider hver for seg og koordinerer ved behov.",
+    bullets: ["Krever oppgaven at flere personer samarbeider tett for å lykkes?", "Er personene gjensidig avhengige av hverandres arbeid, kompetanse eller perspektiver?", "Har de et felles mål eller resultat som de sammen kan ta ansvar for?", "Krever oppgaven løpende koordinering, problemløsning eller prioritering?", "Er det en fordel at de som utfører arbeidet lærer, tilpasser seg og tar beslutninger sammen?"],
+    options: [ { label: "Hovedsakelig ja", hint: "Oppgaven kan egne seg godt for teamarbeid. Gå videre og vurder hva slags team som trengs.", next: "slutt" }, { label: "Hovedsakelig nei", hint: "Team er ikke sikkert den mest hensiktsmessige arbeidsformen.", result: "ikkeTeam" } ] },
+  { key: "slutt", title: "Har oppgaven en definert avslutning?",
+    intro: "Noen oppgaver har et tydelig sluttpunkt, mens andre krever et kontinuerlig ansvar over tid.",
+    bullets: ["Skal teamet nå et definert mål eller levere et bestemt resultat?", "Er det mulig å si når oppgaven er ferdig?", "Kan teamet oppløses når målet eller resultatet er nådd?"],
+    options: [ { label: "Ja, oppgaven har en definert avslutning", hint: "Teamet etableres for å løse en avgrenset oppgave og kan oppløses når den er løst.", result: "prosjektteam" }, { label: "Nei, oppgaven krever kontinuerlig ansvar", hint: "Det vil fortsatt være behov for å utvikle, forvalte, forbedre eller levere noe over tid.", next: "verdi" } ] },
+  { key: "verdi", title: "Hvem skal teamet først og fremst skape verdi for?",
+    intro: "Når oppgaven krever et varig team, er neste spørsmål hvem teamet primært skal skape verdi for.",
+    bullets: ["Er mottakerne innbyggere, virksomheter eller offentlig sektor utenfor Digdir?", "Eller er de medarbeidere, ledere og andre team i Digdir?"],
+    options: [ { label: "Primært utenfor Digdir", hint: "Arbeidet er rettet mot innbyggere, virksomheter, offentlig sektor eller andre aktører utenfor Digdir.", next: "produkt" }, { label: "Primært internt i Digdir", hint: "Arbeidet er rettet mot medarbeidere, ledere eller andre team og enheter i Digdir.", result: "stotteteam" } ] },
+  { key: "produkt", title: "Leveranseteam eller produktteam?",
+    intro: "Noen leveranser har egenskaper som gjør det hensiktsmessig å organisere og styre dem som produkter. Produktteam kan derfor ses som en særskilt type leveranseteam.",
+    bullets: ["Har leveransen et tydelig problemområde eller behov den løser?", "Har den brukere med målbare behov?", "Er den levende og endres løpende basert på innsikt, data og tilbakemeldinger?", "Har den forretningsmessig betydning, for eksempel gjennom effektivisering, inntekter eller brukeropplevelse?"],
+    options: [ { label: "Ja, dette har egenskapene til et produkt", hint: "Leveransen bør eies og utvikles av et tverrfaglig team med produkteier.", result: "produktteam" }, { label: "Nei, men leveransen skaper verdi utenfor Digdir", hint: "En digital løsning, tjeneste, kunnskap eller sammenhengende brukerreise.", result: "leveranseteam" } ] }
+];
+
+const RESULTS = {
+  ikkeTeam: { kicker: "Anbefaling", title: "Vurder en annen arbeidsform", body: "Det er ikke sikkert team er den mest hensiktsmessige arbeidsformen for denne oppgaven.", listTitle: "Vurder i stedet:", points: ["Individuelt ansvar", "Fagnettverk på tvers", "Enklere koordinering i linjen"] },
+  prosjektteam: { kicker: "Teamtype", title: "Prosjektteam", body: "Et prosjektteam etableres for å løse en avgrenset oppgave med et definert mål og en tydelig avslutning. Når målet er nådd og oppgaven er løst, kan teamet oppløses.", listTitle: "Dette må på plass:", points: ["Et tydelig prosjektmandat som beskriver formål, mål, rammer og myndighet", "Prosjekteier, prosjektleder og medlemmer registrert i teamoversikten", "En teamkontrakt om samarbeid, kommunikasjon og beslutninger", "For større prosjekter: Digdirs prosjektveiviser som støtte"] },
+  stotteteam: { kicker: "Teamtype", title: "Støtteteam", body: "Et støtteteam har et varig ansvar for å skape verdi internt i Digdir, slik at medarbeidere, ledere og andre team kan løse sine oppgaver på en effektiv og god måte.", listTitle: "Dette må på plass:", points: ["Et tydelig mandat som beskriver formål, ansvar, mål og handlingsrom", "Teameier, teamleder og medlemmer registrert i teamoversikten", "En teamkontrakt om samarbeid, kommunikasjon og beslutninger"] },
+  leveranseteam: { kicker: "Teamtype", title: "Leveranseteam", body: "Et leveranseteam har et varig og helhetlig ansvar for en definert leveranse som skaper verdi utenfor Digdir. Teamet skal kjenne behovene til brukerne og bruke innsikten til å utvikle, levere og forbedre leveransen over tid.", listTitle: "Dette må på plass:", points: ["Et tydelig mandat som beskriver formål, ansvar, mål og handlingsrom", "Teameier, teamleder og medlemmer registrert i teamoversikten", "En teamkontrakt om samarbeid, kommunikasjon og beslutninger"] },
+  produktteam: { kicker: "Teamtype", title: "Produktteam", body: "Et produktteam er et leveranseteam med varig og helhetlig ansvar for ett eller flere produkter. Teamet skal ha tilstrekkelig kompetanse, myndighet og handlingsrom til å prioritere ut fra brukerbehov, mål og ønskede effekter.", listTitle: "Dette må på plass:", points: ["En produkteier med tydelig ansvar for produktet", "Et mandat som beskriver formål, mål, ansvar, rammer og handlingsrom", "En produktstrategi: retning, hvem brukerne er og hvilket problem produktet løser", "Teameier, teamleder og medlemmer registrert i teamoversikten", "En teamkontrakt som avklarer hvordan teamet skal fungere i praksis"] }
+};
+
+const TOOLS = [
+  { name: "Teammandat", type: "Mal", forWhom: "Alle team", desc: "Sier hvorfor teamet finnes, hva det har ansvar for, hvilket handlingsrom det har og hvordan det skal skape verdi over tid.", link: "Mal med sju deler" },
+  { name: "Prosjektmandat", type: "Mal", forWhom: "Prosjektteam", desc: "Beskriver formål, mål, rammer og myndighet for et prosjekt med definert start og slutt.", link: "Mal" },
+  { name: "Teamkontrakt", type: "Mal", forWhom: "Alle team", desc: "Avklarer hvordan medlemmene skal samarbeide, kommunisere, ta beslutninger og håndtere uenighet.", link: "teamagile.no" },
+  { name: "Team Canvas", type: "Mal", forWhom: "Nye team", desc: "Enklere variant av teamkontrakten, godt egnet ved oppstart. Kan bygges ut med en full teamkontrakt etter hvert.", link: "teamagile.no" },
+  { name: "OKR", type: "Metode", forWhom: "Alle team", desc: "Målstyring som holder fokus på hva teamet vil oppnå og hvordan suksess måles. Fungerer best når strategisk retning ovenfra møter operativt eierskap i teamene.", link: "Veiledning og eksempler" },
+  { name: "Prosjektveiviseren", type: "Rammeverk", forWhom: "Prosjektteam", desc: "Digdirs støtte for planlegging, organisering og gjennomføring av større eller mer komplekse prosjekter.", link: "prosjektveiviseren.no" },
+  { name: "Produktorganisering i offentlig sektor", type: "Veileder", forWhom: "Produktteam", desc: "Anbefaling som gir veiledning om produktorganisering, og som bør brukes ved etablering og videreutvikling av produktteam.", link: "Anbefaling" },
+  { name: "Retrospektiv", type: "Metode", forWhom: "Alle team", desc: "Fast øvelse der teamet ser tilbake på perioden og blir enige om hva som skal endres.", link: "Kjøreplan" },
+  { name: "Helsesjekk for team", type: "Metode", forWhom: "Alle team", desc: "Jevnlig pulsmåling av samarbeid, mestring og retning i teamet.", link: "Skjema" },
+  { name: "Produktstrategi", type: "Mal", forWhom: "Produktteam", desc: "Beskriver produktets retning, hvem brukerne er og hvilket problem produktet løser for dem.", link: "Mal" },
+  { name: "Begrepskatalogen", type: "Verktøy", forWhom: "Alle", desc: "Nasjonal katalog for begrepsdefinisjoner. Begreper i Saman kan kobles til definisjoner her.", link: "data.norge.no" },
+  { name: "Figma", type: "Verktøy", forWhom: "Design", desc: "Digdir har lisens. Brukes til design, skisser og samarbeid om grensesnitt.", link: "Logg inn med Digdir-konto" }
+];
+
+const TERMS = [
+  { term: "Rammeverk", definition: "En overordnet struktur, et sett med regler, retningslinjer eller standarder som brukes som grunnlag for å bygge eller organisere noe annet. Saman beskriver hvordan vi i Digdir ønsker å jobbe for best mulig å levere på formålet vårt.", source: "Definert i Saman" },
+  { term: "Team", definition: "En gruppe Digdir-medarbeidere, og eventuelt eksterne, som arbeider sammen om leveranser.", source: "Definert i Saman" },
+  { term: "Prosjekt", definition: "En midlertidig organisasjon etablert for å levere ett eller flere produkter som bidrar til å realisere en avtalt begrunnelse. Har vanligvis tydelig mål og avgrensede rammer for tid, kostnad og omfang.", source: "Prosjektveiviseren" },
+  { term: "Enhet", definition: "En gruppe Digdir-medarbeidere i linjeorganisasjonen: divisjon, avdeling eller seksjon.", source: "Definert i Saman" },
+  { term: "Leveranse", definition: "Alt som skapes av eller kommer ut av et team eller prosjekt. Kan være et digitalt produkt, en rapport, et arrangement, en prosess eller daglig drift.", source: "Definert i Saman" },
+  { term: "Teammandat", definition: "Beskriver hvorfor teamet finnes, teamets ansvar, handlingsrom og hvordan det skal skape verdi over tid.", source: "Definert i Saman" },
+  { term: "Teamkontrakt", definition: "Beskriver samarbeidet innad i teamet: hvordan medlemmene skal jobbe sammen for å lykkes med mandatet.", source: "Team Agile" },
+  { term: "RAMO", definition: "Rolle, ansvar, myndighet og oppgaver. Strukturmodell som gir en tydelig beskrivelse av hva en rolle innebærer.", source: "Definert i Saman" },
+  { term: "OKR", definition: "Objectives and key results. Målstyringsverktøy som hjelper team å fokusere på hva de ønsker å oppnå og hvordan suksess måles.", source: "Definert i Saman" },
+  { term: "Innsatsområde", definition: "Prioritert strategisk område opprettet av porteføljestyret, med egen områdeansvarlig som koordinerer relevante tverrgående team mot felles mål.", source: "Digdir 2.0" },
+  { term: "Tverrgående team", definition: "Team satt sammen av ressurser fra flere divisjoner, for eksempel et produktteam med medlemmer fra PRT og TDU.", source: "Digdir 2.0" },
+  { term: "Porteføljestyret", definition: "Toppledergruppen i rollen der de beslutter strategisk retning og prioriteringer, og oppretter, følger opp og legger ned innsatsområder og programmer.", source: "Digdir 2.0" },
+  { term: "Tight-loose-tight", definition: "Ledelsesform der mål og rammer er tydelige, mens teamet selv velger hvordan arbeidet gjøres, og resultatet følges opp.", source: "Definert i Saman" }
+];
+
+const PRINCIPLES = [
+  { num: "1", area: "Alle i Digdir", title: "Vi løser reelle brukerbehov", body: "Vi starter med å forstå hvem vi gjør det for og blir kjent med brukeren vår, enten det er innbygger, næringsliv, offentlig sektor eller egne kolleger. Vi kartlegger behov, tester løsninger og prioriterer det som skaper mest verdi for flest, med hensyn til prinsipper for digital inkludering." },
+  { num: "2", area: "Alle i Digdir", title: "Vi jobber helhetlig og tverrfaglig", body: "Vi etterstreber å levere med et tverrfaglig perspektiv der det er hensiktsmessig. Vi ser hvordan våre leveranser henger sammen med andre team, produkter, tjenester og brukerreiser, og koordinerer avhengigheter aktivt slik at brukeren opplever en sømløs tjeneste." },
+  { num: "3", area: "Alle i Digdir", title: "Vi bygger stabile team med riktig kapasitet og god forankring", body: "Vi etablerer team med faste medlemmer og tilstrekkelig kapasitet til å levere, og unngår å tynne ut team med for mange parallelle oppgaver eller hyppige bytter. Alle team har egen teameier og teamleder samt definert handlingsrom gjennom eget mandat og teamkontrakt." },
+  { num: "4", area: "Alle i Digdir", title: "Vi måler effekt, ikke bare aktivitet", body: "Team og medarbeidere får klare mål knyttet til effekt og samfunnsnytte, ikke detaljerte oppgavelister. Innenfor målene har teamet myndighet til å velge hvordan de jobber, så lenge de holder seg innenfor avtalte rammer og søker avklaring når det trengs. Vi bruker OKR-er for å holde fokus på det som betyr noe for brukerne og samfunnet." },
+  { num: "5", area: "Alle i Digdir", title: "Vi leverer i korte, læringsdrevne sykluser", body: "Vi jobber iterativt, tester tidlig og ofte, og tilpasser oss basert på tilbakemeldinger og data. Korte sykluser i form av sprinter og MVP-er gir oss mulighet til å lære underveis, redusere risiko og øke farten på det som virker." },
+  { num: "6", area: "Alle i Digdir", title: "Vi deler åpent og lærer sammen", body: "Kode, dokumentasjon, metoder og lærdommer deles åpent internt. Vi feirer både suksesser og feil, så lenge vi lærer av dem. Alle team gjennomfører retrospektive øvelser eller helsesjekk med jevne mellomrom og bidrar i demoer og erfaringsutveksling." },
+  { num: "L1", area: "Ledelse", title: "Vi leder gjennom tydelig retning og handlingsrom", body: "Ledere setter mål, rammer og prioriteringer, og lar teamene velge vei innenfor dem. Vi følger opp på resultater og samfunnseffekt, ikke på antall utførte oppgaver." },
+  { num: "L2", area: "Ledelse", title: "Vi prioriterer i fellesskap", body: "Porteføljestyret samordner tiltak som går på tvers av divisjonene, og delegerer det divisjonene kan eie selv. Prioritering skjer i dialog, ikke gjennom parallelle køer." },
+  { num: "A1", area: "Arkitektur", title: "Vi gjenbruker før vi bygger nytt", body: "Vi ser etter nasjonale fellesløsninger, felles komponenter og eksisterende data før vi lager noe eget. Nye løsninger skal passe inn i nasjonal arkitektur og følge etablerte standarder." }
+];
+
+const DIVISIONS = [
+  { code: "SRS", name: "Samordning, regelverk og sikkerhet", size: "ca. 85", units: ["Strategi, råd og prioritering", "Styring og forvaltningsutvikling", "Arkitektur, informasjonsforvaltning og standardisering", "EU og regelverk", "Sikkerhet og tillit"] },
+  { code: "TDU", name: "Teknologi, data og utforsking", size: "Divisjon", units: ["Plattform og sikkerhet", "Teknologiutforsking og dataforvaltning", "Plattform", "Sikkerhet"] },
+  { code: "PRT", name: "Produkt og tjenester", size: "ca. 155", units: ["Produktstyring", "Brukeropplevelse, kundeoppfølging og utbredelse", "Brukerinnsikt og design", "Produkt- og tjenesteoppfølging", "Marked og utbredelse", "Produktstrategi og forretning", "Utvikling og drift 1 (BNN)", "Utvikling og drift 2 (LEIK)", "Utvikling og drift 3 (OSL)", "Brukerstøtte"] },
+  { code: "VSU", name: "Virksomhetsstyring og utvikling", size: "Divisjon", units: ["Strategi og styring", "Økonomi og innkjøp", "Mennesker, organisasjon og læring", "Organisasjonslæring", "Sikkerhet og IT-drift", "Innkjøp, drift og arkiv", "Gevinstrealisering og styringsunderlag"] },
+  { code: "KIN", name: "KI Norge", size: "ca. 20", units: ["Etablering, styring og nettverk", "Regulatorisk sandkasse", "KI-lab"] },
+  { code: "TDI", name: "Tilsyn for digital inkludering", size: "ca. 21", units: ["Tilsyn", "Data"] },
+  { code: "KOM", name: "Kommunikasjon", size: "ca. 18", units: ["Avdeling for kommunikasjon"] }
+];
+
+const UNITS = [
+  { id: "srs", level: "Divisjon", code: "SRS", name: "Samordning, regelverk og sikkerhet", size: "ca. 85", parent: null,
+    desc: "Divisjonen støtter departementet strategisk og bidrar til nasjonal samordning innen arkitektur, regelverk, informasjonssikkerhet og tillitstjenester.",
+    tasks: ["Strategiske råd til DFD og prosesser for nasjonale prioriteringer", "Digitaliseringsstrategi og virkemiddelstøtte", "Nasjonal arkitektur, standardisering og rådssekretariat", "Oversikt og samordning av EU-arbeid og oppfølging av EU-regelverk", "Nasjonalt fagansvar for informasjonssikkerhet og veiledning", "Nasjonal strategi for tillit og digital identitet"] },
+  { id: "srs-strategi", level: "Avdeling", name: "Strategi, råd og prioritering", parent: "srs",
+    desc: "Strategiske råd til departementet og prosesser for nasjonale prioriteringer.",
+    tasks: ["Strategiske råd til DFD", "Prosesser for nasjonale prioriteringer", "Digitaliseringsstrategi og virkemiddelstøtte", "Dynamisk kunnskapsgrunnlag og analyse", "Samordningsarenaer, blant annet Skate", "Finansielle virkemidler: Medfin og Stimulab", "Digitaliseringsrådet"] },
+  { id: "srs-styring", level: "Avdeling", name: "Styring og forvaltningsutvikling", parent: "srs",
+    desc: "Styringsvirkemidler og digital kompetanse i forvaltningen.", tasks: ["Styringsvirkemidler", "Digital kompetanse"] },
+  { id: "srs-arkitektur", level: "Avdeling", name: "Arkitektur, informasjonsforvaltning og standardisering", parent: "srs",
+    desc: "Nasjonal arkitektur og samordning av data- og informasjonsforvaltning.",
+    tasks: ["Nasjonal arkitektur", "Samordning av data- og informasjonsforvaltning, orden i eget hus og NGD", "Standardiseringsarbeid og rådssekretariat"] },
+  { id: "srs-eu", level: "Avdeling", name: "EU og regelverk", parent: "srs",
+    desc: "Juridisk oppfølging av internasjonale forpliktelser og regelverksutvikling.",
+    tasks: ["Juridisk oppfølging av internasjonale forpliktelser og samarbeid", "Oversikt og samordning av EU-arbeid", "Regelverksutvikling", "Juridisk rådgivning og høringer", "Intern koordinering i Digdir"] },
+  { id: "srs-sikkerhet", level: "Avdeling", name: "Sikkerhet og tillit", parent: "srs",
+    desc: "Nasjonalt fagansvar for informasjonssikkerhet, og strategi for tillit og digital identitet.",
+    tasks: ["Nasjonalt fagansvar for informasjonssikkerhet og veiledning", "Felles sikkerhetskultur og nettverk: NIFS og Felles sikkerhet i forvaltningen", "Nasjonale kunnskapsgrunnlag om sikkerhetstrusler og sårbarheter", "Faglige sikkerhets- og tillitskrav til nasjonale fellesløsninger", "Digital sikkerhet", "Nasjonal strategi for tillit og digital identitet, KoID", "NOBID"] },
+
+  { id: "tdu", level: "Divisjon", code: "TDU", name: "Teknologi, data og utforsking", size: "ca. 145", parent: null,
+    desc: "Divisjonen har ansvar for å utvikle, forvalte og drifte felles teknologiske plattformer og løsninger, samt sikre robust systemarkitektur, operativ IT-sikkerhet, datadeling og utforsking av ny teknologi.",
+    tasks: ["Arbeide etter DevOps-prinsipper og videreutvikle digitale tjenester og fellesløsninger", "Bistå produktteam med utviklere, testere, arkitekter og andre roller", "Ivareta utvikling, test, deploy, overvåkning og teknisk feilretting", "Forvalte teknisk gjeld og bidra i modernisering og migrering", "Bidra til standardisering, gjenbruk og felleskomponenter", "Delta i teknologisk utforskning når nye løsninger skal prøves ut"] },
+  { id: "tdu-ud1", level: "Avdeling", name: "Utvikling og drift 1 (BNN)", parent: "tdu",
+    desc: "Utviklings- og driftsavdeling i Brønnøysund, organisert etter DevOps-prinsipper.", tasks: ["Utvikling, test, deploy, overvåkning og teknisk feilretting", "Bistand til produktteam med tekniske roller", "Forvalting av kode, komponenter, integrasjoner og teknisk dokumentasjon"] },
+  { id: "tdu-ud2", level: "Avdeling", name: "Utvikling og drift 2 (LEIK)", parent: "tdu",
+    desc: "Utviklings- og driftsavdeling i Leikanger, organisert etter DevOps-prinsipper.", tasks: ["Utvikling, test, deploy, overvåkning og teknisk feilretting", "Bistand til produktteam med tekniske roller", "Forvalting av tekniske avhengigheter og grensesnitt"] },
+  { id: "tdu-ud3", level: "Avdeling", name: "Utvikling og drift 3 (OSL)", parent: "tdu",
+    desc: "Utviklings- og driftsavdeling i Oslo, organisert etter DevOps-prinsipper.", tasks: ["Utvikling, test, deploy, overvåkning og teknisk feilretting", "Bistand til produktteam med tekniske roller", "Dokumentasjon av arkitektur, kode, driftsforutsetninger og sikkerhetsforhold"] },
+  { id: "tdu-plattform-sikkerhet", level: "Avdeling", name: "Plattform og sikkerhet", parent: "tdu",
+    desc: "Eier plattformene Digdirs løsninger kjører på, og den operative sikkerheten i dem.", tasks: [] },
+  { id: "tdu-plattform", level: "Seksjon", name: "Plattform", parent: "tdu-plattform-sikkerhet",
+    desc: "Eier, automatiserer og drifter skymiljøer og intern infrastruktur.",
+    tasks: ["Eie, automatisere og drifte skymiljøer, infrastruktur, CI/CD-rørledninger, containere, logging og overvåking", "Intern IT-infrastruktur for Digdir", "Oppfølging av teknisk leverandør"] },
+  { id: "tdu-sikkerhet", level: "Seksjon", name: "Sikkerhet", parent: "tdu-plattform-sikkerhet",
+    desc: "Operativ sikkerhet i de tekniske løsningene.",
+    tasks: ["Teknisk sårbarhetsskanning, trusselmodellering og penetrasjonstesting", "Hendelseshåndtering", "Security-by-design i alle kodebaser"] },
+  { id: "tdu-utforsking", level: "Avdeling", name: "Teknologiutforsking og dataforvaltning", parent: "tdu",
+    desc: "FoU-lab og intern datainfrastruktur.",
+    tasks: ["FoU-lab for teknisk utforskning", "Intern datainfrastruktur, styringsdata og analyseverktøy", "Orden i egne data", "Forum for data og analyse"] },
+
+  { id: "prt", level: "Divisjon", code: "PRT", name: "Produkt og tjenester", size: "ca. 155", parent: null,
+    desc: "Divisjonen har ansvar for helhetlig styring, forretningsutvikling, utbredelse og kontinuerlig forbedring av Digdirs fellesløsninger, med sterkt fokus på sikkerhet, brukerbehov, kundedialog og realisering av samfunnsnytte.",
+    tasks: ["Produktstrategi, veikart, målbilder og forretningsmodeller", "Produktledelse og forretningsutvikling av produktporteføljen", "Brukerinnsikt, brukeropplevelse og design", "Utbredelse, økt bruk og strategisk kundearbeid", "Tjenestekvalitet, driftsoppfølging og beredskap", "Gevinstrealisering og styringsdata"] },
+  { id: "prt-produktstyring", level: "Avdeling", name: "Produktstyring", parent: "prt",
+    desc: "Produktstrategi, planlegging og økonomien i produktporteføljen.", tasks: [] },
+  { id: "prt-strategi", level: "Seksjon", name: "Produktstrategi og forretning", parent: "prt-produktstyring",
+    desc: "Strategisk retning for produktporteføljen.",
+    tasks: ["Produktstrategi, veikart, målbilder og forretningsmodeller", "Produktledelse", "Forretningsutvikling og strategisk utvikling av produktporteføljen", "Dødsfall og arv"] },
+  { id: "prt-planlegging", level: "Seksjon", name: "Planlegging og løsningsarkitektur", parent: "prt-produktstyring",
+    desc: "Løsningskonsepter, planlegging og etterlevelse.",
+    tasks: ["Løsningskonsepter og løsningsarkitektur", "Utviklings- og leveranseplanlegging", "Samsvar og etterlevelse av lover, regler og standarder"] },
+  { id: "prt-okonomi", level: "Seksjon", name: "Produktøkonomi og avtaler", parent: "prt-produktstyring",
+    desc: "Økonomi, avtaler og leverandørforvaltning for produktene.",
+    tasks: ["Avtale- og leverandørforvaltning", "Økonomistyring og prognose", "Produktregnskap"] },
+  { id: "prt-kontroll", level: "Avdeling", name: "Kontroll og produktstøtte", parent: "prt",
+    desc: "Tjenestekvalitet, beredskap, finansiering og felles rammeverk.",
+    tasks: ["Tjenestekvalitet og driftsoppfølging", "Servicedesk", "Beredskap", "Hendelses- og problemhåndtering", "Produktfinansiering, finansieringsmodeller og utfakturering", "Tverrgående produktkoordinering", "Felles rammeverk og kontinuerlig forbedring", "Sekretariats- og støttefunksjoner til styringsråd og eksterne fora"] },
+  { id: "prt-gevinst", level: "Seksjon", name: "Gevinstrealisering og styringsunderlag", parent: "prt-kontroll",
+    desc: "Måling av gevinster og underlag for beslutninger.",
+    tasks: ["Gevinstrealiseringsplaner", "Måling av samfunns- og bruksgevinster", "Styringsdata, utredninger og beslutningsunderlag"] },
+  { id: "prt-bku", level: "Avdeling", name: "Brukeropplevelse, kundeoppfølging og utbredelse", parent: "prt",
+    desc: "Møtet med brukerne og kundene: innsikt, design, støtte og utbredelse.", tasks: [] },
+  { id: "prt-design", level: "Seksjon", name: "Brukerinnsikt og design", parent: "prt-bku",
+    desc: "Tverrgående ansvar for design og brukeropplevelse i Digdirs produkter og tjenester.",
+    tasks: ["Brukerinnsikt", "Brukeropplevelse", "Design og UX", "Felles designsystem"] },
+  { id: "prt-oppfolging", level: "Seksjon", name: "Produkt- og tjenesteoppfølging", parent: "prt-bku",
+    desc: "Løpende oppfølging av produkter og tjenester.", tasks: ["Oppfølging av produkter og tjenester", "Styringsråd"] },
+  { id: "prt-brukerstotte", level: "Seksjon", name: "Brukerstøtte", parent: "prt-bku",
+    desc: "Brukerstøtte for sluttbrukere og støtte til andre team.",
+    tasks: ["Brukerstøtte for sluttbruker", "Støtte til andre team ved innholdsarbeid og testing", "Norsk lysingsblad"] },
+  { id: "prt-marked", level: "Seksjon", name: "Marked og utbredelse", parent: "prt-bku",
+    desc: "Utbredelse, kundearbeid og kanalansvar.",
+    tasks: ["Utbredelse og økt bruk", "Strategisk kundearbeid", "Kanalansvar for norge.no, altinn.no og samarbeidsportalen"] },
+
+  { id: "vsu", level: "Divisjon", code: "VSU", name: "Virksomhetsstyring og utvikling", size: "ca. 55", parent: null, advises: true,
+    desc: "Divisjonen har ansvar for overordnet virksomhetsstyring, økonomi, HR, intern sikkerhet, drift og felles metodestøtte for å sikre effektiv drift og helhetlige arbeidsmåter i hele direktoratet. VSU eier felles metodestøtte og rammeverket for team og leveranser.",
+    tasks: ["Styringsdialog med DFD, tildelingsbrev og statsbudsjettinnspill", "Virksomhetsplan, porteføljekontor, tertialrapportering og risikostyring", "OKR-oppfølging og årsrapport", "Områdeansvarlige for innsatsområder", "Felles metoder og rammeverk for tverrfaglige team", "Intern sikkerhet, beredskap og IT-drift"] },
+  { id: "vsu-strategi", level: "Avdeling", name: "Strategi og styring", parent: "vsu", advises: true,
+    desc: "Virksomhetsstyring, porteføljekontor og OKR-oppfølging.",
+    tasks: ["DFD-styringsdialog, tildelingsbrev og statsbudsjettinnspill", "Virksomhetsplan", "Porteføljekontor, tertialrapportering og risikostyring", "OKR-oppfølging", "Årsrapport", "Internasjonal koordinator", "Områdeansvarlige for innsatsområder", "Etterlevelse og compliance"] },
+  { id: "vsu-okonomi", level: "Avdeling", name: "Økonomi og innkjøp", parent: "vsu", advises: true,
+    desc: "Økonomistyring for Digdirs samlede budsjett, og anskaffelser.",
+    tasks: ["Økonomistyring for Digdirs samlede budsjett", "Regnskapsføring", "MVA-oppfølging", "Økonomiprognoser", "Kontakt med Riksrevisjonen"] },
+  { id: "vsu-innkjop", level: "Seksjon", name: "Innkjøp, drift og arkiv", parent: "vsu-okonomi",
+    desc: "Anskaffelser, arbeidsplasser og arkiv.",
+    tasks: ["Fasilitere anskaffelser", "Forvalte anskaffelsesregelverk og avtalesystem (KAV)", "Følge opp miljø- og samfunnskrav i innkjøp", "Forvalte leieavtaler, drift og arbeidsplasser på kontorstedene", "Drifte og forvalte sak- og arkivsystem (WebSak)", "Ivareta innsynskrav og gi opplæring i dokumenthåndtering"] },
+  { id: "vsu-mol", level: "Avdeling", name: "Mennesker, organisasjon og læring", parent: "vsu", advises: true,
+    desc: "HR, lederutvikling og samarbeid med tillitsvalgte.",
+    tasks: ["Koordinering av rekruttering, ansettelser og onboarding", "Oppfølging av lønnsforhandlinger og stillingsrammer", "Følge opp HMS, IA og AKAN", "Lederutvikling", "Samarbeid med tillitsvalgte i Samarbeidsutvalget"] },
+  { id: "vsu-orglaering", level: "Seksjon", name: "Organisasjonslæring", parent: "vsu-mol", advises: true,
+    desc: "Eier felles metoder og rammeverk for tverrfaglige team, produktorganisering og smidige leveranser. Her forvaltes Saman.",
+    tasks: ["Eie og videreutvikle felles metoder og rammeverk for tverrfaglige team, produktorganisering og smidige leveranser", "Tilby intern opplæring, coaching, lederstøtte, fasilitering og metodestøtte", "Ressurser innenfor prosjekt- og prosessledelse og støtteteam"] },
+  { id: "vsu-sikkerhet", level: "Avdeling", name: "Sikkerhet og IT-drift", parent: "vsu", advises: true,
+    desc: "Internt styringssystem for sikkerhet, beredskap og IT-drift.",
+    tasks: ["Forvaltning av Digdirs interne styringssystem for sikkerhet, personellsikkerhet, fysisk sikring og personvernstyring", "Beredskapshåndtering og vedlikehold av beredskaps- og kriseplaner", "Gjennomføre kriseøvelser", "Situasjonsforståelse og koordinering av krisestab ved hendelser", "Personvernombud"] },
+  { id: "vsu-itdrift", level: "Seksjon", name: "IT-drift", parent: "vsu-sikkerhet",
+    desc: "Intern brukerstøtte og drift av Digdirs eget IT-miljø.",
+    tasks: ["Intern brukerstøtte", "Utstyrsfordeling", "Backend", "Førstelinje", "Nettverk og back-up"] },
+
+  { id: "kin", level: "Divisjon", code: "KIN", name: "KI Norge", size: "ca. 20", parent: null,
+    desc: "Divisjonen har ansvar for å legge til rette for at norsk offentlig sektor og næringsliv kan finne riktig balanse mellom innovasjon og ansvarlighet i utvikling og bruk av kunstig intelligens. KI Norge er under oppbygging.",
+    tasks: ["Etablering, styring og nettverk", "Samordnet veiledning og kompetanse", "Regulatorisk sandkasse", "Felles KI-portal", "Analyse og utredninger", "KI-lab", "Sekretariat og støtte til regjeringens tverrgående KI-prosesser", "Arenaer for samordnet KI-bruk og erfaringsdeling"] },
+
+  { id: "tdi", level: "Divisjon", code: "TDI", name: "Tilsyn for digital inkludering", size: "ca. 21", parent: null,
+    desc: "Tilsynet skal arbeide for at alle har likeverdige muligheter til å delta i det digitale samfunnet, og være et nasjonalt fagorgan for digital inkludering. Tilsynets uavhengighet er tydeliggjort, og direktøren deltar ikke fast i toppledergruppen.",
+    tasks: ["Tilsyn, kontroll og reaksjoner", "Saksbehandling og juridiske avklaringer", "Veiledning og kompetanseheving rundt digital inkludering", "Oppfølging av tilgjengelighetserklæringer og selvdeklarering", "Områdeovervåking, analyse og internasjonal rapportering", "Fag- og metodeutvikling rundt digital inkludering", "Fagansvar for klart språk"] },
+  { id: "tdi-tilsyn", level: "Avdeling", name: "Tilsyn", parent: "tdi", desc: "Fører tilsyn med og fremmer etterlevelse av regelverk innenfor eget ansvarsområde.", tasks: ["Tilsyn, kontroll og reaksjoner", "Saksbehandling og juridiske avklaringer"] },
+  { id: "tdi-data", level: "Avdeling", name: "Data", parent: "tdi", desc: "Områdeovervåking, analyse og rapportering.", tasks: ["Områdeovervåking og analyse", "Internasjonal rapportering", "Oppfølging av tilgjengelighetserklæringer"] },
+
+  { id: "kom", level: "Avdeling", code: "KOM", name: "Kommunikasjon", size: "ca. 18", parent: null, advises: true,
+    desc: "Avdelingen samler kommunikasjonsfagmiljøet og har både en stabsrolle gjennom strategisk rådgivning og en støtterolle gjennom operativ bistand på tvers av virksomheten.",
+    tasks: ["Kommunikasjonsstrategi og -rådgivning", "Medieberedskap og -håndtering", "Innholdsproduksjon og formidling", "Kanalforvaltning og redaksjonelt ansvar", "Arrangementer", "Forvaltning av visuell profil", "Intern kommunikasjon"] }
+];
+
+const PEOPLE = {
+  tdi: [ { name: "Malin Rygg", role: "Tilsynsdirektør", email: "malin.rygg@digdir.no", mobile: "97 19 73 17", lead: true, photo: "https://www.digdir.no/sites/sogn/files/styles/sm/public/2023-12/malin-ak.jpg?itok=T__YDeR4" } ],
+  kom: [ { name: "Sol Daler Stafsnes", role: "Konstituert kommunikasjonsdirektør", email: "SolDaler.Stafsnes@digdir.no", mobile: "97 16 58 58", lead: true } ],
+  vsu: [ { name: "Thuan Tande-Pham", role: "Divisjonsdirektør", email: "thuan.tande-pham@digdir.no", mobile: "99 04 46 68", lead: true, photo: "https://www.digdir.no/sites/sogn/files/styles/sm/public/2024-02/Thuan%20Tande-Pham%20%281%29_1.jpg?itok=D0Zo_GZ1" } ],
+  "vsu-orglaering": [
+    { name: "Ingrid Haug", role: "Seksjonsleder", email: "ingrid.haug@digdir.no", mobile: "91 00 00 01", lead: true },
+    { name: "Frida Lunde", role: "Organisasjonsutvikler", email: "frida.lunde@digdir.no", mobile: "91 00 00 02" },
+    { name: "Anders Rø", role: "Metodestøtte", email: "anders.ro@digdir.no", mobile: "91 00 00 03" },
+    { name: "Preben Vold", role: "Tjenestedesigner", email: "preben.vold@digdir.no", mobile: "91 00 00 04" },
+    { name: "Sofie Grimstad", role: "Prosjektleder", email: "sofie.grimstad@digdir.no", mobile: "91 00 00 05" },
+    { name: "Morten Eide", role: "Prosjektstøtte", email: "morten.eide@digdir.no", mobile: "91 00 00 06" }
+  ]
+};
+
+const EXAMPLE_PEOPLE_UNITS = ["vsu-orglaering"];
+
+const PORTFOLIO = [
+  { level: "Strategisk prioritering", who: "Porteføljestyret (TLG)", text: "Samordner og prioriterer tiltak som går på tvers av divisjonene ved å opprette, følge opp og legge ned innsatsområder og programmer." },
+  { level: "Operativ prioritering", who: "Linjeorganisasjonen", text: "Oppretter, følger opp og legger ned interne team og oppgaver innad i divisjonen, og avgir ressurser til tverrgående team." },
+  { level: "Backlogg-prioritering", who: "Team og områdeansvarlige", text: "Områdeansvarlige eller programeiere koordinerer leveranser fra flere tverrgående team. Teamene prioriterer selv innenfor mandat og mål." }
+];
+
+const GOALS = [
+  { title: "Vi fremmer samordning og prioritering for en mer effektiv offentleg sektor", tint: "#e6f2fd",
+    points: ["Er den føretrekte kunnskapskjelda for tverrgåande digitaliseringsbehov.", "Utarbeider og forvaltar eit nasjonalt vegkart for digitaliseringsstrategien.", "Gir tydelege råd om korleis digitalisering kan gi størst samfunnsnytte.", "Utviklar nye modellar for finansiering, styring og samarbeid om felles digitalisering.", "Leverer sikre, effektive og nyttige fellesløysingar"] },
+  { title: "Vi leder an i ansvarleg og innovativ bruk av data og kunstig intelligens", tint: "#fdf2da",
+    points: ["Vidareutviklar felles infrastruktur og arkitektur for sikker og effektiv deling og bruk av data på tvers av offentleg og privat sektor.", "Gir rettleiing, byggjer kompetanse og deler erfaringar som gjer det enklare å ta i bruk data og KI.", "Bruker KI-Noreg til å styrkje innsatsen på området og gi rettleiing for trygg og ansvarleg bruk av KI.", "Vidareutviklar, saman med andre, nasjonale standardar, referansearkitektur og felleskomponentar for ansvarleg og innovativ bruk av KI i offentleg sektor."] },
+  { title: "Vi sikrar trygg tilgang til digitale tenester for alle", tint: "#fdeaea",
+    points: ["Sikrar tilgang til digitale tenester for alle gjennom innføring av digital identitets-lommebok og fullmaktsløsninger for de som ikkje kan eller vil bruke eID.", "Legger til rette for at offentleg og privat sektor innoverer og hentar ut gevinstar av nye moglegheiter for datadeling i økosystemet for digitale lommebøker.", "Samordnar arbeidet med digital identitet gjennom implementering av eIDAS 2.0 og ivaretakast av norske interesser opp mot EU."] },
+  { title: "Vi løyser komplekse utfordringar samen og tilpassar oss en verden i rask endring", tint: "#eef0f3",
+    points: ["Samarbeider tett med næringsliv, frivillig sektor og andre sentrale aktørar.", "Tek utgangspunkt i brukarane sine behov og løyser komplekse oppgåver som eitt samla direktorat.", "Arbeider datadrive og smidig for å vere meir tilpassingsdyktige og betre rusta til å møte nye utfordringar.", "Legg vekt på tidleg utprøving og læring for å utvikle gode løysingar.", "Er ein attraktiv arbeidsplass der tilsette trivst, utviklar seg og byggjer kompetanse."] }
+];
+
+const VALUES = [
+  { name: "Påliteleg", text: "Vi er til å stole på, tek ansvar for heilheta og leverer kvalitet. Vi fremmer samarbeid, sikrar gjenbruk og tenkjer langsiktig." },
+  { name: "Inkluderande", text: "Vi jobbar brukerretta, tek utgangspunkt i behova til brukargruppene våre og tek hensyn til ulike perspektiv. Alle skal kunne finne, forstå og løyse brukaroppgåvene sine." },
+  { name: "Uredd", text: "Vi er framtidsretta, vågar å utfordre, og har leiarar som stolar på dei som er nærast arbeidet. Vi utforskar og utviklar oss løpande gjennom innsikt, innovasjon og ærleg, open deling." }
+];
+
+const AUDIENCES = ["Offentleg sektor", "Innbyggarar", "Næringslivet", "Frivillig sektor"];
+
+const ROLES_INST = [
+  "Ledestjerne for digitalisering i offentleg sektor",
+  "Pådrivar for digital samhandling og innovasjon",
+  "Forvaltar av Norges digitale grunnmur",
+  "Forkjempar for digital inkludering"
+];
+
+const MANDATE_LABELS = [
+  { key: "formal", label: "Hva skal vi løse?", help: "Gi en presis og avgrenset beskrivelse av problemet eller behovet som skal løses. Lenk til mer detaljerte beskrivelser av brukerbehov." },
+  { key: "oppna", label: "Hva skal vi oppnå?", help: "Beskriv konkrete, målbare resultater og gevinster. Tenk suksesskriterier som gjør oss i stand til å vite at oppdraget er løst godt nok." },
+  { key: "myndighet", label: "Hva forventes av oss?", help: "Beskriv forventninger og retning for arbeidet (fra TLG, ansvarlig leder eller teameier), spesielt eventuelle milepæler og viktige frister." },
+  { key: "ansvarsomrader", label: "Hva har vi ansvar for?", help: "Hva teamet eier og svarer for i det daglige.", section: "Andre rammer" },
+  { key: "begreper", label: "Nyttige begrepsavklaringer", help: "Legg inn begreper og definisjoner som er viktige for å forstå oppdraget.", section: "Andre rammer" },
+  { key: "ikkeAnsvar", label: "Avgrensninger og avhengigheter", help: "Hva er eksplisitt utenfor scope? Hvilke andre oppdrag er dette avhengig av?", section: "Andre rammer" },
+  { key: "involvering", label: "Hvordan skal andre involveres?", help: "Beskriv involvering av andre avdelinger, etater eller ekstern kompetanse.", section: "Andre rammer" },
+  { key: "forankring", label: "Hvordan er arbeidet forankret?", help: "Beskriv forankring og lenk til eventuelle styringsdokumenter.", section: "Andre rammer" },
+  { key: "oppfolging", label: "Hvordan skal arbeidet følges opp etter slutt?", help: "Hvem har ansvar for forvaltning, gevinstrealisering og evaluering?", section: "Andre rammer" },
+  { key: "ressurser", label: "Rammer for ressursbruk", help: "Antall personer, tidsbruk, budsjett o.l.", section: "Andre rammer" }
+];
+
+const NAV = [
+  { page: "styring", label: "Styringsfundament" },
+  { page: "prinsipper", label: "Prinsipper" },
+  { page: "roller", label: "Roller" },
+  { page: "org", label: "Organisasjon" },
+  { page: "teams", label: "Team" },
+  { page: "veiviser", label: "Veiviser" },
+  { page: "verktoy", label: "Verktøykasse" },
+  { page: "begreper", label: "Begreper" }
+];
+
+const AREAS = [
+  { page: "styring", title: "Styringsfundament", desc: "Visjon, samfunnsoppdrag, målbilde, verdier og institusjonelle roller.", count: "MVP", icon: "landmark", tint: "#eef0f3", ink: "#3c4757" },
+  { page: "prinsipper", title: "Prinsipper", desc: "Føringene for hvordan vi organiserer team, følger dem opp og jobber.", count: PRINCIPLES.length + " prinsipper", icon: "compass", tint: "#fdf2da", ink: "#5a4208" },
+  { page: "roller", title: "Roller og ansvar", desc: "Hva ligger i rollene, og hvem har ansvar for hva? Beskrevet etter RAMO.", count: (ROLES.length + Object.keys(ROLE_EXTRA).reduce((n, k) => n + ROLE_EXTRA[k].length, 0)) + " roller", icon: "id-card", tint: "#fdeaea", ink: "#8f1f26" },
+  { page: "org", title: "Organisasjon", desc: "Divisjoner, avdelinger og de tverrgående strukturene i Digdir 2.0.", count: "7 enheter", icon: "network", tint: "#fdeaea", ink: "#8f1f26" },
+  { page: "teams", title: "Teamoversikt", desc: "Alle team i Digdir, hva de leverer og hvorfor de finnes.", count: TEAMS.length + " team", icon: "users", tint: "#e6f2fd", ink: "#0062B8" },
+  { page: "veiviser", title: "Veiviser", desc: "Fire spørsmål som hjelper deg finne riktig teamtype ved etablering.", count: "4 steg", icon: "git-branch", tint: "#fdf2da", ink: "#5a4208" },
+  { page: "verktoy", title: "Verktøykasse", desc: "Anbefalte metoder, maler og verktøy for team- og prosjektarbeid.", count: TOOLS.length + " verktøy", icon: "wrench", tint: "#e6f2fd", ink: "#0062B8" },
+  { page: "begreper", title: "Begreper", desc: "Felles referansepunkt for hva vi legger i de viktigste begrepene.", count: TERMS.length + " begreper", icon: "book-open", tint: "#eef0f3", ink: "#3c4757" }
+];
+
+const SUGGESTIONS = {
+  home: ["Hva er Saman, og hva er det ikke?", "Hva må på plass før vi starter et nytt team?", "Hva skal gjøres likt for alle team?", "Hvem eier rammeverket?"],
+  styring: ["Hva er forskjellen på samfunnsoppdrag og målbilde?", "Hvordan henger målbildet sammen med OKR i teamene?", "Hva betyr verdien uredd i praksis?", "Hvem er brukerne våre?"],
+  prinsipper: ["Hva betyr tight-loose-tight for teamet mitt?", "Hvilke prinsipper gjelder for ledere?", "Hva innebærer å måle effekt, ikke aktivitet?", "Hvorfor gjenbruke før vi bygger nytt?"],
+  roller: ["Hva er forskjellen på teameier og teamleder?", "Hva betyr myndighet i RAMO?", "Når trenger vi en produkteier?", "Hvem bestemmer bemanningen i teamet?"],
+  org: ["Hva er forskjellen på linje og tverrgående strukturer?", "Hvem prioriterer mellom team?", "Hva gjør porteføljestyret?", "Hva er et innsatsområde?"],
+  unit: ["Hva har denne enheten ansvar for?", "Hvem er leder for enheten?", "Hvilke seksjoner ligger under?", "Hvordan får jeg tak i ressurser her?"],
+  direktor: ["Hvem sitter i toppledergruppen?", "Hva beslutter porteføljestyret?", "Hvorfor er tilsynet ikke fast med i TLG?", "Når trer ny organisering i kraft?"],
+  teams: ["Hvilke teamtyper finnes i Digdir?", "Hva skiller produktteam fra leveranseteam?", "Hvem er teameier for et team?", "Hvordan registrerer vi et nytt team?"],
+  team: ["Hva mangler i mandatet til dette teamet?", "Hva skal stå under Hva skal vi oppnå?", "Hvem godkjenner mandatet?", "Hvilke verktøy bør teamet bruke?"],
+  veiviser: ["Når egner oppgaven seg for teamarbeid?", "Hva skiller prosjektteam fra leveranseteam?", "Hva kjennetegner et produkt?", "Hva om oppgaven ikke passer noen teamtype?"],
+  verktoy: ["Hva er forskjellen på teammandat og teamkontrakt?", "Når bruker vi Prosjektveiviseren?", "Hva er Team Canvas?", "Hvordan kommer vi i gang med OKR?"],
+  begreper: ["Hva er forskjellen på team og enhet?", "Hva betyr RAMO?", "Hva er en leveranse?", "Hva er et tverrgående team?"]
+};
+
+const chipStyle = (on) => "padding: 7px 14px; border-radius: 9999px; border: 1px solid " + (on ? "#0062B8" : "#9aa5b1") + "; background: " + (on ? "#0062B8" : "transparent") + "; color: " + (on ? "#fff" : "#1E2B3C") + "; font-size: 14px; font-weight: 500; cursor: pointer";
+
+class Component extends DCLogic {
+  state = { page: null, teamId: null, unitId: null, memberIndex: null, assistantOpen: false, assistantInput: "", assistantMessages: [], assistantBusy: false, query: "", typeFilter: "Alle", toolFilter: "Alle", toolTeamFilter: "Alle", areaFilter: "Alle", roleFilter: "Alle", wizardPath: [], wizardStep: "team", wizardResult: null, editing: false, draft: null, saved: false, mandates: {} };
+
+  go = (page) => () => this.setState({ page, query: "", editing: false, saved: false });
+
+  chatRef = React.createRef();
+  drawIcons() { if (window.lucide) { try { window.lucide.createIcons(); } catch (e) {} } }
+  scrollChat() { const el = this.chatRef.current; if (el) el.scrollTop = el.scrollHeight; }
+  componentDidMount() { this.drawIcons(); setTimeout(() => this.drawIcons(), 400); }
+  componentDidUpdate() { this.drawIcons(); this.scrollChat(); }
+
+  openTeam = (id) => () => this.setState({ page: "team", teamId: id, editing: false, saved: false, memberIndex: null });
+
+  openUnit = (id) => () => this.setState({ page: "unit", unitId: id });
+
+  assistantContext() {
+    const roles = ROLES.map((r) => r.name + ": " + r.ramo.map((x) => x.label + " — " + x.value).join(" ")).join("\n");
+    const variants = ROLE_VARIANTS.map((v) => v.type + ": " + v.text).join("\n");
+    const principles = PRINCIPLES.map((p) => p.num + " (" + p.area + ") " + p.title + ": " + p.body).join("\n");
+    const terms = TERMS.map((t) => t.term + ": " + t.definition).join("\n");
+    const tools = TOOLS.map((t) => t.name + " (" + t.type + ", " + t.forWhom + "): " + t.desc).join("\n");
+    const teams = TEAMS.map((t) => t.name + " (" + t.type + ", leder: " + t.lead + "): " + t.purpose).join("\n");
+    const units = UNITS.map((u) => u.level + " " + u.name + ": " + u.desc).join("\n");
+    const wizard = WIZARD.map((w) => w.title + " → " + w.options.map((o) => o.label).join(" / ")).join("\n");
+    const results = Object.keys(RESULTS).map((k) => RESULTS[k].title + ": " + RESULTS[k].body + " Krav: " + RESULTS[k].points.join("; ")).join("\n");
+    return ["ROLLER (RAMO)", roles, "VARIASJONER PER TEAMTYPE", variants, "PRINSIPPER", principles,
+      "BEGREPER", terms, "VERKTØYKASSE", tools, "TEAM I DIGDIR", teams, "ORGANISASJON", units,
+      "VEIVISER", wizard, "TEAMTYPER", results].join("\n\n");
+  }
+
+  assistantLocation() {
+    const s = this.state;
+    const page = s.page || "home";
+    const names = { home: "forsiden", styring: "Styringsfundament", prinsipper: "Prinsipper", roller: "Roller og ansvar",
+      org: "Organisasjonskartet", teams: "Teamoversikten", veiviser: "Veiviseren for teamtype", verktoy: "Verktøykassen",
+      begreper: "Begreper", direktor: "siden om direktøren", unit: "en enhetsside", team: "en teamside" };
+    let out = "BRUKEREN SER NÅ PÅ: " + (names[page] || page) + ".";
+    if (page === "unit") {
+      const u = UNITS.find((x) => x.id === s.unitId);
+      if (u) out += "\nValgt enhet: " + u.level + " " + u.name + ". " + u.desc
+        + (u.tasks.length ? "\nOppgaver: " + u.tasks.join("; ") : "")
+        + "\nNår brukeren skriver «denne enheten», mener de " + u.name + ".";
+    }
+    if (page === "team") {
+      const t = TEAMS.find((x) => x.id === s.teamId);
+      if (t) {
+        const m = this.mandateFor(t);
+        out += "\nValgt team: " + t.name + " (" + t.type + "), leder: " + t.lead + ". " + t.purpose
+          + "\nMandat: " + MANDATE_LABELS.map((f) => f.label + ": " + (m[f.key] || "IKKE REGISTRERT")).join(" | ")
+          + "\nVerktøy teamet bruker: " + (t.tools.join(", ") || "ingen registrert")
+          + "\nNår brukeren skriver «dette teamet», mener de " + t.name + ".";
+      }
+    }
+    if (page === "roller" && s.roleFilter !== "Alle") out += "\nAktivt filter på rollesiden: " + s.roleFilter + ".";
+    return out;
+  }
+
+  sendAssistant = async () => {
+    const q = (this.state.assistantInput || "").trim();
+    if (!q || this.state.assistantBusy) return;
+    const history = this.state.assistantMessages.concat([{ role: "user", text: q }]);
+    this.setState({ assistantMessages: history, assistantInput: "", assistantBusy: true });
+    try {
+      const reply = await window.claude.complete({
+        max_tokens: 700,
+        system: this.assistantLocation() + "\n\nDu er assistenten i Saman, Digdirs rammeverk for team og leveranser. Svar kort og konkret på norsk (bokmål), i Digdirs saklige tone. Bruk kun innholdet under KONTEKST. Finnes ikke svaret der, si det og foreslå hvilken side i Saman brukeren bør se på. Ikke gjett på navn, tall eller roller. Maks 120 ord. Svar i ren løpende tekst uten markdown: ingen stjerner, ingen fete typer, ingen overskrifter, ingen kulepunkter eller nummererte lister. Trenger du å liste noe, skriv det som en setning med semikolon.\n\nKONTEKST:\n" + this.assistantContext(),
+        messages: history.map((m) => ({ role: m.role, content: m.text }))
+      });
+      this.setState((st) => ({ assistantMessages: st.assistantMessages.concat([{ role: "assistant", text: reply }]), assistantBusy: false }));
+    } catch (e) {
+      this.setState((st) => ({ assistantMessages: st.assistantMessages.concat([{ role: "assistant", text: "Noe gikk galt. Prøv igjen." }]), assistantBusy: false }));
+    }
+  };
+
+  mandateFor(team) {
+    return this.state.mandates[team.id] || team.mandate;
+  }
+
+  renderVals() {
+    const s = this.state;
+    const page = s.page || this.props.startside || "home";
+    const colorTypes = this.props.visTeamtypefarger ?? true;
+    const team = TEAMS.find((t) => t.id === s.teamId);
+
+    const nav = NAV.map((n) => ({
+      label: n.label,
+      go: this.go(n.page),
+      style: "padding: 8px 12px; border-radius: 4px; border: none; background: " + (page === n.page || (page === "team" && n.page === "teams") ? "#eef4fa" : "transparent") + "; color: " + (page === n.page || (page === "team" && n.page === "teams") ? "#00417d" : "#44505f") + "; font-size: 15px; font-weight: 500; cursor: pointer"
+    }));
+
+    const tagStyle = (type) => {
+      const c = (colorTypes && TYPE_COLORS[type]) || ["#f2f4f6", "#44505f"];
+      return "padding: 3px 10px; border-radius: 9999px; background: " + c[0] + "; color: " + c[1] + "; font-size: 13px; font-weight: 500";
+    };
+
+    const q = s.query.trim().toLowerCase();
+    const matches = (t) => !q || (t.name + " " + t.purpose + " " + t.lead + " " + t.type).toLowerCase().includes(q);
+    const visibleTeams = TEAMS.filter((t) => (s.typeFilter === "Alle" || t.type === s.typeFilter) && matches(t)).map((t) => ({
+      name: t.name, type: t.type, division: t.division, purpose: t.purpose,
+      tagStyle: tagStyle(t.type), go: this.openTeam(t.id),
+      metaLabel: (t.members.length ? t.members.length + " medlemmer · " : "Medlemmer ikke registrert · ") + t.lead
+    }));
+
+    const typeFilters = ["Alle", "Produktteam", "Leveranseteam", "Støtteteam", "Prosjektteam"].map((label) => ({
+      label, style: chipStyle(s.typeFilter === label), go: () => this.setState({ typeFilter: label })
+    }));
+
+    const toolQ = q;
+    const forTeamType = (t) => s.toolTeamFilter === "Alle" || t.forWhom === s.toolTeamFilter
+      || t.forWhom === "Alle team" || t.forWhom === "Alle" || t.forWhom === "Nye team";
+    const visibleTools = TOOLS.filter((t) => (s.toolFilter === "Alle" || t.type === s.toolFilter) && forTeamType(t)
+      && (!toolQ || (t.name + " " + t.desc + " " + t.forWhom).toLowerCase().includes(toolQ)));
+    const toolFilters = ["Alle", "Mal", "Metode", "Rammeverk", "Veileder", "Verktøy"].map((label) => ({
+      label, style: chipStyle(s.toolFilter === label), go: () => this.setState({ toolFilter: label })
+    }));
+    const toolTeamFilters = ["Alle", "Produktteam", "Leveranseteam", "Støtteteam", "Prosjektteam"].map((label) => ({
+      label, style: chipStyle(s.toolTeamFilter === label), go: () => this.setState({ toolTeamFilter: label })
+    }));
+
+    const visibleTerms = TERMS.filter((t) => !q || (t.term + " " + t.definition).toLowerCase().includes(q));
+
+    const visiblePrinciples = PRINCIPLES.filter((p) => s.areaFilter === "Alle" || p.area === s.areaFilter);
+    const principleFilters = ["Alle", "Alle i Digdir", "Ledelse", "Arkitektur"].map((label) => ({
+      label, style: chipStyle(s.areaFilter === label), go: () => this.setState({ areaFilter: label })
+    }));
+
+    const wq = s.wizardResult ? null : WIZARD.find((w) => w.key === s.wizardStep);
+    const wizardQuestion = wq ? {
+      title: wq.title, intro: wq.intro, bullets: wq.bullets,
+      options: wq.options.map((o) => ({
+        label: o.label, hint: o.hint,
+        go: () => this.setState((st) => ({
+          wizardPath: st.wizardPath.concat([st.wizardStep]),
+          wizardStep: o.next || st.wizardStep,
+          wizardResult: o.result || null
+        }))
+      }))
+    } : null;
+    const stepIndex = wq ? WIZARD.findIndex((w) => w.key === wq.key) : WIZARD.length;
+    const wizardDots = WIZARD.map((w, i) => ({
+      style: "width: 34px; height: 5px; border-radius: 9999px; display: inline-block; background: " + (i <= stepIndex ? "#0062B8" : "#cfd6de")
+    }));
+
+    const unit = UNITS.find((u) => u.id === s.unitId);
+    const unitParent = unit && unit.parent ? UNITS.find((u) => u.id === unit.parent) : null;
+    const unitPeople = (unit && PEOPLE[unit.id]) || [];
+    const toPerson = (p) => ({
+      name: p.name, role: p.role, email: p.email, mobile: p.mobile,
+      mailto: "mailto:" + p.email,
+      initialsLabel: p.photo ? "" : p.name.split(" ").map((x) => x[0]).slice(0, 2).join(""),
+      leadAvatarStyle: "width: 88px; height: 100px; border-radius: 4px; flex: none; display: grid; place-items: center; font-size: 24px; font-weight: 600; background: " + (p.photo ? "#eaeef2 url('" + p.photo + "') center top / cover no-repeat" : "#e6f2fd") + "; color: #0062B8",
+      staffAvatarStyle: "width: 52px; height: 52px; border-radius: 9999px; flex: none; display: grid; place-items: center; font-size: 15px; font-weight: 600; background: " + (p.photo ? "#eaeef2 url('" + p.photo + "') center top / cover no-repeat" : "#eaeef2") + "; color: #44505f"
+    });
+    const t = team;
+    const mandate = t ? this.mandateFor(t) : null;
+    const draft = s.draft || mandate || {};
+
+    return {
+      nav,
+      areas: AREAS.map((a) => ({ title: a.title, desc: a.desc, count: a.count, go: this.go(a.page), icon: a.icon,
+        iconWrapStyle: "width: 44px; height: 44px; border-radius: 4px; display: grid; place-items: center; background: " + a.tint + "; color: " + a.ink })),
+      isHome: page === "home", isTeams: page === "teams", isTeam: page === "team" && !!t,
+      isRoller: page === "roller", isVeiviser: page === "veiviser", isVerktoy: page === "verktoy",
+      isBegreper: page === "begreper", isPrinsipper: page === "prinsipper", isStyring: page === "styring", isOrg: page === "org",
+      goHome: this.go("home"), goTeams: this.go("teams"), goOrg: this.go("org"), goBegreper: this.go("begreper"),
+      goVeiviser: this.go("veiviser"), goVerktoy: this.go("verktoy"), goRoller: this.go("roller"), goPrinsipper: this.go("prinsipper"),
+
+      query: s.query,
+      setQuery: (e) => this.setState({ query: e.target.value }),
+
+      visibleTeams, typeFilters, noTeams: visibleTeams.length === 0,
+      teamCountLabel: visibleTeams.length + (visibleTeams.length === 1 ? " team" : " team") + (s.typeFilter === "Alle" ? "" : " av typen " + s.typeFilter.toLowerCase()),
+
+      team: t ? { name: t.name, type: t.type, unitPath: t.unitPath, purpose: t.purpose, revised: t.revised, tagStyle: tagStyle(t.type), tools: t.tools, principles: t.principles,
+        members: t.members.map((m, i) => {
+          const parts = m.role.split(" · ");
+          const photo = m.name === "Ronny Birkeli" ? "uploads/Portrett.jpg" : "";
+          return { name: m.name, role: m.role, roleOnly: parts[0], location: parts[1] || "Ikke registrert",
+            initials: photo ? "" : m.name.split(" ").map((x) => x[0]).slice(0, 2).join(""),
+            avatarStyle: "width: 32px; height: 32px; border-radius: 9999px; flex: none; display: grid; place-items: center; font-size: 12px; font-weight: 600; color: #44505f; background: " + (photo ? "#eaeef2 url('" + photo + "') center top / cover no-repeat" : "#f2f4f6"),
+            email: m.name.toLowerCase().replace(/æ/g, "ae").replace(/ø/g, "o").replace(/å/g, "a").replace(/[^a-z ]/g, "").split(" ").filter(Boolean).join(".") + "@digdir.no",
+            photo: photo,
+            open: () => this.setState({ memberIndex: i }) };
+        }) } : null,
+      member: (function (self) {
+        const idx = s.memberIndex;
+        if (!t || idx === null || !t.members[idx]) return null;
+        const m = t.members[idx];
+        const parts = m.role.split(" · ");
+        const photo = m.name === "Ronny Birkeli" ? "uploads/Portrett.jpg" : "";
+        const email = m.name.toLowerCase().replace(/æ/g, "ae").replace(/ø/g, "o").replace(/å/g, "a").replace(/[^a-z ]/g, "").split(" ").filter(Boolean).join(".") + "@digdir.no";
+        return {
+          name: m.name, role: parts[0], location: parts[1] || "Ikke registrert", team: t.name,
+          email: email, mailto: "mailto:" + email,
+          mobile: "Ikke registrert",
+          initialsLabel: photo ? "" : m.name.split(" ").map((x) => x[0]).slice(0, 2).join(""),
+          avatarStyle: "width: 120px; height: 140px; border-radius: 4px; flex: none; display: grid; place-items: center; font-size: 30px; font-weight: 600; background: " + (photo ? "#eaeef2 url('" + photo + "') center top / cover no-repeat" : "#e6f2fd") + "; color: #0062B8",
+          isPlaceholder: !photo,
+          close: () => self.setState({ memberIndex: null })
+        };
+      })(this),
+      hasMember: s.memberIndex !== null,
+      mandateFields: mandate ? MANDATE_LABELS.filter((f) => !f.section).map((f) => ({ label: f.label, value: mandate[f.key] || "Ikke registrert ennå",
+        valueStyle: "font-size: 16px; line-height: 1.55; white-space: pre-line; color: " + (mandate[f.key] ? "#1E2B3C" : "#65707D") })) : [],
+      mandateFrames: mandate ? MANDATE_LABELS.filter((f) => f.section).map((f) => ({ label: f.label, value: mandate[f.key] || "Ikke registrert ennå",
+        valueStyle: "font-size: 15px; line-height: 1.55; white-space: pre-line; color: " + (mandate[f.key] ? "#1E2B3C" : "#65707D") })) : [],
+      mandateStatus: t ? "Ansvarlig leder: " + t.lead + " · Status: Utkast" : "",
+      mandateIncomplete: !!mandate && MANDATE_LABELS.some((f) => !mandate[f.key]),
+      revisedLabel: t ? (t.revised === "ikke registrert" ? "Sist revidert er ikke registrert" : "Sist revidert " + t.revised) : "",
+      noMembers: !!t && t.members.length === 0,
+      noTools: !!t && t.tools.length === 0,
+      mandateInputs: MANDATE_LABELS.map((f) => ({
+        label: f.label, help: f.help, value: draft[f.key] || "",
+        onChange: (e) => { const v = e.target.value; this.setState((st) => ({ draft: Object.assign({}, st.draft || mandate, { [f.key]: v }) })); }
+      })),
+      editing: s.editing, notEditing: !s.editing, savedNotice: s.saved && !s.editing,
+      startEdit: () => this.setState({ editing: true, draft: mandate, saved: false }),
+      cancelEdit: () => this.setState({ editing: false, draft: null }),
+      saveEdit: () => this.setState((st) => ({ editing: false, saved: true, mandates: Object.assign({}, st.mandates, { [t.id]: st.draft || mandate }), draft: null })),
+
+      roles: (function (f) {
+        const base = f === "Prosjektteam"
+          ? []
+          : ROLES.map((r) => ({ name: r.name, ramo: r.ramo,
+              scope: f === "Alle" ? "Obligatorisk for alle teamtyper" : "Obligatorisk for " + f.toLowerCase() }));
+        const extraTypes = f === "Alle" ? Object.keys(ROLE_EXTRA) : (ROLE_EXTRA[f] ? [f] : []);
+        const extra = [];
+        extraTypes.forEach((type) => {
+          ROLE_EXTRA[type].forEach((r) => extra.push({ name: r.name, ramo: r.ramo,
+            scope: type === "Prosjektteam" ? "Obligatorisk for prosjektteam" : "Egen rolle i " + type.toLowerCase() }));
+        });
+        return f === "Prosjektteam" ? extra.concat(base) : base.concat(extra);
+      })(s.roleFilter),
+      roleTypeFilters: ["Alle", "Produktteam", "Leveranseteam", "Støtteteam", "Prosjektteam"].map((label) => ({
+        label, style: chipStyle(s.roleFilter === label), go: () => this.setState({ roleFilter: label })
+      })),
+      roleVariants: ROLE_VARIANTS.filter((v) => s.roleFilter === "Alle" || v.types.indexOf(s.roleFilter) !== -1),
+      noVariants: ROLE_VARIANTS.filter((v) => s.roleFilter === "Alle" || v.types.indexOf(s.roleFilter) !== -1).length === 0,
+      roleFilterNote: s.roleFilter === "Prosjektteam" ? "I prosjektteam heter rollene prosjekteier og prosjektleder, og utøves i tråd med Digdirs prosjektveiviser." : "",
+      hasRoleNote: s.roleFilter === "Prosjektteam",
+
+      wizardQuestion, wizardDots,
+      wizardProgress: s.wizardResult ? "Ferdig" : "Steg " + (stepIndex + 1) + " av " + WIZARD.length,
+      wizardResult: s.wizardResult ? RESULTS[s.wizardResult] : null,
+      goRolesForResult: () => {
+        const map = { prosjektteam: "Prosjektteam", produktteam: "Produktteam", leveranseteam: "Leveranseteam", stotteteam: "Støtteteam" };
+        this.setState({ page: "roller", query: "", editing: false, saved: false, roleFilter: map[s.wizardResult] || "Alle" });
+      },
+      goToolsForResult: () => {
+        const map = { prosjektteam: "Prosjektteam", produktteam: "Produktteam", leveranseteam: "Leveranseteam", stotteteam: "Støtteteam" };
+        this.setState({ page: "verktoy", editing: false, saved: false, toolFilter: "Alle", query: "", toolTeamFilter: map[s.wizardResult] || "Alle" });
+      },
+      canGoBack: s.wizardPath.length > 0,
+      wizardBack: () => this.setState((st) => {
+        const path = st.wizardPath.slice();
+        const prev = path.pop();
+        return { wizardPath: path, wizardStep: prev || "team", wizardResult: null };
+      }),
+      wizardReset: () => this.setState({ wizardPath: [], wizardStep: "team", wizardResult: null }),
+
+      orgTree: UNITS.filter((u) => !u.parent).map((d) => ({
+        code: d.code, name: d.name, size: d.size, id: d.id, go: this.openUnit(d.id),
+        headStyle: "text-align: left; width: 100%; display: flex; flex-direction: column; gap: 4px; padding: 16px 18px; border: none; border-radius: 4px; background: #1E2B3C; color: #fff; cursor: pointer",
+        children: UNITS.filter((a) => a.parent === d.id).map((a) => ({
+          name: a.name, go: this.openUnit(a.id),
+          style: "text-align: left; width: 100%; padding: 12px 14px; border: 1px solid " + (a.advises ? "#F45F63" : "#dce1e7") + "; border-radius: 4px; background: #fff; font-size: 15px; font-weight: 500; cursor: pointer",
+          children: UNITS.filter((s) => s.parent === a.id).map((s) => ({
+            name: s.name, go: this.openUnit(s.id),
+            style: "text-align: left; width: 100%; padding: 8px 12px; border: none; border-radius: 4px; background: #f2f4f6; color: #44505f; font-size: 14px; cursor: pointer"
+          }))
+        }))
+      })),
+      isUnit: page === "unit" && !!unit,
+      isDirektor: page === "direktor",
+      goDirektor: this.go("direktor"),
+      unit: unit ? {
+        name: unit.name, level: unit.level, desc: unit.desc, tasks: unit.tasks,
+        meta: (unit.code ? unit.code + " · " : "") + unit.level + (unit.size ? " · " + unit.size + " personer" : ""),
+        advises: !!unit.advises, noTasks: unit.tasks.length === 0,
+        parentLabel: unitParent ? unitParent.name : "Digdir",
+        goParent: unitParent ? this.openUnit(unitParent.id) : this.go("org"),
+        children: UNITS.filter((c) => c.parent === unit.id).map((c) => ({ name: c.name, level: c.level, desc: c.desc, go: this.openUnit(c.id) })),
+        hasChildren: UNITS.some((c) => c.parent === unit.id)
+      } : null,
+      unitLeads: unitPeople.filter((p) => p.lead).map(toPerson),
+      unitStaff: unitPeople.filter((p) => !p.lead).map(toPerson),
+      noLead: unitPeople.filter((p) => p.lead).length === 0,
+      noStaff: unitPeople.filter((p) => !p.lead).length === 0,
+      staffCountLabel: unitPeople.filter((p) => !p.lead).length + " ansatte",
+      examplePeople: !!unit && EXAMPLE_PEOPLE_UNITS.indexOf(unit.id) !== -1,
+
+      assistantOpen: s.assistantOpen, assistantClosed: !s.assistantOpen,
+      openAssistant: () => this.setState({ assistantOpen: true }),
+      closeAssistant: () => this.setState({ assistantOpen: false }),
+      assistantInput: s.assistantInput, chatRef: this.chatRef,
+      setAssistantInput: (e) => this.setState({ assistantInput: e.target.value }),
+      assistantKeyDown: (e) => { if (e.key === "Enter") { e.preventDefault(); this.sendAssistant(); } },
+      sendAssistant: this.sendAssistant,
+      assistantBusy: s.assistantBusy,
+      assistantEmpty: s.assistantMessages.length === 0,
+      assistantMessages: s.assistantMessages.map((m) => ({
+        label: m.role === "user" ? "Deg" : "Saman",
+        text: m.role === "user" ? m.text : m.text.replace(/\*\*/g, "").replace(/^\s*[-*]\s+/gm, "").replace(/^#+\s*/gm, ""),
+        wrapStyle: "display: flex; flex-direction: column; gap: 4px; align-self: " + (m.role === "user" ? "flex-end" : "flex-start") + "; max-width: 92%",
+        labelStyle: "font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D; text-align: " + (m.role === "user" ? "right" : "left"),
+        bodyStyle: "font-size: 15px; line-height: 1.55; white-space: pre-line; padding: 10px 12px; border-radius: 8px; background: " + (m.role === "user" ? "#e6f2fd" : "#f2f4f6") + "; color: #1E2B3C"
+      })),
+      suggestions: (SUGGESTIONS[page] || SUGGESTIONS.home).map((text) => ({
+        text, go: () => { this.setState({ assistantInput: text }, () => this.sendAssistant()); }
+      })),
+
+      visibleTools, toolFilters, toolTeamFilters,
+      noTools2: visibleTools.length === 0,
+      visibleTerms,
+      visiblePrinciples, principleFilters,
+      goals: GOALS.map((g) => ({ title: g.title, points: g.points,
+        headStyle: "padding: 16px 18px; border-radius: 4px 4px 0 0; background: " + g.tint + "; font-size: 17px; font-weight: 600; line-height: 1.35" })),
+      values: VALUES, audiences: AUDIENCES, instRoles: ROLES_INST,
+      divisions: DIVISIONS, portfolio: PORTFOLIO
+    };
+  }
+}
+</script>
+</body>
+</html>
