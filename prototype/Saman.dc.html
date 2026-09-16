@@ -1161,6 +1161,13 @@ const ROLES = [
     { label: "Oppgaver", value: "Bidra til felles planlegging og vurderinger, utføre oppgaver og sikre faglig kvalitet innenfor eget kompetanseområde: utvikler, designer, jurist og så videre." } ] }
 ];
 
+const AI_AGENT = { name: "KI-agent", ramo: [
+  { label: "Rolle", value: "Kunstig intelligens som deltar i teamets arbeid som støtte, ikke som medlem. Rollen er aktuell for alle team." },
+  { label: "Ansvar", value: "Støtte kunnskapsarbeid og effektivisering." },
+  { label: "Myndighet", value: "Ingen formell avgjøringsmyndighet." },
+  { label: "Oppgaver", value: "Analyse, sammenstilling, utkast til dokument, idéutvikling, informasjonsinnhenting og automatisert støtte." }
+] };
+
 const LINE_MANAGER = { name: "Linjeleder", ramo: [
   { label: "Rolle", value: "Leder i linjeorganisasjonen med personalansvar: divisjonsdirektør, avdelingsdirektør eller seksjonsleder. Rollen er ikke en del av teamet, men avgir ressurser til det." },
   { label: "Ansvar", value: "Eier fag, kvalitet og kapasitet i egen enhet. Ansvar for at medarbeidere som deltar i team har riktig kompetanse, tilstrekkelig tid og god oppfølging." },
@@ -1631,7 +1638,7 @@ const NAV = [
 const AREAS = [
   { page: "styring", title: "Styringsfundament", desc: "Visjon, samfunnsoppdrag, målbilde, verdier og institusjonelle roller.", count: "MVP", icon: "landmark", tint: "#eef0f3", ink: "#3c4757" },
   { page: "prinsipper", title: "Prinsipper", desc: "Føringene for hvordan vi organiserer team, følger dem opp og jobber.", count: PRINCIPLES.length + " prinsipper", icon: "compass", tint: "#fdf2da", ink: "#5a4208" },
-  { page: "roller", title: "Roller og ansvar", desc: "Hva ligger i rollene, og hvem har ansvar for hva? Beskrevet etter RAMO.", count: (ROLES.length + 1 + Object.keys(ROLE_EXTRA).reduce((n, k) => n + ROLE_EXTRA[k].length, 0)) + " roller", icon: "id-card", tint: "#fdeaea", ink: "#8f1f26" },
+  { page: "roller", title: "Roller og ansvar", desc: "Hva ligger i rollene, og hvem har ansvar for hva? Beskrevet etter RAMO.", count: (ROLES.length + 2 + Object.keys(ROLE_EXTRA).reduce((n, k) => n + ROLE_EXTRA[k].length, 0)) + " roller", icon: "id-card", tint: "#fdeaea", ink: "#8f1f26" },
   { page: "org", title: "Organisasjon", desc: "Divisjoner, avdelinger og de tverrgående strukturene i Digdir 2.0.", count: "7 enheter", icon: "network", tint: "#fdeaea", ink: "#8f1f26" },
   { page: "teams", title: "Teamoversikt", desc: "Alle team i Digdir, hva de leverer og hvorfor de finnes.", count: TEAMS.length + " team", icon: "users", tint: "#e6f2fd", ink: "#0062B8" },
   { page: "veiviser", title: "Veiviser", desc: "Spørsmål som hjelper deg å finne riktig arbeidsform og teamtype.", count: WIZARD.length + " steg", icon: "git-branch", tint: "#fdf2da", ink: "#5a4208" },
@@ -1934,6 +1941,7 @@ class Component extends DCLogic {
 
       roles: (function (f) {
         const line = [{ name: LINE_MANAGER.name, ramo: LINE_MANAGER.ramo, scope: "Rolle i linjeorganisasjonen" }];
+        const ai = [{ name: AI_AGENT.name, ramo: AI_AGENT.ramo, scope: "Aktuell for alle team" }];
         if (f === "Linjen") return line;
         const base = (f === "Prosjektteam" || f === "Fagnettverk" ? [] : ROLES).map((r) => ({ name: r.name, ramo: r.ramo,
           scope: f === "Alle" ? "Obligatorisk for produkt-, leveranse- og støtteteam" : "Obligatorisk for " + f.toLowerCase() }));
@@ -1944,7 +1952,7 @@ class Component extends DCLogic {
             scope: type === "Prosjektteam" ? "Obligatorisk for prosjektteam"
               : type === "Fagnettverk" ? "Obligatorisk for fagnettverk" : "Egen rolle i " + type.toLowerCase() }));
         });
-        return (f === "Prosjektteam" || f === "Fagnettverk" ? extra.concat(base) : base.concat(extra)).concat(line);
+        return (f === "Prosjektteam" || f === "Fagnettverk" ? extra.concat(base) : base.concat(extra)).concat(line).concat(ai);
       })(s.roleFilter),
       roleTypeFilters: ["Alle", "Produktteam", "Leveranseteam", "Støtteteam", "Prosjektteam", "Fagnettverk", "Linjen"].map((label) => ({
         label, style: chipStyle(s.roleFilter === label), go: () => this.setState({ roleFilter: label })
