@@ -56,7 +56,7 @@
         <img src="uploads/Artboard 55@4x.png" alt="" style="order: 2; flex: 0 1 340px; min-width: 0; max-width: 340px; height: auto; margin-bottom: 24px" />
         <section style="order: 1; flex: 1 1 32rem; min-width: 0; padding: 64px 0 40px; max-width: 720px; display: flex; flex-direction: column; gap: 18px">
           <span style="font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #0062B8">Rammeverk for team og leveranser</span>
-          <h1 style="margin: 0; font-size: 44px; font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; text-wrap: pretty">Slik jobber vi sammen med leveranser i Digdir</h1>
+          <h1 style="margin: 0; font-size: 44px; font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; text-wrap: pretty">Slik jobber vi sammen i Digdir</h1>
           <p style="margin: 0; font-size: 19px; line-height: 1.6; color: #44505f; text-wrap: pretty">Saman definerer hva som skal eller bør gjøres likt på tvers av team og enheter som jobber med leveranser, og hva som fortsatt skal være fleksibelt og opp til det enkelte team eller enhet.</p>
         </section>
         </div>
@@ -87,7 +87,7 @@
           </div>
           <div style="display: flex; flex-direction: column; gap: 10px">
             <h2 style="margin: 0; font-size: 22px; font-weight: 600">Skal du etablere et team?</h2>
-            <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #44505f">Veiviseren tar deg gjennom fire spørsmål og foreslår teamtype, mandatkrav og roller.</p>
+            <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #44505f">Veiviseren tar deg gjennom noen spørsmål og foreslår arbeidsform, mandatkrav og roller.</p>
             <div style="margin-top: 4px">
               <button onClick="{{ goVeiviser }}" style="padding: 9px 16px; border-radius: 4px; border: none; background: #0062B8; color: #fff; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #00417d">Start veiviseren</button>
             </div>
@@ -102,10 +102,19 @@
           <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Teamoversikt</h1>
           <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f">Alle team i Digdir, hva de leverer og hvorfor de finnes. Team registrerer og vedlikeholder informasjonen selv.</p>
         </div>
-        <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center">
-          <input value="{{ query }}" onChange="{{ setQuery }}" placeholder="Søk i team, leveranser og enheter" style="flex: 1 1 260px; min-width: 0; padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; background: #fff" />
+        <input value="{{ query }}" onChange="{{ setQuery }}" placeholder="Søk i team, leveranser og enheter" style="width: 100%; padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; background: #fff" />
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: -12px">
+          <span style="font-size: 14px; color: #65707D">Teamtype</span>
           <div style="display: flex; gap: 6px; flex-wrap: wrap">
             <sc-for list="{{ typeFilters }}" as="f" hint-placeholder-count="5">
+              <button onClick="{{ f.go }}" style="{{ f.style }}">{{ f.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: -12px">
+          <span style="font-size: 14px; color: #65707D">Brukergruppe</span>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap">
+            <sc-for list="{{ audienceFilters }}" as="f" hint-placeholder-count="6">
               <button onClick="{{ f.go }}" style="{{ f.style }}">{{ f.label }}</button>
             </sc-for>
           </div>
@@ -144,55 +153,44 @@
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); gap: 24px; align-items: start">
 
+          <div style="display: flex; flex-direction: column; gap: 24px">
           <section style="display: flex; flex-direction: column; gap: 16px; padding: 24px; border: 1px solid #dce1e7; border-radius: 8px">
-            <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px">
-              <h2 style="margin: 0; font-size: 20px; font-weight: 600">Mandat</h2>
-              <sc-if value="{{ notEditing }}" hint-placeholder-val="{{ true }}">
-                <button onClick="{{ startEdit }}" style="padding: 7px 14px; border-radius: 4px; border: 1px solid #0062B8; background: transparent; color: #0062B8; font-size: 14px; font-weight: 500; cursor: pointer" style-hover="background: #eef4fa">Rediger mandat</button>
-              </sc-if>
-            </div>
+            <h2 style="margin: 0; font-size: 20px; font-weight: 600">Mandat</h2>
             <sc-if value="{{ mandateIncomplete }}">
-              <p style="margin: 0; padding: 12px 14px; border-radius: 4px; background: #fdf3e6; border: 1px solid #f0d3a8; font-size: 15px; line-height: 1.5; color: #4a3413">Mandatet er ikke komplett. Teamet fyller ut resten selv.</p>
+              <p style="margin: 0; padding: 12px 14px; border-radius: 4px; background: #fdf2da; border: 1px solid #ecd69a; font-size: 15px; line-height: 1.5; color: #1E2B3C">Mandatet er ikke komplett. Teamet fyller ut resten selv.</p>
             </sc-if>
-            <sc-if value="{{ savedNotice }}">
-              <p style="margin: 0; padding: 12px 14px; border-radius: 4px; background: #e6f3ec; color: #12402c; font-size: 15px; border: 1px solid #b7dcc7">Mandatet er lagret. Endringen er synlig for alle i Digdir.</p>
-            </sc-if>
-            <sc-if value="{{ notEditing }}" hint-placeholder-val="{{ true }}">
-              <div style="display: flex; flex-direction: column; gap: 18px">
+            <div style="display: flex; flex-direction: column; gap: 18px">
                 <sc-for list="{{ mandateFields }}" as="f" hint-placeholder-count="4">
                   <div style="display: flex; flex-direction: column; gap: 6px">
                     <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">{{ f.label }}</span>
                     <span style="{{ f.valueStyle }}">{{ f.value }}</span>
                   </div>
                 </sc-for>
-                <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 4px; border-top: 1px solid #dce1e7">
-                  <h3 style="margin: 0; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D; padding-top: 12px">Andre rammer</h3>
-                  <sc-for list="{{ mandateFrames }}" as="f" hint-placeholder-count="6">
-                    <div style="display: flex; flex-direction: column; gap: 4px">
-                      <span style="font-size: 15px; font-weight: 600">{{ f.label }}</span>
-                      <span style="{{ f.valueStyle }}">{{ f.value }}</span>
-                    </div>
-                  </sc-for>
-                </div>
-                <p style="margin: 0; font-size: 13px; color: #65707D">{{ mandateStatus }} · {{ revisedLabel }}</p>
-              </div>
-            </sc-if>
-            <sc-if value="{{ editing }}">
-              <div style="display: flex; flex-direction: column; gap: 18px">
-                <sc-for list="{{ mandateInputs }}" as="f" hint-placeholder-count="4">
-                  <label style="display: flex; flex-direction: column; gap: 6px">
-                    <span style="font-size: 15px; font-weight: 500">{{ f.label }}</span>
-                    <span style="font-size: 14px; color: #65707D">{{ f.help }}</span>
-                    <textarea value="{{ f.value }}" onChange="{{ f.onChange }}" rows="4" style="padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; resize: vertical; line-height: 1.5"></textarea>
-                  </label>
-                </sc-for>
-                <div style="display: flex; gap: 8px; flex-wrap: wrap">
-                  <button onClick="{{ saveEdit }}" style="padding: 10px 18px; border-radius: 4px; border: none; background: #0062B8; color: #fff; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #00417d">Lagre mandat</button>
-                  <button onClick="{{ cancelEdit }}" style="padding: 10px 18px; border-radius: 4px; border: 1px solid #65707D; background: transparent; font-size: 15px; cursor: pointer" style-hover="background: #f2f4f6">Avbryt</button>
-                </div>
-              </div>
-            </sc-if>
+                <button onClick="{{ goMandate }}" style="align-self: flex-start; background: none; border: none; padding: 0; color: #0062B8; font-size: 15px; cursor: pointer; text-decoration: underline">Se hele mandatet</button>
+                <p style="margin: 0; font-size: 13px; color: #65707D">{{ mandateStatus }}</p>
+            </div>
           </section>
+
+          <sc-if value="{{ hasContract }}" hint-placeholder-val="{{ true }}">
+          <section style="display: flex; flex-direction: column; gap: 18px; padding: 24px; border: 1px solid #dce1e7; border-radius: 8px">
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <h2 style="margin: 0; font-size: 20px; font-weight: 600">Teamkontrakt</h2>
+              <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #44505f">Mandatet sier hva teamet skal løse. Teamkontrakten sier hvordan vi jobber sammen for å lykkes med det.</p>
+            </div>
+            <sc-if value="{{ contractIncomplete }}">
+              <p style="margin: 0; padding: 12px 14px; border-radius: 4px; background: #fdf2da; border: 1px solid #ecd69a; font-size: 15px; line-height: 1.5; color: #1E2B3C">Teamkontrakten er ikke komplett. Teamet fyller ut resten selv.</p>
+            </sc-if>
+            <sc-for list="{{ contractGroups }}" as="g" hint-placeholder-count="3">
+              <div style="display: flex; flex-direction: column; gap: 6px">
+                <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">{{ g.group }}</span>
+                <span style="{{ g.summaryStyle }}">{{ g.summary }}</span>
+              </div>
+            </sc-for>
+            <button onClick="{{ goContract }}" style="align-self: flex-start; background: none; border: none; padding: 0; color: #0062B8; font-size: 15px; cursor: pointer; text-decoration: underline">Se hele kontrakten</button>
+            <p style="margin: 0; font-size: 13px; color: #65707D">{{ contractStatus }}</p>
+          </section>
+          </sc-if>
+          </div>
 
           <div style="display: flex; flex-direction: column; gap: 24px">
             <section style="display: flex; flex-direction: column; gap: 14px; padding: 24px; border: 1px solid #dce1e7; border-radius: 8px">
@@ -211,6 +209,19 @@
               </sc-if>
             </section>
             <section style="display: flex; flex-direction: column; gap: 14px; padding: 24px; border: 1px solid #dce1e7; border-radius: 8px">
+              <h2 style="margin: 0; font-size: 20px; font-weight: 600">Våre brukergrupper</h2>
+              <sc-if value="{{ team.noAudiences }}">
+                <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #44505f">Teamet leverer internt i Digdir, og har ingen av brukergruppene i styringsfundamentet som direkte mottaker.</p>
+              </sc-if>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap">
+                <sc-for list="{{ team.audiences }}" as="a" hint-placeholder-count="2">
+                  <span style="padding: 6px 12px; border-radius: 9999px; background: #e6f2fd; color: #0b4d80; font-size: 14px; font-weight: 500">{{ a }}</span>
+                </sc-for>
+              </div>
+              <span style="font-size: 13px; line-height: 1.45; color: #65707D">Foreslåtte brukergrupper. Teamet registrerer dem selv.</span>
+              <button onClick="{{ goStyring }}" style="align-self: flex-start; background: none; border: none; padding: 0; color: #0062B8; font-size: 15px; cursor: pointer; text-decoration: underline">Om brukergruppene i styringsfundamentet</button>
+            </section>
+            <section style="display: flex; flex-direction: column; gap: 14px; padding: 24px; border: 1px solid #dce1e7; border-radius: 8px">
               <h2 style="margin: 0; font-size: 20px; font-weight: 600">Verktøy teamet bruker</h2>
               <sc-if value="{{ noTools }}">
                 <p style="margin: 0; font-size: 15px; color: #65707D">Ingen verktøy registrert ennå.</p>
@@ -220,15 +231,6 @@
                   <span style="padding: 6px 12px; border-radius: 9999px; background: #f2f4f6; font-size: 14px">{{ t }}</span>
                 </sc-for>
               </div>
-            </section>
-            <section style="display: flex; flex-direction: column; gap: 14px; padding: 24px; border: 1px solid #dce1e7; border-radius: 8px">
-              <h2 style="margin: 0; font-size: 20px; font-weight: 600">Prinsipper teamet følger</h2>
-              <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; line-height: 1.5">
-                <sc-for list="{{ team.principles }}" as="p" hint-placeholder-count="3">
-                  <li>{{ p }}</li>
-                </sc-for>
-              </ul>
-              <button onClick="{{ goPrinsipper }}" style="align-self: flex-start; background: none; border: none; padding: 0; color: #0062B8; font-size: 15px; cursor: pointer; text-decoration: underline">Se alle prinsipper</button>
             </section>
           </div>
         </div>
@@ -267,20 +269,6 @@
             </section>
           </sc-for>
         </div>
-        <section style="display: flex; flex-direction: column; gap: 16px; padding: 28px; border-radius: 8px; background: #f2f4f6">
-          <h2 style="margin: 0; font-size: 22px; font-weight: 600">Variasjoner per teamtype</h2>
-          <sc-if value="{{ noVariants }}">
-            <p style="margin: 0; font-size: 16px; color: #44505f">Ingen variasjoner for denne teamtypen. Rollene gjelder slik de er beskrevet over.</p>
-          </sc-if>
-          <div style="display: flex; flex-direction: column; gap: 14px">
-            <sc-for list="{{ roleVariants }}" as="v" hint-placeholder-count="2">
-              <div style="display: grid; grid-template-columns: minmax(0, 160px) minmax(0, 1fr); gap: 20px; padding-top: 14px; border-top: 1px solid #cfd6de">
-                <span style="font-size: 16px; font-weight: 600">{{ v.type }}</span>
-                <span style="font-size: 16px; line-height: 1.55; color: #44505f">{{ v.text }}</span>
-              </div>
-            </sc-for>
-          </div>
-        </section>
       </div>
     </sc-if>
 
@@ -288,7 +276,7 @@
       <div style="padding-top: 40px; display: flex; flex-direction: column; gap: 28px; max-width: 760px">
         <div style="display: flex; flex-direction: column; gap: 10px">
           <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Veiviser for teamtype</h1>
-          <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f">Fire spørsmål som hjelper deg å finne riktig teamtype. Valgt teamtype avgjør hvilke prinsipper, roller og verktøy som anbefales videre.</p>
+          <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f">Spørsmål som hjelper deg å finne riktig arbeidsform, og riktig teamtype hvis det er et team du trenger. Valget avgjør hvilke prinsipper, roller og verktøy som anbefales videre.</p>
         </div>
         <div style="display: flex; gap: 8px; align-items: center">
           <sc-for list="{{ wizardDots }}" as="d" hint-placeholder-count="4">
@@ -328,7 +316,7 @@
             <div style="display: flex; flex-direction: column; gap: 10px">
               <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #0062B8">{{ wizardResult.kicker }}</span>
               <h2 style="margin: 0; font-size: 30px; font-weight: 600">{{ wizardResult.title }}</h2>
-              <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #1E2B3C">{{ wizardResult.body }}</p>
+              <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #1E2B3C; white-space: pre-line">{{ wizardResult.body }}</p>
             </div>
             <div style="display: flex; flex-direction: column; gap: 10px">
               <span style="font-size: 15px; font-weight: 600">{{ wizardResult.listTitle }}</span>
@@ -373,15 +361,15 @@
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 16px">
           <sc-for list="{{ visibleTools }}" as="t" hint-placeholder-count="6">
-            <article style="display: flex; flex-direction: column; gap: 12px; padding: 22px; border: 1px solid #dce1e7; border-radius: 8px; height: 100%">
+            <button onClick="{{ t.go }}" style="text-align: left; display: flex; flex-direction: column; gap: 12px; padding: 22px; border: 1px solid #dce1e7; border-radius: 8px; background: #fff; cursor: pointer; height: 100%" style-hover="border-color: #0062B8">
               <span style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap">
                 <span style="padding: 3px 10px; border-radius: 9999px; background: #f2f4f6; font-size: 13px; font-weight: 500; color: #44505f">{{ t.type }}</span>
-                <span style="font-size: 13px; color: #65707D">{{ t.forWhom }}</span>
+                <span style="font-size: 13px; color: #65707D; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{ t.forWhom }}</span>
               </span>
               <h2 style="margin: 0; font-size: 19px; font-weight: 600; line-height: 1.3">{{ t.name }}</h2>
               <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #44505f">{{ t.desc }}</p>
               <span style="margin-top: auto; padding-top: 6px; font-size: 14px; color: #0062B8">{{ t.link }}</span>
-            </article>
+            </button>
           </sc-for>
         </div>
         <sc-if value="{{ noTools2 }}">
@@ -396,7 +384,16 @@
           <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Begreper</h1>
           <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f">Målet er ikke at alle skal bruke identisk språk, men at vi har et felles referansepunkt for hva vi legger i de viktigste begrepene.</p>
         </div>
-        <input value="{{ query }}" onChange="{{ setQuery }}" placeholder="Søk i begrepene" style="padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; max-width: 420px" />
+        <input value="{{ query }}" onChange="{{ setQuery }}" placeholder="Søk i begrepene" style="width: 100%; padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px" />
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: -12px">
+          <span style="font-size: 14px; color: #65707D">Kilde</span>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap">
+            <sc-for list="{{ termFilters }}" as="f" hint-placeholder-count="4">
+              <button onClick="{{ f.go }}" style="{{ f.style }}">{{ f.label }}</button>
+            </sc-for>
+          </div>
+          <span style="font-size: 14px; color: #65707D; margin-left: auto">{{ termCountLabel }}</span>
+        </div>
         <div style="display: flex; flex-direction: column; gap: 0">
           <sc-for list="{{ visibleTerms }}" as="t" hint-placeholder-count="8">
             <div style="display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr); gap: 12px 28px; padding: 22px 0; border-top: 1px solid #dce1e7">
@@ -408,6 +405,9 @@
             </div>
           </sc-for>
         </div>
+        <sc-if value="{{ noTerms }}">
+          <p style="margin: 0; padding: 32px; border: 1px dashed #b3c9e1; border-radius: 8px; text-align: center; color: #44505f">Ingen begreper passer søket.</p>
+        </sc-if>
       </div>
     </sc-if>
 
@@ -575,6 +575,204 @@
                 </span>
                 <span style="font-size: 16px; line-height: 1.55; color: #44505f">{{ p.text }}</span>
               </div>
+            </sc-for>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isMandate }}">
+      <div style="padding-top: 28px; display: flex; flex-direction: column; gap: 32px; max-width: 820px">
+        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 15px">
+          <button onClick="{{ goTeams }}" style="background: none; border: none; padding: 0; color: #0062B8; cursor: pointer; text-decoration: underline">Team</button>
+          <span style="color: #65707D">/</span>
+          <button onClick="{{ goTeamFromMandate }}" style="background: none; border: none; padding: 0; color: #0062B8; cursor: pointer; text-decoration: underline">{{ team.name }}</button>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 12px">
+          <span style="font-size: 14px; color: #65707D">{{ team.name }} · {{ team.type }}</span>
+          <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Mandat</h1>
+          <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f">Mandatet er avtalen mellom teamet og den som har gitt oppdraget. Det sier hvorfor teamet finnes, hva det har ansvar for og hvilket handlingsrom det har.</p>
+        </div>
+
+        <sc-if value="{{ mandateIncomplete }}">
+          <p style="margin: 0; padding: 12px 14px; border-radius: 4px; background: #fdf2da; border: 1px solid #ecd69a; font-size: 15px; line-height: 1.5; color: #1E2B3C">Mandatet er ikke komplett. Teamet fyller ut resten selv.</p>
+        </sc-if>
+        <sc-if value="{{ savedNotice }}">
+          <p style="margin: 0; padding: 12px 14px; border-radius: 4px; background: #e6f3ec; color: #12402c; font-size: 15px; border: 1px solid #b7dcc7">Mandatet er lagret. Endringen er synlig for alle i Digdir.</p>
+        </sc-if>
+        <sc-if value="{{ notEditing }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ startEdit }}" style="align-self: flex-start; padding: 9px 16px; border-radius: 4px; border: 1px solid #0062B8; background: transparent; color: #0062B8; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #e6f2fd">Rediger mandat</button>
+        </sc-if>
+        <sc-if value="{{ editing }}">
+          <div style="display: flex; flex-direction: column; gap: 18px">
+            <sc-for list="{{ mandateInputs }}" as="f" hint-placeholder-count="9">
+              <label style="display: flex; flex-direction: column; gap: 6px">
+                <span style="font-size: 15px; font-weight: 500">{{ f.label }}</span>
+                <span style="font-size: 14px; color: #65707D">{{ f.help }}</span>
+                <textarea value="{{ f.value }}" onChange="{{ f.onChange }}" rows="4" style="padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; resize: vertical; line-height: 1.5"></textarea>
+              </label>
+            </sc-for>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap">
+              <button onClick="{{ saveEdit }}" style="padding: 10px 18px; border-radius: 4px; border: none; background: #0062B8; color: #fff; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #00417d">Lagre mandat</button>
+              <button onClick="{{ cancelEdit }}" style="padding: 10px 18px; border-radius: 4px; border: 1px solid #65707D; background: transparent; font-size: 15px; cursor: pointer" style-hover="background: #f2f4f6">Avbryt</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ notEditing }}" hint-placeholder-val="{{ true }}">
+        <section style="display: flex; flex-direction: column; gap: 18px">
+          <sc-for list="{{ mandateFields }}" as="f" hint-placeholder-count="3">
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <h2 style="margin: 0; font-size: 21px; font-weight: 600">{{ f.label }}</h2>
+              <span style="{{ f.valueStyle }}">{{ f.value }}</span>
+            </div>
+          </sc-for>
+        </section>
+
+        <section style="display: flex; flex-direction: column; gap: 18px">
+          <h2 style="margin: 0; font-size: 21px; font-weight: 600">Andre rammer</h2>
+          <sc-for list="{{ mandateFrames }}" as="f" hint-placeholder-count="6">
+            <div style="display: flex; flex-direction: column; gap: 5px">
+              <h3 style="margin: 0; font-size: 17px; font-weight: 600">{{ f.label }}</h3>
+              <span style="{{ f.valueStyle }}">{{ f.value }}</span>
+            </div>
+          </sc-for>
+        </section>
+        </sc-if>
+
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center">
+          <button onClick="{{ goTeamFromMandate }}" style="padding: 10px 18px; border-radius: 4px; border: 1px solid #0062B8; background: transparent; color: #0062B8; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #e6f2fd">Tilbake til teamet</button>
+          <span style="font-size: 13px; color: #65707D">{{ mandateStatus }}</span>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isContract }}">
+      <div style="padding-top: 28px; display: flex; flex-direction: column; gap: 32px; max-width: 820px">
+        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 15px">
+          <button onClick="{{ goTeams }}" style="background: none; border: none; padding: 0; color: #0062B8; cursor: pointer; text-decoration: underline">Team</button>
+          <span style="color: #65707D">/</span>
+          <button onClick="{{ goTeamFromMandate }}" style="background: none; border: none; padding: 0; color: #0062B8; cursor: pointer; text-decoration: underline">{{ team.name }}</button>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 12px">
+          <span style="font-size: 14px; color: #65707D">{{ team.name }} · {{ team.type }}</span>
+          <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Teamkontrakt</h1>
+          <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f">Mandatet sier hva teamet skal løse. Teamkontrakten sier hvordan vi jobber sammen for å lykkes med det.</p>
+        </div>
+
+        <sc-if value="{{ contractIncomplete }}">
+              <p style="margin: 0; padding: 12px 14px; border-radius: 4px; background: #fdf2da; border: 1px solid #ecd69a; font-size: 15px; line-height: 1.5; color: #1E2B3C">Teamkontrakten er ikke komplett. Teamet fyller ut resten selv.</p>
+            </sc-if>
+        <sc-if value="{{ contractSaved }}">
+          <p style="margin: 0; padding: 12px 14px; border-radius: 4px; background: #e6f3ec; color: #12402c; font-size: 15px; border: 1px solid #b7dcc7">Teamkontrakten er lagret. Endringen er synlig for alle i Digdir.</p>
+        </sc-if>
+        <sc-if value="{{ contractNotEditing }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ startContractEdit }}" style="align-self: flex-start; padding: 9px 16px; border-radius: 4px; border: 1px solid #0062B8; background: transparent; color: #0062B8; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #e6f2fd">Rediger teamkontrakt</button>
+        </sc-if>
+
+        <sc-if value="{{ contractEditing }}">
+          <div style="display: flex; flex-direction: column; gap: 18px">
+            <sc-for list="{{ contractInputs }}" as="f" hint-placeholder-count="5">
+              <label style="display: flex; flex-direction: column; gap: 6px">
+                <span style="font-size: 15px; font-weight: 500">{{ f.label }}</span>
+                <span style="font-size: 14px; color: #65707D">{{ f.help }}</span>
+                <textarea value="{{ f.value }}" onChange="{{ f.onChange }}" rows="4" style="padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; resize: vertical; line-height: 1.5"></textarea>
+              </label>
+            </sc-for>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap">
+              <button onClick="{{ saveContractEdit }}" style="padding: 10px 18px; border-radius: 4px; border: none; background: #0062B8; color: #fff; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #00417d">Lagre teamkontrakt</button>
+              <button onClick="{{ cancelContractEdit }}" style="padding: 10px 18px; border-radius: 4px; border: 1px solid #65707D; background: transparent; font-size: 15px; cursor: pointer" style-hover="background: #f2f4f6">Avbryt</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ contractNotEditing }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; flex-direction: column; gap: 28px">
+          <sc-for list="{{ contractGroups }}" as="g" hint-placeholder-count="3">
+            <section style="display: flex; flex-direction: column; gap: 18px">
+              <h2 style="margin: 0; font-size: 21px; font-weight: 600">{{ g.group }}</h2>
+              <sc-for list="{{ g.fields }}" as="f" hint-placeholder-count="1">
+                <div style="display: flex; flex-direction: column; gap: 5px">
+                  <h3 style="margin: 0; font-size: 17px; font-weight: 600">{{ f.label }}</h3>
+                  <span style="{{ f.valueStyle }}">{{ f.value }}</span>
+                </div>
+              </sc-for>
+            </section>
+          </sc-for>
+        </div>
+        </sc-if>
+
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center">
+          <button onClick="{{ goTeamFromMandate }}" style="padding: 10px 18px; border-radius: 4px; border: 1px solid #0062B8; background: transparent; color: #0062B8; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #e6f2fd">Tilbake til teamet</button>
+          <span style="font-size: 13px; color: #65707D">{{ contractStatus }}</span>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isTool }}">
+      <div style="padding-top: 28px; display: flex; flex-direction: column; gap: 32px; max-width: 900px">
+        <button onClick="{{ goVerktoy }}" style="align-self: flex-start; background: none; border: none; padding: 0; color: #0062B8; font-size: 15px; cursor: pointer; text-decoration: underline">Tilbake til verktøykassen</button>
+
+        <div style="display: flex; flex-direction: column; gap: 14px">
+          <span style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
+            <span style="padding: 3px 10px; border-radius: 9999px; background: #f2f4f6; font-size: 13px; font-weight: 500; color: #44505f">{{ tool.type }}</span>
+            <span style="font-size: 14px; color: #65707D">{{ tool.forWhom }}</span>
+          </span>
+          <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">{{ tool.name }}</h1>
+          <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #44505f; max-width: 720px">{{ tool.desc }}</p>
+        </div>
+
+        <section style="display: flex; flex-direction: column; gap: 12px">
+          <h2 style="margin: 0; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Om verktøyet</h2>
+          <p style="margin: 0; font-size: 17px; line-height: 1.65; color: #1E2B3C; white-space: pre-line; max-width: 720px">{{ tool.long }}</p>
+        </section>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 16px; align-items: start">
+          <section style="display: flex; flex-direction: column; gap: 14px; padding: 24px; border: 1px solid #dce1e7; border-radius: 8px">
+            <h2 style="margin: 0; font-size: 20px; font-weight: 600">Ressurser og maler</h2>
+            <sc-if value="{{ tool.noResources }}">
+              <p style="margin: 0; font-size: 15px; color: #65707D">Ingen ressurser er lenket opp ennå.</p>
+            </sc-if>
+            <div style="display: flex; flex-direction: column; gap: 0">
+              <sc-for list="{{ tool.resources }}" as="r" hint-placeholder-count="3">
+                <span style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid #eaeef2">
+                  <a href="#" style="font-size: 16px">{{ r.label }}</a>
+                  <span style="font-size: 13px; color: #65707D; white-space: nowrap">{{ r.where }}</span>
+                </span>
+              </sc-for>
+            </div>
+            <p style="margin: 0; font-size: 13px; color: #65707D">Lenkene må settes inn.</p>
+          </section>
+
+          <section style="display: flex; flex-direction: column; gap: 14px; padding: 24px; border: 1px solid #dce1e7; border-radius: 8px">
+            <h2 style="margin: 0; font-size: 20px; font-weight: 600">Ansvarlig</h2>
+            <div style="display: flex; flex-direction: column; gap: 4px">
+              <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Enhet</span>
+              <span style="font-size: 16px; line-height: 1.5">{{ tool.owner }}</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 4px">
+              <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Kontaktperson</span>
+              <span style="font-size: 16px; line-height: 1.5">{{ tool.contact }}</span>
+            </div>
+          </section>
+        </div>
+
+        <section style="display: flex; flex-direction: column; gap: 16px">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+            <h2 style="margin: 0; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Team som har tatt det i bruk</h2>
+            <span style="font-size: 14px; color: #65707D">{{ tool.userCountLabel }}</span>
+          </div>
+          <sc-if value="{{ tool.noUsers }}">
+            <p style="margin: 0; padding: 20px; border: 1px dashed #9aa5b1; border-radius: 8px; font-size: 15px; line-height: 1.55; color: #44505f">Ingen team har registrert dette verktøyet ennå.</p>
+          </sc-if>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 12px">
+            <sc-for list="{{ tool.users }}" as="u" hint-placeholder-count="0">
+              <button onClick="{{ u.go }}" style="text-align: left; display: flex; flex-direction: column; gap: 8px; padding: 16px 18px; border: 1px solid #dce1e7; border-radius: 8px; background: #fff; cursor: pointer" style-hover="border-color: #0062B8">
+                <span style="{{ u.tagStyle }}">{{ u.type }}</span>
+                <span style="font-size: 17px; font-weight: 600; line-height: 1.3">{{ u.name }}</span>
+              </button>
             </sc-for>
           </div>
         </section>
@@ -826,113 +1024,122 @@ const TYPE_COLORS = {
   "Produktteam": ["#e6f2fd", "#0b4d80"],
   "Leveranseteam": ["#eef0f3", "#3c4757"],
   "Støtteteam": ["#fdf2da", "#5a4208"],
-  "Prosjektteam": ["#fdeaea", "#8f1f26"]
+  "Prosjektteam": ["#fdeaea", "#8f1f26"],
+  "Fagnettverk": ["#f1ecfa", "#3a2570"]
 };
 
 const TEAMS = [
-  { id: "designsystemet", name: "Designsystemet", type: "Produktteam", division: "Portaler og brukeropplevelse", topology: "Stream-aligned", lead: "Marianne Røsvik",
+  { id: "designsystemet", audiences: ["Offentleg sektor"], name: "Designsystemet", type: "Produktteam", division: "Portaler og brukeropplevelse", topology: "Stream-aligned", lead: "Marianne Røsvik",
     unitPath: "Baksia-type: stream-aligned",
     purpose: "Designsystemet er en verktøykasse med grunnleggende UI-komponenter, retningslinjer og mønstre som skal bidra til effektiv produktutvikling og helhetlige brukeropplevelser.",
     revised: "ikke registrert",
     mandate: { oppna: "", formal: "Designsystemet er en verktøykasse med grunnleggende UI-komponenter, retningslinjer og mønstre som skal bidra til effektiv produktutvikling og helhetlige brukeropplevelser. Komponenter fra designsystemet er i bruk i Altinn Studio og i flere av Digdirs løsninger.", ansvarsomrader: "Forenkle og effektivisere arbeidsflyten for designere, utviklere og produktteam.\nTilby grunnleggende UI-komponenter og mønstre der tilgjengelighet og testing er ivaretatt.\nTilby dokumentasjon, retningslinjer og god praksis.\nKoordinere samarbeid mellom team som bruker og bidrar til designsystemet.\nInvolvere andre offentlige aktører i samarbeidet.", ikkeAnsvar: "", myndighet: "" },
     members: [ { name: "Marianne Røsvik", role: "Produkteier · Stavanger" }, { name: "Michael Marszalek", role: "Tech lead, frontend · Stavanger" }, { name: "Lasse Febakke Straum", role: "Design lead · Oslo" }, { name: "Eirik Backer", role: "Frontend · Oslo" }, { name: "Øyvind Thune", role: "Design og frontend · Leikanger" }, { name: "Tobias Barsnes", role: "Frontend · Leikanger" }, { name: "Frank Dahle", role: "UU-spesialist · Brønnøysund" } ],
-    tools: ["Roadmap i GitHub", "Samstyringsmodell", "Designsystemet"],
+    tools: ["Teammandat", "Teamkontrakt", "Retrospektiv", "Figma"],
     principles: ["Vi løser reelle brukerbehov", "Vi deler åpent og lærer sammen", "Vi jobber helhetlig og tverrfaglig"] },
-  { id: "altinn-studio", name: "Altinn Studio", type: "Produktteam", division: "Tjenesteutvikling", topology: "Stream-aligned", lead: "Ronny Birkeli og Nina Kylstad",
+  { id: "altinn-studio", audiences: ["Offentleg sektor","Næringslivet"], name: "Altinn Studio", type: "Produktteam", division: "Tjenesteutvikling", topology: "Stream-aligned", lead: "Ronny Birkeli og Nina Kylstad",
     unitPath: "Baksia-type: stream-aligned",
     purpose: "Altinn Studio er en plattform for utvikling, test, drift og forvaltning av digitale tjenester i offentlig sektor. Teamet er delt opp i mindre squads med ansvar for egne områder av produktet.",
     revised: "ikke registrert",
     mandate: { oppna: "", formal: "Offentlige virksomheter trenger å utvikle, teste, drifte og forvalte digitale tjenester uten å bygge egen plattform for det. Altinn Studio skal dekke hele verdikjeden, fra utviklingsverktøy til det som møter sluttbruker når de fyller ut et skjema fra start til slutt.", ansvarsomrader: "Altinn Studio Designer og Altinn Studio Repositories.\nApp frontend og app backend.\nPDF-generering og LocalTest.\nDokumentasjon.\nBidra til Digdirs felles designsystem.\nDevOps-team med totalansvar fra idé til produksjon.", ikkeAnsvar: "", myndighet: "" },
     members: [ { name: "Ronny Birkeli", role: "Produkteier, strategisk · Leikanger" }, { name: "Nina Kylstad", role: "Produkteier, operativt · Oslo" }, { name: "Hanne Lauritsen", role: "Agil coach · Oslo" }, { name: "David Øvrelid", role: "Frontend, team-arkitekt · Oslo" }, { name: "Martin Othamar", role: "Backend, team-arkitekt · Oslo" }, { name: "Philip Johannes Bruvoll", role: "Frontend, team-arkitekt · Oslo" }, { name: "Anniken Kjos Bråthen", role: "Design lead · Oslo" }, { name: "Gørild Døhl", role: "Innholdsdesigner · Oslo" } ],
-    tools: ["Roadmap i GitHub", "Squad-inndeling", "Designsystemet"],
+    tools: ["Teammandat", "OKR", "Teamkontrakt", "Retrospektiv", "Produktstrategi"],
     principles: ["Vi leverer i korte, læringsdrevne sykluser", "Vi måler effekt, ikke bare aktivitet"] },
-  { id: "dialogporten", name: "Dialogporten", type: "Produktteam", division: "Meldingsutveksling", topology: "Stream-aligned", lead: "Livar Bergheim",
+  { id: "dialogporten", audiences: ["Offentleg sektor","Næringslivet"], name: "Dialogporten", type: "Produktteam", division: "Meldingsutveksling", topology: "Stream-aligned", lead: "Livar Bergheim",
     unitPath: "Baksia-type: stream-aligned",
     purpose: "Dialogporten gjør enkelttjenester tilgjengelige via API-er, uten at du trenger å bruke Altinn Studio når du utvikler tjenesten.",
     revised: "ikke registrert",
     mandate: { oppna: "", formal: "I Altinn 3 skal Dialogporten fungere som et API mellom sluttbrukersystemer og tjenesteproduktene i Altinn 3.", ansvarsomrader: "Utvikling og forvaltning av Dialogporten som produkt.\nInfrastruktur knyttet til Dialogporten.\nIntegrasjoner mot andre interne produkter.\nVerktøy og referanseimplementasjoner.\nDokumentasjon.\nSupport for tjenesteeiere, sluttbrukersystemleverandører og andre interne team.", ikkeAnsvar: "", myndighet: "" },
     members: [ { name: "Livar Bergheim", role: "Produkteier · Leikanger" }, { name: "Bjørn Langfors", role: "Team-arkitekt, backend · Brønnøysund" }, { name: "Magnus Sandgren", role: "Backend · Hamar" }, { name: "Ole-Jørgen Skogstad", role: "Backend · Oslo" }, { name: "Knut Haug", role: "Backend · Oslo" }, { name: "Amund Myrbostad", role: "Backend · Brønnøysund" }, { name: "Kaj André Venjum", role: "Backend · Brønnøysund" }, { name: "Mats Jørgensen", role: "Backend · Brønnøysund" }, { name: "Leif Kristian Helstad", role: "Test- og QA-ansvarlig · Oslo" } ],
-    tools: ["Roadmap i GitHub", "Backlog i GitHub"],
+    tools: ["Teammandat", "Teamkontrakt", "Retrospektiv"],
     principles: ["Vi jobber helhetlig og tverrfaglig", "Vi leverer i korte, læringsdrevne sykluser"] },
-  { id: "data-norge", name: "data.norge.no", type: "Produktteam", division: "Datadeling", topology: "Stream-aligned", lead: "Eli Helen Korsan",
+  { id: "data-norge", audiences: ["Offentleg sektor","Næringslivet"], name: "data.norge.no", type: "Produktteam", division: "Datadeling", topology: "Stream-aligned", lead: "Eli Helen Korsan",
     unitPath: "Baksia-type: stream-aligned",
     purpose: "Data.norge.no gir oversikt over hvilke data virksomheter har, og som de kan dele med andre: datasett, begreper, API-er, informasjonsmodeller, tjenester og hendelser.",
     revised: "ikke registrert",
     mandate: { oppna: "", formal: "Gi offentlig sektor og andre oversikt over hvilke data som finnes og kan deles, gjennom en nasjonal portal og tilhørende registrerings- og høsteløsninger.", ansvarsomrader: "Data.norge.no, Felles datakatalog, Datalandsbyen og Transportportal.\nBidra til Digdirs felles designsystem.\nDevOps-team med totalansvar fra idé til produksjon.", ikkeAnsvar: "", myndighet: "" },
     members: [ { name: "Eli Helen Korsan", role: "Produkteier · Brønnøysund" }, { name: "Kurt Stian Fagerbakk", role: "Teamarkitekt · Brønnøysund" }, { name: "Aina Engen", role: "Agile coach · Oslo" }, { name: "Kristiane Kolshus", role: "Frontend · Oslo" }, { name: "Eirik Lillebo", role: "Frontend · Oslo" }, { name: "Hassan Alam", role: "Backend · Oslo" }, { name: "Nils Ove Tendenes", role: "Backend · Oslo" }, { name: "Hans Olav Sund", role: "DevOps-ingeniør · Oslo" } ],
-    tools: ["Roadmap i GitHub", "Begrepskatalogen", "Designsystemet"],
+    tools: ["Teammandat", "OKR", "Begrepskatalogen", "Figma"],
     principles: ["Vi løser reelle brukerbehov", "Vi deler åpent og lærer sammen"] },
-  { id: "arbeidsflate", name: "Arbeidsflate", type: "Produktteam", division: "Meldingsutveksling", topology: "Stream-aligned", lead: "Mette Saltnes",
+  { id: "arbeidsflate", audiences: ["Innbyggarar","Næringslivet"], name: "Arbeidsflate", type: "Produktteam", division: "Meldingsutveksling", topology: "Stream-aligned", lead: "Mette Saltnes",
     unitPath: "Baksia-type: stream-aligned",
     purpose: "Arbeidsflate skal erstatte brukergrensesnittet for innboksen i Altinn 2, og bygger på Digdirs felles designsystem.",
     revised: "ikke registrert",
     mandate: { oppna: "", formal: "", ansvarsomrader: "", ikkeAnsvar: "", myndighet: "" },
     members: [ { name: "Mette Saltnes", role: "Produkteier" } ],
-    tools: ["Designsystemet"],
+    tools: ["Teammandat", "Figma"],
     principles: ["Vi løser reelle brukerbehov"] },
-  { id: "plattform", name: "Plattform", type: "Støtteteam", division: "Plattform", topology: "Platform", lead: "Leif Olav S. Bjordal",
+  { id: "plattform", audiences: [], name: "Plattform", type: "Støtteteam", division: "Plattform", topology: "Platform", lead: "Leif Olav S. Bjordal",
     unitPath: "Baksia-type: platform",
     purpose: "Lager og vedlikeholder OpenShift Kubernetes-plattformen med støttetjenester som løsningene driftes på, i samarbeid med driftspartner.",
     revised: "ikke registrert",
     mandate: { oppna: "", formal: "Gjøre det lettere for andre team å levere, ved å tilby en felles plattform med tilhørende støttetjenester.", ansvarsomrader: "Utvikle, drifte og vedlikeholde Kubernetes/OpenShift-plattformen med tilhørende støttetjenester, i samarbeid med driftspartner.", ikkeAnsvar: "", myndighet: "" },
     members: [ { name: "Leif Olav S. Bjordal", role: "Teamleder · Leikanger" }, { name: "Bjørn-Erik Strand", role: "Plattformutvikler · Leikanger" }, { name: "Emil Arnesen", role: "Plattformutvikler · Oslo" }, { name: "Jonas Arneberg Saltvik", role: "Plattformutvikler · Oslo" }, { name: "Eskedar Kefialew Workeneh", role: "Plattformutvikler · Oslo" }, { name: "Brage Sande", role: "Plattformutvikler · Oslo" }, { name: "Ola Slålien Thoen", role: "Sikkerhet · Leikanger" }, { name: "Håkon Wiland", role: "Sikkerhet · Leikanger" }, { name: "Justyna Mucha", role: "Driftsleder · Leikanger" } ],
-    tools: ["Kapabilitetskart", "Helsesjekk"],
+    tools: ["Teammandat", "Helsesjekk for team"],
     principles: ["Vi bygger stabile team med riktig kapasitet", "Vi deler åpent og lærer sammen"] },
-  { id: "juridisk", name: "Juridisk team", type: "Støtteteam", division: "Juridisk", topology: "Enabling", lead: "Thomas Leirvik Knoph",
+  { id: "juridisk", audiences: [], name: "Juridisk team", type: "Støtteteam", division: "Juridisk", topology: "Enabling", lead: "Thomas Leirvik Knoph",
     unitPath: "Baksia-type: enabling",
     purpose: "Bidrar til at juridiske rammer og vilkår blir ivaretatt i utvikling, drift og forvaltning av produktene. Teamet består av techjurister.",
     revised: "ikke registrert",
     mandate: { oppna: "", formal: "Sikre juridisk etterlevelse i utvikling, drift og forvaltning av fellesløsningene, og gi juridisk rådgivning til ledelsen og øvrige.", ansvarsomrader: "Personvern og etterlevelse, inkludert DPIA og risikovurderinger.\nDatabehandleravtaler og personvernerklæringer.\nDokumentasjon og retningslinjer.\nRegelanalyser og regelverksutvikling.\nBruksvilkår.\nInformasjonssikkerhet og beredskap.\nAnskaffelser og kontraktsutforming.", ikkeAnsvar: "", myndighet: "" },
     members: [ { name: "Thomas Leirvik Knoph", role: "Teamleder, jurist · Brønnøysund" }, { name: "Tore Måsøy", role: "Agile coach · Brønnøysund" }, { name: "Andreas Hermstad", role: "Jurist · Brønnøysund" }, { name: "Oddhild Aasberg", role: "Jurist · Brønnøysund" }, { name: "Benedicte Olsen Sørli", role: "Jurist · Brønnøysund" } ],
-    tools: ["Kapabilitetskart"],
+    tools: ["Teammandat"],
     principles: ["Vi jobber helhetlig og tverrfaglig"] },
-  { id: "kitt", name: "KI Tilretteleggingsteam", type: "Støtteteam", division: "KI", topology: "Enabling", lead: "Roberto Carrera",
+  { id: "kitt", audiences: [], name: "KI Tilretteleggingsteam", type: "Støtteteam", division: "KI", topology: "Enabling", lead: "Roberto Carrera",
     unitPath: "Baksia-type: enabling",
     purpose: "Gjør det trygt, enkelt og verdiskapende for team å ta i bruk kunstig intelligens, gjennom hele produktets livsløp.",
     revised: "ikke registrert",
     mandate: { oppna: "", formal: "Støtte team gjennom hele produktets livsløp, fra idé og utforsking til bruk, drift og avvikling, i tråd med Digdirs policy og retningslinjer for generativ KI.", ansvarsomrader: "KI-tilrettelegging: kompetanse, praktiske rammeverk og et nettverk av KI-champions.\nKI-styring: risikoklassifisering, sikkerhet og personvern i designfasen, kostnadsforståelse.\nKI-innovasjon: rammeverk for trygg eksperimentering og samarbeid på tvers.", ikkeAnsvar: "Eie eller drive produktleveranser.", myndighet: "" },
     members: [ { name: "Roberto Carrera", role: "Teamleder og fagansvarlig for KI" }, { name: "Adi Dahl", role: "Teknisk leder for KI" }, { name: "Dirk Lammering", role: "KI-innovasjonsleder" }, { name: "Ole Bay Hansen", role: "Virtuelt team: produktutvikling · Oslo" }, { name: "Sebastian Duran", role: "Virtuelt team: plattformengineering · Oslo" }, { name: "Eira Marie Sunniva Bjerkeng Scherjon", role: "Virtuelt team: UX og design · Oslo" } ],
-    tools: ["Backlog i GitHub", "Evalueringssjekklister"],
+    tools: ["Teammandat", "Teamkontrakt", "Retrospektiv"],
     principles: ["Vi deler åpent og lærer sammen", "Vi leverer i korte, læringsdrevne sykluser"] },
-  { id: "servicedesk", name: "Servicedesk", type: "Støtteteam", division: "Kundeoppfølging", topology: "Enabling", lead: "Stian Øye",
+  { id: "servicedesk", audiences: ["Offentleg sektor","Næringslivet","Innbyggarar"], name: "Servicedesk", type: "Støtteteam", division: "Kundeoppfølging", topology: "Enabling", lead: "Stian Øye",
     unitPath: "Baksia-type: enabling",
     purpose: "Sikrer effektiv og brukervennlig kundeoppfølging for alle fellesløsningene, og er hovedkontaktpunkt mot kunder og leverandører.",
     revised: "ikke registrert",
     mandate: { oppna: "", formal: "Være hovedkontaktpunkt for kunder og leverandører som har tatt i bruk fellesløsningene, og onboarde alle nye kunder.", ansvarsomrader: "Kundehenvendelser via e-post, telefon og møter.\nOppfølging av kunder og leverandører.\nTeknisk dokumentasjon på Digdir Docs.\nForvaltning og videreutvikling av Microsoft Dynamics CRM.\nIntern dokumentasjon i Confluence.", ikkeAnsvar: "", myndighet: "" },
     members: [ { name: "Stian Øye", role: "Teamleder" }, { name: "Brage Navarsete", role: "Kundeoppfølging" }, { name: "Birger Sjømæling Andresen", role: "Kundeoppfølging" }, { name: "Karsten Ellema Bjelde", role: "Kundeoppfølging" }, { name: "Justyna Mucha", role: "Kundeoppfølging" }, { name: "Ragnhild Helen Rørvik", role: "Kundeoppfølging" }, { name: "Eyvind Sjøstrøm", role: "Kundeoppfølging" } ],
-    tools: ["Dynamics CRM", "Digdir Docs", "Confluence"],
+    tools: ["Teammandat", "Helsesjekk for team"],
     principles: ["Vi løser reelle brukerbehov"] },
-  { id: "einnsyn", name: "eInnsyn", type: "Produktteam", division: "Innsyn og oppslag", topology: "Stream-aligned", lead: "John Eivind Presterud",
+  { id: "einnsyn", audiences: ["Innbyggarar","Offentleg sektor"], name: "eInnsyn", type: "Produktteam", division: "Innsyn og oppslag", topology: "Stream-aligned", lead: "John Eivind Presterud",
     unitPath: "Baksia-type: stream-aligned",
     purpose: "Forvalter og videreutvikler eInnsyn, den felles publiseringstjenesten for offentlige postjournaler og møtedokumenter.",
     revised: "ikke registrert",
     mandate: { oppna: "", formal: "", ansvarsomrader: "", ikkeAnsvar: "", myndighet: "" },
     members: [ { name: "John Eivind Presterud", role: "Produkteier" } ],
-    tools: [],
+    tools: ["Teammandat"],
     principles: ["Vi løser reelle brukerbehov"] },
-  { id: "uustatus", name: "uustatus", type: "Produktteam", division: "Portaler og brukeropplevelse", topology: "Stream-aligned", lead: "Dag Ove Eggum",
+  { id: "uustatus", audiences: ["Offentleg sektor","Næringslivet"], name: "uustatus", type: "Produktteam", division: "Portaler og brukeropplevelse", topology: "Stream-aligned", lead: "Dag Ove Eggum",
     unitPath: "Baksia-type: stream-aligned",
     purpose: "Forvalter løsningen der virksomheter registrerer og publiserer tilgjengelighetserklæringer.",
     revised: "ikke registrert",
     mandate: { oppna: "", formal: "", ansvarsomrader: "", ikkeAnsvar: "", myndighet: "" },
     members: [ { name: "Dag Ove Eggum", role: "Produkteier" } ],
-    tools: [],
+    tools: ["Teammandat"],
     principles: ["Vi løser reelle brukerbehov"] },
-  { id: "sikkerhet", name: "Sikkerhet", type: "Støtteteam", division: "Sikkerhet", topology: "Enabling", lead: "Hein Gabrielsen",
+  { id: "sikkerhet", audiences: [], name: "Sikkerhet", type: "Støtteteam", division: "Sikkerhet", topology: "Enabling", lead: "Hein Gabrielsen",
     unitPath: "Baksia-type: enabling",
     purpose: "Støtter teamene i sikkerhetsarbeid på tvers av fellesløsningene.",
     revised: "ikke registrert",
     mandate: { oppna: "", formal: "", ansvarsomrader: "", ikkeAnsvar: "", myndighet: "" },
     members: [ { name: "Hein Gabrielsen", role: "Teamleder" } ],
-    tools: [],
+    tools: ["Teammandat"],
     principles: ["Vi deler åpent og lærer sammen"] },
-  { id: "innplassering", name: "Innplassering Digdir 2.0", type: "Prosjektteam", division: "OU-prosessen", topology: "Prosjekt", lead: "ikke registrert",
+  { id: "innplassering", audiences: [], name: "Innplassering Digdir 2.0", type: "Prosjektteam", division: "OU-prosessen", topology: "Prosjekt", lead: "ikke registrert",
     unitPath: "Midlertidig organisasjon",
     purpose: "Gjennomfører innplasseringsprosessen for ledere og medarbeidere i ny organisering. Startet 28. september, planlagt ferdig innen 20. november.",
     revised: "ikke registrert",
     mandate: { oppna: "", formal: "", ansvarsomrader: "Kartleggingsprosess og innplassering av ledere og medarbeidere i ny organisering.", ikkeAnsvar: "Utformingen av organisasjonskartet, som forhandles mellom arbeidsgiver og fagforeningene.", myndighet: "" },
     members: [],
-    tools: ["Prosjektveiviseren"],
+    tools: ["Prosjektmandat", "Prosjektveiviseren", "Teamkontrakt"],
+    principles: ["Vi deler åpent og lærer sammen"] },
+  { id: "arkitekturforum", audiences: [], name: "Arkitekturforum", type: "Fagnettverk", division: "Tverrgående", topology: "Fagnettverk", lead: "Eirik Mikkelsen",
+    unitPath: "Tverrgående fagnettverk",
+    purpose: "Samler arkitekter fra hele Digdir for å dele kunnskap, utvikle felles praksis og diskutere arkitekturvalg som går på tvers av produkter og divisjoner.",
+    revised: "ikke registrert",
+    mandate: { oppna: "", formal: "Arkitekter i Digdir sitter i ulike divisjoner og team, og trenger en felles arena for å dele erfaringer, utvikle felles praksis og diskutere valg som påvirker flere produkter.", ansvarsomrader: "Fast møteplass for arkitektfaget i Digdir.\nDeling av erfaringer, mønstre og anbefalinger.\nFaglig innspill til nasjonal arkitektur og standardisering.", ikkeAnsvar: "Beslutninger om arkitektur i det enkelte produktet. Det ligger hos teamene og teameierne.\nLeveranser og frister.", myndighet: "", begreper: "", involvering: "", forankring: "", oppfolging: "", ressurser: "" },
+    members: [ { name: "Eirik Mikkelsen", role: "Fagkoordinator" } ],
+    tools: ["Teammandat"],
     principles: ["Vi deler åpent og lærer sammen"] }
 ];
 
@@ -954,11 +1161,12 @@ const ROLES = [
     { label: "Oppgaver", value: "Bidra til felles planlegging og vurderinger, utføre oppgaver og sikre faglig kvalitet innenfor eget kompetanseområde: utvikler, designer, jurist og så videre." } ] }
 ];
 
-const ROLE_VARIANTS = [
-  { type: "Prosjektteam", types: ["Prosjektteam"], text: "Rollene som teameier og teamleder omtales henholdsvis som prosjekteier og prosjektleder, og utføres i tråd med Digdirs prosjektveiviser." },
-  { type: "Produktteam", types: ["Produktteam"], text: "Bør ha produkteier, enten kombinert med teamlederrollen eller i tillegg. Rollen utøves i tråd med anbefaling for produktorganisering i offentlig sektor. Begrepet produktleder brukes ikke i Digdir." },
-  { type: "Linjeledere", types: ["Produktteam", "Leveranseteam", "Støtteteam", "Prosjektteam"], text: "I team der medlemmene hører til ulike seksjoner, avdelinger eller divisjoner har teameieren et særskilt ansvar for god dialog om bemanning med alle linjeledere som har en ansatt i teamet." }
-];
+const LINE_MANAGER = { name: "Linjeleder", ramo: [
+  { label: "Rolle", value: "Leder i linjeorganisasjonen med personalansvar: divisjonsdirektør, avdelingsdirektør eller seksjonsleder. Rollen er ikke en del av teamet, men avgir ressurser til det." },
+  { label: "Ansvar", value: "Eier fag, kvalitet og kapasitet i egen enhet. Ansvar for at medarbeidere som deltar i team har riktig kompetanse, tilstrekkelig tid og god oppfølging." },
+  { label: "Myndighet", value: "Beslutter bemanning og prioritering mellom leveranser i egen enhet, og hvor mye kapasitet som avgis til hvert team." },
+  { label: "Oppgaver", value: "Avgi og følge opp ressurser til team, utvikle folk og fagmiljø over tid, fjerne hindringer teamet ikke kan løse selv, og holde dialog med teameier om bemanning. I team der medlemmene hører til ulike seksjoner, avdelinger eller divisjoner har teameieren et særskilt ansvar for god dialog om bemanning med alle linjeledere som har en ansatt i teamet." }
+] };
 
 const PROJECT_WORDS = [
   ["andre team", "andre prosjekter"], ["Andre team", "Andre prosjekter"],
@@ -986,9 +1194,17 @@ const toProject = (text) => {
   return out;
 };
 
-const projectRamo = (ramo) => ramo.map((x) => ({ label: x.label, value: toProject(x.value) }));
+const projectRamo = (ramo) => ramo.map((x) => ({ label: x.label,
+  value: toProject(x.value).split("godkjenne mandat og prosjektkontrakt").join("godkjenne mandat")
+    .split("prosjektets mandat og prosjektkontrakt").join("prosjektets mandat")
+    .split(" og prosjektkontrakt").join("") }));
 
 const ROLE_EXTRA = {
+  "Fagnettverk": [ { name: "Fagkoordinator", ramo: [
+    { label: "Rolle", value: "Utpekt som koordinator for fagnettverket. Et fagnettverk har ikke teamleder, siden det ikke svarer for en felles leveranse. Koordinatoren er registrert i teamoversikten." },
+    { label: "Ansvar", value: "Ansvar for at nettverket har et tydelig formål, relevant aktivitet og verdi for deltakerne." },
+    { label: "Myndighet", value: "Beslutter møteform, tema og hvordan kunnskap deles, innenfor formålet nettverket er opprettet for. Kan ikke pålegge deltakerne oppgaver eller leveranser." },
+    { label: "Oppgaver", value: "Legge til rette for aktivitet, kalle inn og fasilitere samlinger, avklare hvem nettverket er for og hvordan deltakelse fungerer, og sørge for at kunnskap, erfaringer og praksis deles videre." } ] } ],
   "Prosjektteam": [
     { name: "Prosjekteier", ramo: projectRamo(ROLES[0].ramo) },
     { name: "Prosjektleder", ramo: projectRamo(ROLES[1].ramo) },
@@ -1005,7 +1221,11 @@ const WIZARD = [
   { key: "team", title: "Egner oppgaven seg for teamarbeid?",
     intro: "Team er en egnet arbeidsform når oppgaven løses bedre gjennom tett samarbeid og felles ansvar enn ved at enkeltpersoner arbeider hver for seg og koordinerer ved behov.",
     bullets: ["Krever oppgaven at flere personer samarbeider tett for å lykkes?", "Er personene gjensidig avhengige av hverandres arbeid, kompetanse eller perspektiver?", "Har de et felles mål eller resultat som de sammen kan ta ansvar for?", "Krever oppgaven løpende koordinering, problemløsning eller prioritering?", "Er det en fordel at de som utfører arbeidet lærer, tilpasser seg og tar beslutninger sammen?"],
-    options: [ { label: "Hovedsakelig ja", hint: "Oppgaven kan egne seg godt for teamarbeid. Gå videre og vurder hva slags team som trengs.", next: "slutt" }, { label: "Hovedsakelig nei", hint: "Team er ikke sikkert den mest hensiktsmessige arbeidsformen.", result: "ikkeTeam" } ] },
+    options: [ { label: "Hovedsakelig ja", hint: "Oppgaven kan egne seg godt for teamarbeid. Gå videre og vurder hva slags team som trengs.", next: "slutt" }, { label: "Hovedsakelig nei", hint: "Det er ikke sikkert team er den mest hensiktsmessige arbeidsformen. Vurder om oppgaven kan løses gjennom individuelt ansvar, enklere koordinering i linjen, eller som et fagnettverk.", next: "fellesskap" } ] },
+  { key: "fellesskap", title: "Er formålet å dele kunnskap og utvikle et fagområde?",
+    intro: "Noen behov handler ikke om å levere noe sammen, men om å lære av hverandre og utvikle faget. Da kan et fagnettverk være riktig form.",
+    bullets: ["Samler dette personer med felles fagområde, kompetanse, interesse eller profesjonell bakgrunn?", "Er hovedformålet å dele kunnskap, lære av hverandre og utvikle fagområdet?", "Har deltakerne sitt ansvar og sine oppgaver andre steder i organisasjonen?", "Er det ingen felles leveranse eller felles resultat de skal svare for?"],
+    options: [ { label: "Ja, dette handler om fag og læring", hint: "Deltakerne deler fagområde, men har ikke ansvar for en felles leveranse.", result: "fellesskap" }, { label: "Nei, ingen av formene passer", hint: "Verken team eller fagnettverk treffer behovet.", result: "ikkeTeam" } ] },
   { key: "slutt", title: "Har oppgaven en definert avslutning?",
     intro: "Noen oppgaver har et tydelig sluttpunkt, mens andre krever et kontinuerlig ansvar over tid.",
     bullets: ["Skal teamet nå et definert mål eller levere et bestemt resultat?", "Er det mulig å si når oppgaven er ferdig?", "Kan teamet oppløses når målet eller resultatet er nådd?"],
@@ -1021,7 +1241,8 @@ const WIZARD = [
 ];
 
 const RESULTS = {
-  ikkeTeam: { kicker: "Anbefaling", title: "Vurder en annen arbeidsform", body: "Det er ikke sikkert team er den mest hensiktsmessige arbeidsformen for denne oppgaven.", listTitle: "Vurder i stedet:", points: ["Individuelt ansvar", "Fagnettverk på tvers", "Enklere koordinering i linjen"] },
+  ikkeTeam: { kicker: "Anbefaling", title: "Vurder en annen arbeidsform", body: "Det er ikke sikkert team er den mest hensiktsmessige arbeidsformen for denne oppgaven.", listTitle: "Vurder om oppgaven kan løses:", points: ["Gjennom individuelt ansvar", "Gjennom enklere koordinering i linjen", "Som et fagnettverk"] },
+  fellesskap: { kicker: "Arbeidsform", title: "Fagnettverk", body: "Et fagnettverk samler personer som har et felles fagområde, kompetanse, interesse eller profesjonell bakgrunn, og som ønsker å dele kunnskap, lære av hverandre og utvikle fagområdet. Nettverket kan for eksempel organiseres som et fagforum, nettverk eller laug — eller med et helt annet navn.\n\nI motsetning til et team har et fagnettverk vanligvis ikke ansvar for en felles leveranse eller et felles resultat, og medlemmene har normalt sitt ansvar og sine oppgaver andre steder i organisasjonen.\n\nEt tydelig formål gjør det enklere å skape relevant aktivitet og verdi for deltakerne, samtidig som nettverket beholder den fleksible formen som skiller det fra et team.", listTitle: "For å gi nettverket gode rammer er det viktig å:", points: ["ha et tydelig formål som beskriver hvorfor nettverket finnes og hva det skal bidra til", "avklare hvem nettverket er for, og hvordan deltakelse og medlemskap fungerer", "identifisere én eller flere personer som har ansvar for å koordinere og legge til rette for aktivitet, og registrere disse i Digdirs teamoversikt", "avklare hvordan nettverket skal dele kunnskap, erfaringer og praksis"] },
   prosjektteam: { kicker: "Teamtype", title: "Prosjektteam", body: "Et prosjektteam etableres for å løse en avgrenset oppgave med et definert mål og en tydelig avslutning. Når målet er nådd og oppgaven er løst, kan teamet oppløses.", listTitle: "Dette må på plass:", points: ["Et tydelig prosjektmandat som beskriver formål, mål, rammer og myndighet", "Prosjekteier, prosjektleder og medlemmer registrert i teamoversikten", "En teamkontrakt om samarbeid, kommunikasjon og beslutninger", "For større prosjekter: Digdirs prosjektveiviser som støtte"] },
   stotteteam: { kicker: "Teamtype", title: "Støtteteam", body: "Et støtteteam har et varig ansvar for å skape verdi internt i Digdir, slik at medarbeidere, ledere og andre team kan løse sine oppgaver på en effektiv og god måte.", listTitle: "Dette må på plass:", points: ["Et tydelig mandat som beskriver formål, ansvar, mål og handlingsrom", "Teameier, teamleder og medlemmer registrert i teamoversikten", "En teamkontrakt om samarbeid, kommunikasjon og beslutninger"] },
   leveranseteam: { kicker: "Teamtype", title: "Leveranseteam", body: "Et leveranseteam har et varig og helhetlig ansvar for en definert leveranse som skaper verdi utenfor Digdir. Teamet skal kjenne behovene til brukerne og bruke innsikten til å utvikle, levere og forbedre leveransen over tid.", listTitle: "Dette må på plass:", points: ["Et tydelig mandat som beskriver formål, ansvar, mål og handlingsrom", "Teameier, teamleder og medlemmer registrert i teamoversikten", "En teamkontrakt om samarbeid, kommunikasjon og beslutninger"] },
@@ -1029,12 +1250,11 @@ const RESULTS = {
 };
 
 const TOOLS = [
-  { name: "Teammandat", type: "Mal", forWhom: "Alle team", desc: "Sier hvorfor teamet finnes, hva det har ansvar for, hvilket handlingsrom det har og hvordan det skal skape verdi over tid.", link: "Mal med sju deler" },
+  { name: "Teammandat", type: "Mal", forWhom: "Alle utenom prosjektteam", types: ["Produktteam", "Leveranseteam", "Støtteteam", "Fagnettverk"], desc: "Sier hvorfor teamet finnes, hva det har ansvar for, hvilket handlingsrom det har og hvordan det skal skape verdi over tid.", link: "Mal med sju deler" },
   { name: "Prosjektmandat", type: "Mal", forWhom: "Prosjektteam", desc: "Beskriver formål, mål, rammer og myndighet for et prosjekt med definert start og slutt.", link: "Mal" },
   { name: "Teamkontrakt", type: "Mal", forWhom: "Alle team", desc: "Avklarer hvordan medlemmene skal samarbeide, kommunisere, ta beslutninger og håndtere uenighet.", link: "teamagile.no" },
-  { name: "Team Canvas", type: "Mal", forWhom: "Nye team", desc: "Enklere variant av teamkontrakten, godt egnet ved oppstart. Kan bygges ut med en full teamkontrakt etter hvert.", link: "teamagile.no" },
   { name: "OKR", type: "Metode", forWhom: "Alle team", desc: "Målstyring som holder fokus på hva teamet vil oppnå og hvordan suksess måles. Fungerer best når strategisk retning ovenfra møter operativt eierskap i teamene.", link: "Veiledning og eksempler" },
-  { name: "Prosjektveiviseren", type: "Rammeverk", forWhom: "Prosjektteam", desc: "Digdirs støtte for planlegging, organisering og gjennomføring av større eller mer komplekse prosjekter.", link: "prosjektveiviseren.no" },
+  { name: "Prosjektveiviseren", type: "Veileder", forWhom: "Prosjektteam", desc: "Digdirs støtte for planlegging, organisering og gjennomføring av større eller mer komplekse prosjekter.", link: "prosjektveiviseren.no" },
   { name: "Produktorganisering i offentlig sektor", type: "Veileder", forWhom: "Produktteam", desc: "Anbefaling som gir veiledning om produktorganisering, og som bør brukes ved etablering og videreutvikling av produktteam.", link: "Anbefaling" },
   { name: "Retrospektiv", type: "Metode", forWhom: "Alle team", desc: "Fast øvelse der teamet ser tilbake på perioden og blir enige om hva som skal endres.", link: "Kjøreplan" },
   { name: "Helsesjekk for team", type: "Metode", forWhom: "Alle team", desc: "Jevnlig pulsmåling av samarbeid, mestring og retning i teamet.", link: "Skjema" },
@@ -1043,20 +1263,150 @@ const TOOLS = [
   { name: "Figma", type: "Verktøy", forWhom: "Design", desc: "Digdir har lisens. Brukes til design, skisser og samarbeid om grensesnitt.", link: "Logg inn med Digdir-konto" }
 ];
 
+const TOOL_DETAILS = {
+  "Teammandat": { owner: "VSU · Organisasjonslæring", contact: "Ingrid Haug",
+    long: "Mandatet er avtalen mellom teamet og den som har gitt oppdraget. Det sier hvorfor teamet finnes, hva det har ansvar for, hvilket handlingsrom det har og hvordan det skal skape verdi over tid.\n\nMalen har tre hoveddeler — hva skal vi løse, hva skal vi oppnå og hva forventes av oss — pluss et sett andre rammer: begrepsavklaringer, avgrensninger og avhengigheter, involvering, forankring, oppfølging etter slutt og rammer for ressursbruk.\n\nMandatet skrives av teameier i dialog med teamleder, og revideres når oppdraget endrer seg.",
+    resources: [["Mal for teammandat (Word)", "SharePoint"], ["Mandatmal i Miro", "Miro"], ["Eksempel: ferdig utfylt mandat", "SharePoint"]] },
+  "Prosjektmandat": { owner: "VSU · Strategi og styring", contact: "Dag Hovden",
+    long: "Prosjektmandatet beskriver formål, mål, rammer og myndighet for et prosjekt med definert start og slutt. Det tilsvarer teammandatet, men følger Prosjektveiviserens struktur og knyttes til beslutningspunktene.\n\nFor større prosjekter brukes mandat for konseptfasen først, og deretter styringsdokumentet.",
+    resources: [["Mal for prosjektmandat (Word)", "prosjektveiviseren.no"], ["Mandat for konseptfasen", "prosjektveiviseren.no"]] },
+  "Teamkontrakt": { owner: "VSU · Organisasjonslæring", contact: "Anders Rø",
+    long: "Der mandatet sier hva teamet skal løse, sier kontrakten hvordan teamet jobber sammen for å lykkes med det. Den avklarer mål og formål, personlige bruksanvisninger, roller og ansvar, spilleregler og arbeidsformer.\n\nKontrakten skrives av teamet selv, helst i løpet av de første ukene, og tas fram igjen ved retrospektiv eller når teamet endrer sammensetning.",
+    resources: [["Teamkontrakt i Miro", "Miro"], ["Mal for teamkontrakt (Word)", "SharePoint"], ["Om teamkontrakter", "teamagile.no"]] },
+  "OKR": { owner: "VSU · Strategi og styring", contact: "Frida Lunde",
+    long: "OKR kobler ambisiøse mål (objectives) til målbare nøkkelresultater (key results). Teamet setter få mål per periode og måler på effekt, ikke på antall leverte oppgaver.\n\nOKR fungerer best når strategisk retning ovenfra møter operativt eierskap i teamene. I Digdir settes OKR-ene kvartalsvis og følges opp i tertialrapporteringen.",
+    resources: [["OKR-mal (Excel)", "SharePoint"], ["Veiledning og eksempler", "Intranett"], ["OKR-tavle i Miro", "Miro"]] },
+  "Prosjektveiviseren": { owner: "SRS · Styring og forvaltningsutvikling", contact: "sammenhengende.tjenester@digdir.no",
+    long: "Digdirs nasjonale veileder for planlegging, organisering og gjennomføring av prosjekter. Seks faser med tilhørende beslutningspunkter, og et sett dokumentmaler for styringsdokumentasjon, produktdokumentasjon og øvrig prosjektdokumentasjon.\n\nOmfanget skal tilpasses prosjektets størrelse, kompleksitet og risiko. Små prosjekter bruker forenklet styringsdokument.",
+    resources: [["prosjektveiviseren.digdir.no", "Nettsted"], ["Dokumentmaler", "prosjektveiviseren.no"], ["Begreper i Prosjektveiviseren", "prosjektveiviseren.no"]] },
+  "Produktorganisering i offentlig sektor": { owner: "SRS · Strategi, råd og prioritering", contact: "Taran Austenå Løvdal",
+    long: "Digdirs anbefaling om produktorganisering: hvordan virksomheter kan organisere utvikling og forvaltning rundt varige produkter i stedet for funksjonelle avdelinger og midlertidige prosjekter.\n\nAnbefalingen bør brukes ved etablering og videreutvikling av produktteam, og dekker produktområder, produkteierrollen, produkttrio og smidig styring.",
+    resources: [["Anbefaling for produktorganisering", "digdir.no"], ["Begreper i produktorganisering", "digdir.no"]] },
+  "Retrospektiv": { owner: "VSU · Organisasjonslæring", contact: "Anders Rø",
+    long: "Fast øvelse der teamet ser tilbake på perioden, vurderer hva som fungerte godt og hva som bør forbedres, og blir enige om konkrete tiltak til neste periode.\n\nRetrospektiv er ett av to alternativer i prinsippet om å dele åpent og lære sammen — alle team skal gjennomføre retrospektiv eller helsesjekk med jevne mellomrom.",
+    resources: [["Kjøreplan for retrospektiv", "SharePoint"], ["Retro-tavler i Miro", "Miro"]] },
+  "Helsesjekk for team": { owner: "VSU · Organisasjonslæring", contact: "Preben Vold",
+    long: "Jevnlig pulsmåling av samarbeid, mestring og retning i teamet. Teamet vurderer områder som motivasjon, kommunikasjon, kvalitet og flyt, for å avdekke utfordringer tidlig.\n\nResultatet eies av teamet selv. Aggregerte tall brukes bare til å se mønstre på tvers, ikke til å vurdere enkeltteam.",
+    resources: [["Helsesjekk-skjema", "Forms"], ["Helsesjekk i Miro", "Miro"]] },
+  "Produktstrategi": { owner: "PRT · Produktstrategi og forretning", contact: "Ronny Birkeli",
+    long: "Produktstrategien beskriver produktets retning, hvem brukerne er og hvilket problem produktet løser for dem. Den er grunnlaget for produkteierens prioritering av produktkøen.\n\nAlle produktteam bør ha en produktstrategi i tillegg til mandatet.",
+    resources: [["Mal for produktstrategi (Word)", "SharePoint"], ["Produktkanvas i Miro", "Miro"]] },
+  "Begrepskatalogen": { owner: "SRS · Arkitektur, informasjonsforvaltning og standardisering", contact: "Kurt Stian Fagerbakk",
+    long: "Nasjonal katalog for begrepsdefinisjoner. Begreper i Saman kan kobles til definisjoner her, slik at vi bruker samme definisjon som resten av offentlig sektor.",
+    resources: [["data.norge.no", "Nettsted"], ["Veileder for begrepsarbeid", "digdir.no"]] },
+  "Figma": { owner: "PRT · Brukerinnsikt og design", contact: "Lasse Febakke Straum",
+    long: "Digdir har lisens. Brukes til design, skisser og samarbeid om grensesnitt. Designsystemet ligger som delt bibliotek, slik at team kan bygge med komponentene direkte.\n\nBe om tilgang via IT-drift. Filer som inneholder personopplysninger skal ikke legges i Figma.",
+    resources: [["Logg inn med Digdir-konto", "figma.com"], ["Designsystemet i Figma", "Figma"], ["designsystemet.no", "Nettsted"]] }
+};
+
 const TERMS = [
   { term: "Rammeverk", definition: "En overordnet struktur, et sett med regler, retningslinjer eller standarder som brukes som grunnlag for å bygge eller organisere noe annet. Saman beskriver hvordan vi i Digdir ønsker å jobbe for best mulig å levere på formålet vårt.", source: "Definert i Saman" },
   { term: "Team", definition: "En gruppe Digdir-medarbeidere, og eventuelt eksterne, som arbeider sammen om leveranser.", source: "Definert i Saman" },
-  { term: "Prosjekt", definition: "En midlertidig organisasjon etablert for å levere ett eller flere produkter som bidrar til å realisere en avtalt begrunnelse. Har vanligvis tydelig mål og avgrensede rammer for tid, kostnad og omfang.", source: "Prosjektveiviseren" },
   { term: "Enhet", definition: "En gruppe Digdir-medarbeidere i linjeorganisasjonen: divisjon, avdeling eller seksjon.", source: "Definert i Saman" },
   { term: "Leveranse", definition: "Alt som skapes av eller kommer ut av et team eller prosjekt. Kan være et digitalt produkt, en rapport, et arrangement, en prosess eller daglig drift.", source: "Definert i Saman" },
   { term: "Teammandat", definition: "Beskriver hvorfor teamet finnes, teamets ansvar, handlingsrom og hvordan det skal skape verdi over tid.", source: "Definert i Saman" },
   { term: "Teamkontrakt", definition: "Beskriver samarbeidet innad i teamet: hvordan medlemmene skal jobbe sammen for å lykkes med mandatet.", source: "Team Agile" },
   { term: "RAMO", definition: "Rolle, ansvar, myndighet og oppgaver. Strukturmodell som gir en tydelig beskrivelse av hva en rolle innebærer.", source: "Definert i Saman" },
-  { term: "OKR", definition: "Objectives and key results. Målstyringsverktøy som hjelper team å fokusere på hva de ønsker å oppnå og hvordan suksess måles.", source: "Definert i Saman" },
+  { term: "OKR", definition: "Objectives and key results. Målstyringsverktøy som hjelper team å fokusere på hva de ønsker å oppnå og hvordan suksess måles.", source: "Definert i Saman | Produktveilederen" },
   { term: "Innsatsområde", definition: "Prioritert strategisk område opprettet av porteføljestyret, med egen områdeansvarlig som koordinerer relevante tverrgående team mot felles mål.", source: "Digdir 2.0" },
   { term: "Tverrgående team", definition: "Team satt sammen av ressurser fra flere divisjoner, for eksempel et produktteam med medlemmer fra PRT og TDU.", source: "Digdir 2.0" },
   { term: "Porteføljestyret", definition: "Toppledergruppen i rollen der de beslutter strategisk retning og prioriteringer, og oppretter, følger opp og legger ned innsatsområder og programmer.", source: "Digdir 2.0" },
-  { term: "Tight-loose-tight", definition: "Ledelsesform der mål og rammer er tydelige, mens teamet selv velger hvordan arbeidet gjøres, og resultatet følges opp.", source: "Definert i Saman" }
+  { term: "Tight-loose-tight", definition: "Ledelsesform der mål og rammer er tydelige, mens teamet selv velger hvordan arbeidet gjøres, og resultatet følges opp.", source: "Definert i Saman | Produktveilederen" },
+  { term: "Akseptansekriterier", definition: "Akseptansekriterier definerer hva som er akseptabelt og ikke akseptabelt opp mot prosjektets styringsparametere. Kriteriene bør knyttes til tid, kostnad, kvalitet, omfang, bærekraft, nytte og risiko der det er relevant.", source: "Prosjektveiviseren" },
+  { term: "Beslutningspunkt", definition: "I Prosjektveiviseren er det seks beslutningspunkter, som er sentrale handlingspunkter mot slutten av hver fase. I hvert beslutningspunkt avgjøres det om prosjektet skal gå videre til neste fase, endre planer eller gjennomføring, utsette varighet i nåværende fase eller avsluttes.", source: "Prosjektveiviseren" },
+  { term: "Bærekraft", definition: "Bærekraft handler om hvordan prosjektet og prosjektets leveranser påvirker miljømessige, sosiale og økonomiske forhold. I Prosjektveiviseren er bærekraft ett av prosjektets syv styringsparametere.", source: "Prosjektveiviseren" },
+  { term: "Bærekraftsstrategi", definition: "Bærekraftstrategien beskriver hvilke tiltak, vurderinger og kontroller prosjektet skal bruke for å følge opp bærekraftsmålene. Den gjelder både prosjektarbeidet og produktene eller leveransene prosjektet skal fremskaffe.", source: "Prosjektveiviseren" },
+  { term: "Daglig logg", definition: "Daglig logg brukes til å fange opp problemer, bekymringer og andre forhold som prosjektleder kan håndtere uformelt.", source: "Prosjektveiviseren" },
+  { term: "Data- og digitaliseringsstrategi", definition: "Data- og digitaliseringsstrategi beskriver hvordan teknologi skal brukes til å støtte prosjektarbeidet, og hvordan data og informasjon skal opprettes, brukes, deles og forvaltes gjennom prosjektet.", source: "Prosjektveiviseren" },
+  { term: "Ekstern kvalitetssikring", definition: "Ekstern kvalitetssikring er en uavhengig vurdering utført utenfor prosjektorganisasjonen, for å vurdere om prosjektets produkter er egnet til formålet, eller om de oppfyller definerte krav.", source: "Prosjektveiviseren" },
+  { term: "Endringsledelse", definition: "Endringsledelse handler om å lede ansatte og organisasjonen gjennom en endringsprosess, slik at virksomheten oppnår forventede resultater og nyttevirkninger. Endringsledelse må ikke forveksles med det å styre endringer i prosjektets omfang og leveranser.", source: "Prosjektveiviseren | Produktveilederen" },
+  { term: "Erfaringslogg", definition: "Erfaringsloggen brukes til å samle erfaringer underveis i prosjektet. Erfaringene kan brukes senere i samme prosjekt eller i fremtidige prosjekter.", source: "Prosjektveiviseren" },
+  { term: "Evaluering", definition: "Evaluering er en vurdering av prosjektets forløp, resultater og erfaringer. Både det som fungerte godt, og det som fungerte mindre godt, bør vurderes.", source: "Prosjektveiviseren" },
+  { term: "Faseplan", definition: "En faseplan er en detaljert plan for styring og oppfølging av en fase. Prosjektet kan ha faseplan for planleggingsfasen, gjennomføringsfasen og avslutningsfasen.", source: "Prosjektveiviseren" },
+  { term: "Formelle saker", definition: "Formelle saker er saker som krever eskalering og beslutning på et høyere styringsnivå. Dette er forhold prosjektleder ikke har myndighet til å avgjøre selv, og som derfor må behandles formelt av prosjekteier eller prosjektstyret.", source: "Prosjektveiviseren" },
+  { term: "Interessent", definition: "En interessent er en person, gruppe eller organisasjon som kan påvirke prosjektet, bli påvirket av prosjektet, eller oppfatter at de blir påvirket av prosjektets gjennomføring eller resultater.", source: "Prosjektveiviseren" },
+  { term: "Interessentregister", definition: "Interessentregisteret inneholder samlet informasjon om prosjektets interessenter. Det bør vise hvem interessentene er, hvilken tilknytning de har til prosjektet, hvilke interesser og behov de har, hvilken innflytelse de kan ha, og hvordan de skal følges opp.", source: "Prosjektveiviseren" },
+  { term: "Intern kvalitetssikring", definition: "Intern kvalitetssikring er prosjektstyrets ansvar for å sikre at prosjektet gjennomføres i tråd med god praksis. Prosjekteier har særlig ansvar for at prosjektet beholder fokus på nyttevirkninger.", source: "Prosjektveiviseren" },
+  { term: "Kommunikasjonsstrategi", definition: "Kommunikasjonsstrategien beskriver hvordan prosjektet skal kommunisere med aktører i og utenfor prosjektet. Den skal bidra til god involvering, tydelig informasjon og en styrt, toveis informasjonsflyt.", source: "Prosjektveiviseren" },
+  { term: "Konfigurasjonsstyring og konfigurasjonsstrategi", definition: "Tekniske og administrative aktiviteter knyttet til etablering, vedlikehold og endring av konfigurasjon av produkter gjennom produktets livssyklus. Konfigurasjonsstrategien beskriver hvordan prosjektets produkter skal kontrolleres, lagres, beskyttes og versjonshåndteres.", source: "Prosjektveiviseren" },
+  { term: "Kvalitetskriterier", definition: "Kvalitetskriterier beskriver hvilke krav et produkt eller en leveranse skal oppfylle for å ha riktig kvalitet. De kan for eksempel gjelde funksjon, ytelse, nøyaktighet, brukervennlighet, sikkerhet eller tilgjengelighet.", source: "Prosjektveiviseren" },
+  { term: "Kvalitetsstrategi", definition: "Kvalitetsstrategien beskriver hvilke kvalitetsteknikker, standarder, roller, ansvar, verktøy og kontroller som skal brukes i prosjektet.", source: "Prosjektveiviseren" },
+  { term: "Kvalitetstoleranser", definition: "Kvalitetstoleranser angir hvor store avvik som er tillatt fra fastsatte kvalitetskrav. De viser hvor mye kvaliteten kan variere før avviket må håndteres eller løftes til et høyere styringsnivå.", source: "Prosjektveiviseren" },
+  { term: "Løsningsbeskrivelse", definition: "En løsningsbeskrivelse beskriver hva en løsning skal gjøre og hvordan den er bygget opp. En funksjonell løsningsbeskrivelse beskriver løsningen fra et brukerperspektiv, en teknisk beskriver hvordan funksjonaliteten er implementert teknisk.", source: "Prosjektveiviseren" },
+  { term: "Mandat for konseptfasen", definition: "Et Mandat for konseptfasen er et ledelsesprodukt som etableres av organisasjonen som eier og iverksetter et prosjekt. Det gir de som skal gjennomføre utredningsarbeidet et mandat til å sette i gang sitt arbeide, herunder føringer og rammer for arbeidet i konseptfasen.", source: "Prosjektveiviseren" },
+  { term: "Nyttestyring", definition: "Nyttestyring er en metode for å utrede, planlegge, gjennomføre og følge opp prosjekter og dets leveranser slik at avsatte midler og ressurser brukes til det beste for virksomhet og samfunnet. Tidligere kalt gevinstrealisering.", source: "Prosjektveiviseren | Produktveilederen" },
+  { term: "Nyttevirkninger", definition: "Nyttevirkninger er de positive virkningene virksomheten forventer at prosjektet skal bidra til. Prosjektveiviseren gikk i 2026 over til å benytte «nyttevirkninger» fremfor «gevinster».", source: "Prosjektveiviseren" },
+  { term: "Omfang", definition: "Omfang beskriver hva prosjektet skal levere, og hva som ikke inngår i prosjektet. Omfanget bør være tydelig nok til at prosjektet, prosjekteier, brukere og leverandører har en felles forståelse av hva prosjektet skal dekke.", source: "Prosjektveiviseren" },
+  { term: "Portefølje", definition: "En portefølje er den samlede oversikten over en virksomhets initiativer og tiltak, for eksempel prosjekter, programmer, produkter og andre aktiviteter i linja. Porteføljestyring handler om å prioritere tiltak, fordele ressurser og sikre at virksomheten bruker kapasiteten på det som gir størst verdi.", source: "Prosjektveiviseren" },
+  { term: "Produkt", definition: "Et produkt i Prosjektveiviseren er noe som leveres fra en prosjektfase, eller noe som brukes i en prosjektfase. I produktorganisering er produktet derimot noe et produktteam eier og videreutvikler kontinuerlig over tid, uten en fast sluttdato.", source: "Prosjektveiviseren | Produktveilederen" },
+  { term: "Produktbeskrivelse", definition: "En produktbeskrivelse forklarer hensikten med et produkt, hva det består av, hva det bygger på, og hvilke kvalitetskriterier som gjelder.", source: "Prosjektveiviseren" },
+  { term: "Produktdokumentasjon", definition: "Produktdokumentasjon er en av tre former for dokumentasjon i Prosjektveiviseren, og beskriver det produktene i prosjektet skal levere, kravene som gjelder for leveransene og hva som må være oppfylt for at prosjektets produkter godkjennes og kan tas i bruk.", source: "Prosjektveiviseren" },
+  { term: "Produktkanvas", definition: "Se prosjektkanvas dersom begrepet brukes om et prosjektstyringsverktøy. Dersom dere ønsker å bruke produktkanvas som eget begrep, bør det defineres som en kort og visuell beskrivelse av produktets målgruppe, behov, verdi, effektmål og overordnede retning.", source: "Prosjektveiviseren" },
+  { term: "Produktnedbrytingsstruktur", definition: "En produktnedbrytningsstruktur er en hierarkisk oversikt over alle produkter som skal produseres og som inngår i en plan.", source: "Prosjektveiviseren" },
+  { term: "Program", definition: "Et program er en samling prosjekter og aktiviteter med et felles overordnet mål. Et program brukes når flere tiltak må styres samlet for å skape en større endring og realisere nyttevirkninger som ett enkelt prosjekt ikke kan oppnå alene.", source: "Prosjektveiviseren" },
+  { term: "Prosjekt", definition: "Et prosjekt er en midlertidig organisasjon som er etablert for å levere ett eller flere produkter som bidrar til å realisere en avtalt begrunnelse. Prosjekter har vanligvis et tydelig mål, en avgrenset ramme for tid, kostnad og omfang, og en oppgave som skiller seg fra ordinær drift.", source: "Prosjektveiviseren" },
+  { term: "Prosjektbegrunnelse", definition: "Prosjektbegrunnelsen beskriver hvorfor prosjektet bør gjennomføres. Den viser sammenhengen mellom behovet, målene, anbefalt konsept, forventet nytte, kostnader og usikkerhet.", source: "Prosjektveiviseren" },
+  { term: "Prosjektforslag", definition: "Prosjektforslaget gir grunnlag for å vurdere om et mulig prosjekt bør planlegges videre. Det brukes som beslutningsgrunnlag ved overgangen fra konseptfasen til planleggingsfasen.", source: "Prosjektveiviseren" },
+  { term: "Prosjektkanvas", definition: "Et prosjektkanvas er en kort og visuell beskrivelse av prosjektets visjon, verdi, brukere, nyttevirkninger og rammer. Det kan brukes tidlig for å skape felles forståelse og som grunnlag for forenklet styring.", source: "Prosjektveiviseren" },
+  { term: "Prosjektplan", definition: "Prosjektplanen er en overordnet plan som viser hovedproduktene i prosjektet, når de skal leveres, og til hvilken kostnad.", source: "Prosjektveiviseren" },
+  { term: "Prosjektprodukt", definition: "Prosjektproduktet er det samlede resultatet prosjektet må levere for å bli godkjent. Et prosjektprodukt består ofte av flere prosjektleveranser, og hver leveranse kan bestå av flere produkter.", source: "Prosjektveiviseren" },
+  { term: "Prosjektstyring", definition: "Prosjektstyring er den delen av virksomhetens styring som gjelder prosjektaktiviteter. God prosjekteierstyring skal sikre at prosjektet støtter virksomhetens mål, at prosjektet styres etter god praksis, og at prosjekteier tar nødvendige beslutninger underveis.", source: "Prosjektveiviseren" },
+  { term: "Prosjekttilnærming", definition: "Prosjekttilnærming beskriver hvordan prosjektet skal gå frem for å løse oppgaven. Den kan for eksempel beskrive om prosjektet skal utvikle løsningen selv, anskaffe den, bruke smidige metoder, samarbeide med leverandører eller kombinere flere arbeidsformer.", source: "Prosjektveiviseren" },
+  { term: "Risiko", definition: "Risiko handler om usikre hendelser som kan påvirke prosjektets mål, produkter, leveranser, kostnader, tid, kvalitet, omfang, nyttevirkninger eller bærekraft. Risiko kan være negativ, men usikkerhet kan også innebære muligheter.", source: "Prosjektveiviseren" },
+  { term: "Risikostrategi", definition: "Risikostrategien beskriver hvordan prosjektet skal arbeide med risiko. Den bør beskrive formål, prosedyrer, roller, ansvar, risikotoleranser, verktøy og krav til rapportering.", source: "Prosjektveiviseren" },
+  { term: "Sak", definition: "I denne konteksten er en sak en hendelse som kan påvirke prosjektet og som krever oppmerksomhet fra prosjektledelsen. Saker kan for eksempel være endringsanmodninger, avvik fra krav eller akseptansekriterier, bekymringer, problemer eller nye muligheter.", source: "Prosjektveiviseren" },
+  { term: "Saksrapport", definition: "En saksrapport beskriver konsekvenser og anbefalte tiltak for en formell sak. Saksrapporten brukes når en sak må behandles og besluttes på et høyere styringsnivå.", source: "Prosjektveiviseren" },
+  { term: "Samfunnsøkonomisk analyse", definition: "En samfunnsøkonomisk analyse vurderer hvilke nyttevirkninger og kostnader et tiltak kan gi for samfunnet. Analysen brukes som grunnlag for å vurdere om et tiltak er lønnsomt og riktig å gjennomføre.", source: "Prosjektveiviseren" },
+  { term: "Sluttrapport", definition: "Sluttrapporten gis fra prosjektleder til prosjektstyret og bekrefter overlevering av produkter, vurderer prosjektets sluttresultat og sammenligner gjennomføringen med styringsdokumentasjonen.", source: "Prosjektveiviseren" },
+  { term: "Statusrapport", definition: "Statusrapporten er en tidsdrevet rapport fra prosjektleder til prosjektstyret eller prosjekteier. Den beskriver fremdriften i en fase og rapporteres på faste, avtalte tidspunkter.", source: "Prosjektveiviseren" },
+  { term: "Strategi for endringsledelse", definition: "Strategi for endringsledelse beskriver hva som må være på plass for at prosjektet skal nå målene sine, og hvordan organisasjonen skal bevege seg fra dagens situasjon til ønsket fremtidig situasjon.", source: "Prosjektveiviseren" },
+  { term: "Styringsdokumentasjon", definition: "Styringsdokumentasjon er en av tre former for dokumentasjon i Prosjektveiviseren, og er en samlet betegnelse for dokumentene som brukes til å styre prosjektet og ta beslutninger gjennom hele prosjektets livsløp.", source: "Prosjektveiviseren" },
+  { term: "Styringsdokumentet", definition: "Styringsdokumentet samler den styringsinformasjonen som utgjør avtalen mellom prosjekteier og prosjektleder. Det beskriver blant annet mål, rammer, organisering, planer, risiko, nyttevirkninger og styringsopplegg.", source: "Prosjektveiviseren" },
+  { term: "Styringsparameter", definition: "Et styringsparameter er et område prosjektet skal styres og følges opp mot. Prosjektveiviseren bruker syv styringsparametere: nyttevirkninger, kostnader, tid, kvalitet, omfang, bærekraft og risiko.", source: "Prosjektveiviseren" },
+  { term: "Testplan", definition: "En testplan er en systematisk beskrivelse av hvordan testprosesser skal gjennomføres i et prosjekt. Den kan beskrive testtyper, ansvar, testmiljøer, testdata, tidsplaner og hvordan testresultater skal følges opp.", source: "Prosjektveiviseren" },
+  { term: "Uformelle saker", definition: "I denne konteksten er uformelle saker mindre eller dagligdagse utfordringer som kan løses innenfor prosjektleders myndighet. De krever ikke formell eskalering eller beslutning på høyere styringsnivå.", source: "Prosjektveiviseren" },
+  { term: "Usikkerhetsanalyse", definition: "En usikkerhetsanalyse er en beskrivelse av usikkerhetene som finnes i et prosjekt. En usikkerhetsanalyse er svært lik en risikoanalyse, men tar også med positive hendelser som kan oppstå i prosjektet.", source: "Prosjektveiviseren" },
+  { term: "Virksomhetsstyring", definition: "Virksomhetsstyring er ledelsens arbeid med å sikre at virksomheten har gode systemer for styring, kontroll og oppfølging. Det handler blant annet om mål, ressurser, prioriteringer, internkontroll, risiko og virksomhetens omdømme.", source: "Prosjektveiviseren" },
+  { term: "Øvrig prosjektdokumentasjon", definition: "En av tre former for dokumentasjon i Prosjektveiviseren, som beskriver dokumentasjonen som brukes til å operativt lede, følge opp og lære av prosjektet. Dette kan være logger, registre, rapporter, beslutningsgrunnlag, strategier, notater og andre arbeidsprodukter.", source: "Prosjektveiviseren" },
+  { term: "Brukerhistorie", definition: "En brukerhistorie er en kort beskrivelse av et behov og ønsket funksjonalitet sett fra brukerens perspektiv. Den kan formuleres slik: Som [rolle] ønsker jeg [behov], slik at [verdi].", source: "Prosjektveiviseren · smidige begreper" },
+  { term: "Fibonacci-skalaen", definition: "En metode som bruker tall som øker i større sprang, for eksempel 1, 2, 3, 5, 8 og 13. Tallene viser relativ størrelse og kompleksitet, ikke arbeidstimer.", source: "Prosjektveiviseren · smidige begreper" },
+  { term: "Fremdriftsdiagram", definition: "Fremdriftsdiagrammer brukes for å vise hvordan arbeidet utvikler seg over tid. De bør først og fremst vise ferdige leveranser og gjenstående arbeid, ikke bare aktivitet.", source: "Prosjektveiviseren · smidige begreper" },
+  { term: "Iterasjon og inkrement", definition: "En iterasjon er en avgrenset arbeidsrunde der teamet planlegger, utvikler og ferdigstiller en del av løsningen. Et inkrement er resultatet av en iterasjon: en ferdig del av løsningen som kan vises frem, testes med brukere eller tas i bruk.", source: "Prosjektveiviseren · smidige begreper | Produktveilederen" },
+  { term: "Kanban", definition: "Kanban er en smidig metode som brukes for å visualisere arbeid, begrense pågående arbeid og skape bedre flyt. Arbeidet vises ofte på en tavle der oppgaver flyttes mellom ulike steg.", source: "Prosjektveiviseren · smidige begreper" },
+  { term: "Konseptbevis", definition: "Et konseptbevis er en tidlig test eller dokumentert vurdering som skal sannsynliggjøre at et konsept er realistisk, gjennomførbart og verdt å gå videre med. Det brukes for å gi bedre beslutningsgrunnlag, ikke først og fremst for å utvikle en løsning.", source: "Prosjektveiviseren · smidige begreper" },
+  { term: "Lean startup", definition: "Lean startup er en hypotesedrevet metode der teamet tester antakelser raskt og lærer underveis. Målet er å lage minst mulig for å få mest mulig læring.", source: "Prosjektveiviseren · smidige begreper" },
+  { term: "Minste levedyktige produkt (MVP)", definition: "Den minste versjonen av en løsning eller et produkt som gir nok innsikt og reell læring fra brukere eller andre målgrupper. En MVP skiller seg fra en prototype ved at den i større grad er en første fungerende versjon av løsningen.", source: "Prosjektveiviseren · smidige begreper | Produktveilederen" },
+  { term: "Planleggingspoker", definition: "Planleggingspoker er en metode der teamet estimerer sammen. Hver deltaker velger et estimat uten å vise det til de andre, og deretter viser alle estimatet samtidig.", source: "Prosjektveiviseren · smidige begreper" },
+  { term: "Produktkø", definition: "En produktkø er en prioritert oversikt over behov, funksjoner og leveranser som prosjektet vurderer å utvikle. Køen vedlikeholdes kontinuerlig og oppdateres når prosjektet lærer mer.", source: "Prosjektveiviseren · smidige begreper | Produktveilederen" },
+  { term: "Produktvisjon", definition: "En produktvisjon beskriver hva produktet eller løsningen skal bidra til, og hvilket problem det skal løse. Den bør beskrive ønsket verdi og retning, ikke en detaljert løsning.", source: "Prosjektveiviseren · smidige begreper" },
+  { term: "Prototype", definition: "En prototype er en forenklet fremstilling av hvordan en løsning kan se ut, fungere eller oppleves. Formålet er å teste antakelser og få tilbakemeldinger før prosjektet bruker mye tid og ressurser på utvikling.", source: "Prosjektveiviseren · smidige begreper" },
+  { term: "Release og releaseplan", definition: "En release er den eller de delleveransene som er ferdige og gjort tilgjengelig for brukerne. En releaseplan viser hvordan leveranser er tenkt delt opp og levert fremover i tid.", source: "Prosjektveiviseren · smidige begreper" },
+  { term: "Relativ estimering", definition: "Relativ estimering betyr at teamet vurderer hvor stor eller krevende en oppgave er sammenlignet med andre oppgaver, i stedet for å beregne nøyaktig tidsbruk.", source: "Prosjektveiviseren · smidige begreper" },
+  { term: "Retrospektiv", definition: "Retrospektiv er en metode der teamet ser tilbake på arbeidet og arbeidsmetode for å lære og forbedre seg. Teamet vurderer hva som fungerte godt, hva som bør forbedres, og hvilke tiltak som kan gjøre neste arbeidsrunde bedre.", source: "Prosjektveiviseren · smidige begreper | Produktveilederen" },
+  { term: "Scrum", definition: "Scrum er et smidig rammeverk for iterativ og inkrementell utvikling. Teamet planlegger og leverer et inkrement i en sprint, får tilbakemelding og bruker læringen til å justere videre arbeid.", source: "Prosjektveiviseren · smidige begreper" },
+  { term: "Sprint", definition: "En sprint er en fast tidsboks i Scrum. I løpet av sprinten prioriterer, planlegger og leverer teamet et inkrement eller en del av en større løsning. En sprint varer ofte to, tre eller fire uker.", source: "Prosjektveiviseren · smidige begreper | Produktveilederen" },
+  { term: "Sprintkø", definition: "Sprintkøen består av elementer fra produktkøen som er planlagt utviklet i den aktuelle sprinten.", source: "Prosjektveiviseren · smidige begreper" },
+  { term: "Team Topologies", definition: "Team Topologies er en metode for å fordele ansvar mellom team i større utviklingsoppgaver. Den kan brukes når flere team må samarbeide om samme produkt eller løsning, og det er behov for tydeligere ansvarsdeling.", source: "Prosjektveiviseren · smidige begreper" },
+  { term: "Tidsboks", definition: "En tidsboks er en fast tidsramme for en aktivitet eller en arbeidsperiode. Når tidsboksen er satt, skal den ikke forlenges for å få plass til mer arbeid.", source: "Prosjektveiviseren · smidige begreper" },
+  { term: "Tjenestedesign og design thinking", definition: "Tjenestedesign og design thinking brukes for å forstå brukerbehov, utforske muligheter, teste konsepter og utvikle løsninger som treffer faktiske behov. Metodene brukes ofte i tidlig fase.", source: "Prosjektveiviseren · smidige begreper" },
+  { term: "T-skjortestørrelse", definition: "En enkel måte å estimere på, der teamet vurderer om en oppgave er liten, middels, stor eller ekstra stor (S, M, L eller XL). Metoden passer godt tidlig i arbeidet.", source: "Prosjektveiviseren · smidige begreper" },
+  { term: "Bruker", definition: "Den eller de som benytter seg av, konsumerer og/eller påvirkes av produktet, og som produktet er ment å skape verdi for. I offentlig sektor kan dette være alt fra innbyggeren som mottar en tjeneste, til en saksbehandler som bruker et internt system, eller en samarbeidende virksomhet.", source: "Produktveilederen" },
+  { term: "Brukerorientering", definition: "Aktiv innhenting av brukernes faktiske behov, forventinger og erfaringer. Dette benyttes i et kontinuerlig oppdatert kunnskapsgrunnlag for det gitte problemet som skal løses, og produktet som utvikles.", source: "Produktveilederen" },
+  { term: "Domenekunnskap", definition: "I kontekst av produktorganisering menes det med domenekunnskap at produktteamet har god forståelse av fagområdet de jobber i, ikke bare teknologien. Det handler for eksempel om å kjenne til regelverk, ordninger og prosesser på området, typiske brukerbehov og situasjoner, og hvordan dagens tjenester faktisk fungerer i praksis.", source: "Produktveilederen" },
+  { term: "Flyt", definition: "Graden av sammenheng og framdrift i arbeidet med å utvikle og forbedre produkter, med mål om forutsigbare leveranser uten unødvendig ventetid, stans eller sløsing av tid. Flyt skapes ved en jevn og kontinuerlig strøm av arbeid gjennom ulike mennesker, roller, team, regelverk, styringsrammer og teknologi.", source: "Produktveilederen" },
+  { term: "Helsesjekk", definition: "En regelmessig evaluering av teamets trivsel, samarbeid og arbeidsforhold. Teamet vurderer ulike områder som motivasjon, kommunikasjon, kvalitet og flyt, for å avdekke utfordringer tidlig og iverksette forbedringstiltak.", source: "Produktveilederen" },
+  { term: "Produkteier", definition: "En produkteier har ansvar for å sikre at produktteamet jobber med de riktige behovene og prioriteringene innenfor produktets mål, mandat og rammer. Produkteieren har vanligvis ansvar for å forvalte og prioritere produktkøen, avklare behov og forventninger med interessenter, og sørge for at teamets arbeid henger sammen med produktstrategien og virksomhetens mål.", source: "Produktveilederen" },
+  { term: "Produktområder", definition: "En samling av relaterte og tilgrensede produkter og produktteam under felles strategisk retning og ledelse. Et produktområde består som regel av 2-9 produktteam, og ledes gjerne av en produktområdeeier som har overordnet ansvar for området.", source: "Produktveilederen" },
+  { term: "Produktorganisering", definition: "Tverrfaglig organisering av utvikling og forvaltning rundt et produkt, eller tjeneste, istedenfor funksjonelle avdelinger eller midlertidige strukturer som prosjekter. Produktorganisering skifter fokus fra funksjonelle siloer og midlertidige prosjekter til varige, autonome produktteam som trinnvis forbedrer helhetlige produkter basert på brukernes tilbakemeldinger.", source: "Produktveilederen" },
+  { term: "Produktorientering", definition: "En kulturell og strategisk holdning der virksomheten tenker og handler ut fra produkter og den verdien de skaper over tid. Det innebærer et langsiktig og helhetlig ansvar for brukernes behov og problemene som skal løses, basert på innsikt og læring.", source: "Produktveilederen" },
+  { term: "Produktteam", definition: "En tverrfaglig og autonom gruppe satt sammen av de fagfeltene og rollene man trenger for å løse et gitt problem, ut fra hyppig utprøving og evaluering. Produktteamet har ansvar for å finne den beste løsningen innenfor gjeldende rammer på et behov, inkludert å både utvikle og drifte produktet eller produktene som gir dette.", source: "Produktveilederen" },
+  { term: "Produkttrio", definition: "Et produktteam bør normalt dekke minst tre perspektiver: fag/forvaltning, brukeropplevelse/design og teknologi/data. I offentlig tjenesteutvikling er det ofte også behov for juridisk kompetanse, og når dette perspektivet legges til omtales det noen ganger som en produktkvartett.", source: "Produktveilederen" },
+  { term: "Risikotoleranse", definition: "Viljen til å ta risiko for å oppnå verdiskaping. En tydeliggjøring av hvor mye risiko virksomheten tolererer i jakten på resultater.", source: "Produktveilederen" },
+  { term: "Smidige arbeidsmetoder", definition: "Praktiske måter å planlegge og gjennomføre arbeid på i små, håndterbare steg, slik at dere kan lære underveis og justere kursen raskt. Målet er å redusere risiko og treffe bedre, ved å teste, forbedre og levere litt og ofte.", source: "Produktveilederen" },
+  { term: "Smidig modenhet", definition: "I hvilken grad virksomheten evner å jobbe smidig i praksis av styring, ledelse og samarbeid, ikke kun i enkeltteam. En virksomhet med høy smidig modenhet klarer å prioritere etter mål og effekt, ta beslutninger raskt, lære av data og brukerinnsikt og tilpasse seg endrede behov uten store omkamper.", source: "Produktveilederen" },
+  { term: "Smidig styring", definition: "En måte å lede og prioritere utviklingsarbeid på der en styrer etter mål og effekt, fremfor detaljerte planer og milepæler. Målet er å få bedre flyt, raskere forbedringer og mer kontroll gjennom hyppig oppfølging og brukerinnsikt.", source: "Produktveilederen" },
+  { term: "Teknisk gjeld", definition: "Vedlikeholdsetterslep som oppstår over tid dersom man ikke setter av nok tid og ressurser til å forbedre og rydde opp i den tekniske løsningen fortløpende. Teknisk gjeld gjør det gradvis vanskeligere og dyrere å endre eller videreutvikle produktet.", source: "Produktveilederen" },
+  { term: "Tjeneste", definition: "En ytelse, eller et sett av ytelser, som gir verdi til bruker eller mottaker, enten gjennom direkte kontakt eller digitale løsninger. Tjenester kan bestå av flere underliggende produkter, prosesser og former for kompetanse som sammen muliggjør leveransen av en helhetlig opplevelse eller funksjon.", source: "Produktveilederen" }
 ];
 
 const PRINCIPLES = [
@@ -1093,7 +1443,7 @@ const UNITS = [
   { id: "srs-arkitektur", level: "Avdeling", name: "Arkitektur, informasjonsforvaltning og standardisering", parent: "srs",
     desc: "Nasjonal arkitektur og samordning av data- og informasjonsforvaltning.",
     tasks: ["Nasjonal arkitektur", "Samordning av data- og informasjonsforvaltning, orden i eget hus og NGD", "Standardiseringsarbeid og rådssekretariat"] },
-  { id: "srs-eu", level: "Avdeling", name: "EU og regelverk", parent: "srs",
+  { id: "srs-eu", level: "Avdeling", name: "EU og regelverk", parent: "srs", advises: true,
     desc: "Juridisk oppfølging av internasjonale forpliktelser og regelverksutvikling.",
     tasks: ["Juridisk oppfølging av internasjonale forpliktelser og samarbeid", "Oversikt og samordning av EU-arbeid", "Regelverksutvikling", "Juridisk rådgivning og høringer", "Intern koordinering i Digdir"] },
   { id: "srs-sikkerhet", level: "Avdeling", name: "Sikkerhet og tillit", parent: "srs",
@@ -1143,7 +1493,7 @@ const UNITS = [
     tasks: ["Gevinstrealiseringsplaner", "Måling av samfunns- og bruksgevinster", "Styringsdata, utredninger og beslutningsunderlag"] },
   { id: "prt-bku", level: "Avdeling", name: "Brukeropplevelse, kundeoppfølging og utbredelse", parent: "prt",
     desc: "Møtet med brukerne og kundene: innsikt, design, støtte og utbredelse.", tasks: [] },
-  { id: "prt-design", level: "Seksjon", name: "Brukerinnsikt og design", parent: "prt-bku",
+  { id: "prt-design", level: "Seksjon", name: "Brukerinnsikt og design", parent: "prt-bku", advises: true,
     desc: "Tverrgående ansvar for design og brukeropplevelse i Digdirs produkter og tjenester.",
     tasks: ["Brukerinnsikt", "Brukeropplevelse", "Design og UX", "Felles designsystem"] },
   { id: "prt-oppfolging", level: "Seksjon", name: "Produkt- og tjenesteoppfølging", parent: "prt-bku",
@@ -1151,29 +1501,29 @@ const UNITS = [
   { id: "prt-brukerstotte", level: "Seksjon", name: "Brukerstøtte", parent: "prt-bku",
     desc: "Brukerstøtte for sluttbrukere og støtte til andre team.",
     tasks: ["Brukerstøtte for sluttbruker", "Støtte til andre team ved innholdsarbeid og testing", "Norsk lysingsblad"] },
-  { id: "prt-marked", level: "Seksjon", name: "Marked og utbredelse", parent: "prt-bku",
+  { id: "prt-marked", level: "Seksjon", name: "Marked og utbredelse", parent: "prt-bku", advises: true,
     desc: "Utbredelse, kundearbeid og kanalansvar.",
     tasks: ["Utbredelse og økt bruk", "Strategisk kundearbeid", "Kanalansvar for norge.no, altinn.no og samarbeidsportalen"] },
 
   { id: "vsu", level: "Divisjon", code: "VSU", name: "Virksomhetsstyring og utvikling", size: "ca. 55", parent: null, advises: true,
     desc: "Divisjonen har ansvar for overordnet virksomhetsstyring, økonomi, HR, intern sikkerhet, drift og felles metodestøtte for å sikre effektiv drift og helhetlige arbeidsmåter i hele direktoratet. VSU eier felles metodestøtte og rammeverket for team og leveranser.",
     tasks: ["Styringsdialog med DFD, tildelingsbrev og statsbudsjettinnspill", "Virksomhetsplan, porteføljekontor, tertialrapportering og risikostyring", "OKR-oppfølging og årsrapport", "Områdeansvarlige for innsatsområder", "Felles metoder og rammeverk for tverrfaglige team", "Intern sikkerhet, beredskap og IT-drift"] },
-  { id: "vsu-strategi", level: "Avdeling", name: "Strategi og styring", parent: "vsu", advises: true,
+  { id: "vsu-strategi", level: "Avdeling", name: "Strategi og styring", parent: "vsu",
     desc: "Virksomhetsstyring, porteføljekontor og OKR-oppfølging.",
     tasks: ["DFD-styringsdialog, tildelingsbrev og statsbudsjettinnspill", "Virksomhetsplan", "Porteføljekontor, tertialrapportering og risikostyring", "OKR-oppfølging", "Årsrapport", "Internasjonal koordinator", "Områdeansvarlige for innsatsområder", "Etterlevelse og compliance"] },
-  { id: "vsu-okonomi", level: "Avdeling", name: "Økonomi og innkjøp", parent: "vsu", advises: true,
+  { id: "vsu-okonomi", level: "Avdeling", name: "Økonomi og innkjøp", parent: "vsu",
     desc: "Økonomistyring for Digdirs samlede budsjett, og anskaffelser.",
     tasks: ["Økonomistyring for Digdirs samlede budsjett", "Regnskapsføring", "MVA-oppfølging", "Økonomiprognoser", "Kontakt med Riksrevisjonen"] },
   { id: "vsu-innkjop", level: "Seksjon", name: "Innkjøp, drift og arkiv", parent: "vsu-okonomi",
     desc: "Anskaffelser, arbeidsplasser og arkiv.",
     tasks: ["Fasilitere anskaffelser", "Forvalte anskaffelsesregelverk og avtalesystem (KAV)", "Følge opp miljø- og samfunnskrav i innkjøp", "Forvalte leieavtaler, drift og arbeidsplasser på kontorstedene", "Drifte og forvalte sak- og arkivsystem (WebSak)", "Ivareta innsynskrav og gi opplæring i dokumenthåndtering"] },
-  { id: "vsu-mol", level: "Avdeling", name: "Mennesker, organisasjon og læring", parent: "vsu", advises: true,
+  { id: "vsu-mol", level: "Avdeling", name: "Mennesker, organisasjon og læring", parent: "vsu",
     desc: "HR, lederutvikling og samarbeid med tillitsvalgte.",
     tasks: ["Koordinering av rekruttering, ansettelser og onboarding", "Oppfølging av lønnsforhandlinger og stillingsrammer", "Følge opp HMS, IA og AKAN", "Lederutvikling", "Samarbeid med tillitsvalgte i Samarbeidsutvalget"] },
   { id: "vsu-orglaering", level: "Seksjon", name: "Organisasjonslæring", parent: "vsu-mol", advises: true,
     desc: "Eier felles metoder og rammeverk for tverrfaglige team, produktorganisering og smidige leveranser. Her forvaltes Saman.",
     tasks: ["Eie og videreutvikle felles metoder og rammeverk for tverrfaglige team, produktorganisering og smidige leveranser", "Tilby intern opplæring, coaching, lederstøtte, fasilitering og metodestøtte", "Ressurser innenfor prosjekt- og prosessledelse og støtteteam"] },
-  { id: "vsu-sikkerhet", level: "Avdeling", name: "Sikkerhet og IT-drift", parent: "vsu", advises: true,
+  { id: "vsu-sikkerhet", level: "Avdeling", name: "Sikkerhet og IT-drift", parent: "vsu",
     desc: "Internt styringssystem for sikkerhet, beredskap og IT-drift.",
     tasks: ["Forvaltning av Digdirs interne styringssystem for sikkerhet, personellsikkerhet, fysisk sikring og personvernstyring", "Beredskapshåndtering og vedlikehold av beredskaps- og kriseplaner", "Gjennomføre kriseøvelser", "Situasjonsforståelse og koordinering av krisestab ved hendelser", "Personvernombud"] },
   { id: "vsu-itdrift", level: "Seksjon", name: "IT-drift", parent: "vsu-sikkerhet",
@@ -1212,9 +1562,9 @@ const PEOPLE = {
 const EXAMPLE_PEOPLE_UNITS = ["vsu-orglaering"];
 
 const PORTFOLIO = [
-  { level: "Strategisk prioritering", who: "Porteføljestyret (TLG)", text: "Samordner og prioriterer tiltak som går på tvers av divisjonene ved å opprette, følge opp og legge ned innsatsområder og programmer." },
-  { level: "Operativ prioritering", who: "Linjeorganisasjonen", text: "Oppretter, følger opp og legger ned interne team og oppgaver innad i divisjonen, og avgir ressurser til tverrgående team." },
-  { level: "Backlogg-prioritering", who: "Team og områdeansvarlige", text: "Områdeansvarlige eller programeiere koordinerer leveranser fra flere tverrgående team. Teamene prioriterer selv innenfor mandat og mål." }
+  { level: "Strategisk prioritering", who: "Porteføljestyret (TLG) og områdeansvarlige", text: "Samordner og prioriterer tiltak som går på tvers av divisjonene ved å opprette, følge opp og legge ned innsatsområder og programmer. Områdeansvarlige koordinerer leveranser fra flere tverrgående team innenfor sitt innsatsområde." },
+  { level: "Taktisk prioritering", who: "Linjeorganisasjonen", text: "Oppretter, følger opp og legger ned interne team og oppgaver innad i divisjonen, og avgir ressurser til tverrgående team." },
+  { level: "Operativ prioritering", who: "Produkteier og team", text: "Produkteier forvalter og prioriterer produktkøen, og teamet prioriterer selv innenfor mandat og mål. Avhengigheter og rekkefølge avklares i det daglige arbeidet." }
 ];
 
 const GOALS = [
@@ -1241,6 +1591,17 @@ const ROLES_INST = [
   "Pådrivar for digital samhandling og innovasjon",
   "Forvaltar av Norges digitale grunnmur",
   "Forkjempar for digital inkludering"
+];
+
+const CONTRACT_GROUPS = [
+  { group: "Hva skal vi få til sammen?", fields: [
+    { key: "mal", label: "Mål og formål", help: "Hvorfor er vi et team? Hvilken forskjell skal vi skape for hvem? Hva er det vi som gruppe ønsker å oppnå innenfor teamets mandat? Hvordan vet vi at vi lykkes?" } ] },
+  { group: "Hvem er vi?", fields: [
+    { key: "bruksanvisning", label: "Personlig bruksanvisning", help: "Hva er teammedlemmenes egenopplevde styrker og svakheter i samarbeidssituasjoner, hva kan hver enkelt bidra med? Hva trenger hver enkelt fra gruppen for å være på sitt beste?" } ] },
+  { group: "Hvordan skal vi jobbe sammen og med andre?", fields: [
+    { key: "roller", label: "Interne roller og ansvar i teamet", help: "Hvilke roller trenger vi i denne gruppen for å levere på mål og ambisjon vi har satt oss? Hvilke teammedlemmer har hvilke roller og ansvar?" },
+    { key: "spilleregler", label: "Spilleregler", help: "Hvilke spilleregler bør vi ha for å jobbe best sammen som et team? Hvordan ser godt samarbeid ut i praksis? Hvordan tar vi beslutninger? Hvordan deler vi resultater og læring?" },
+    { key: "arbeidsformer", label: "Arbeidsformer og grensesnitt", help: "Hvordan kan vi best organisere arbeidet vårt for å lykkes med oppgavene og målene vi har? Hvem samarbeider vi med? Hvordan?" } ] }
 ];
 
 const MANDATE_LABELS = [
@@ -1270,10 +1631,10 @@ const NAV = [
 const AREAS = [
   { page: "styring", title: "Styringsfundament", desc: "Visjon, samfunnsoppdrag, målbilde, verdier og institusjonelle roller.", count: "MVP", icon: "landmark", tint: "#eef0f3", ink: "#3c4757" },
   { page: "prinsipper", title: "Prinsipper", desc: "Føringene for hvordan vi organiserer team, følger dem opp og jobber.", count: PRINCIPLES.length + " prinsipper", icon: "compass", tint: "#fdf2da", ink: "#5a4208" },
-  { page: "roller", title: "Roller og ansvar", desc: "Hva ligger i rollene, og hvem har ansvar for hva? Beskrevet etter RAMO.", count: (ROLES.length + Object.keys(ROLE_EXTRA).reduce((n, k) => n + ROLE_EXTRA[k].length, 0)) + " roller", icon: "id-card", tint: "#fdeaea", ink: "#8f1f26" },
+  { page: "roller", title: "Roller og ansvar", desc: "Hva ligger i rollene, og hvem har ansvar for hva? Beskrevet etter RAMO.", count: (ROLES.length + 1 + Object.keys(ROLE_EXTRA).reduce((n, k) => n + ROLE_EXTRA[k].length, 0)) + " roller", icon: "id-card", tint: "#fdeaea", ink: "#8f1f26" },
   { page: "org", title: "Organisasjon", desc: "Divisjoner, avdelinger og de tverrgående strukturene i Digdir 2.0.", count: "7 enheter", icon: "network", tint: "#fdeaea", ink: "#8f1f26" },
   { page: "teams", title: "Teamoversikt", desc: "Alle team i Digdir, hva de leverer og hvorfor de finnes.", count: TEAMS.length + " team", icon: "users", tint: "#e6f2fd", ink: "#0062B8" },
-  { page: "veiviser", title: "Veiviser", desc: "Fire spørsmål som hjelper deg finne riktig teamtype ved etablering.", count: "4 steg", icon: "git-branch", tint: "#fdf2da", ink: "#5a4208" },
+  { page: "veiviser", title: "Veiviser", desc: "Spørsmål som hjelper deg å finne riktig arbeidsform og teamtype.", count: WIZARD.length + " steg", icon: "git-branch", tint: "#fdf2da", ink: "#5a4208" },
   { page: "verktoy", title: "Verktøykasse", desc: "Anbefalte metoder, maler og verktøy for team- og prosjektarbeid.", count: TOOLS.length + " verktøy", icon: "wrench", tint: "#e6f2fd", ink: "#0062B8" },
   { page: "begreper", title: "Begreper", desc: "Felles referansepunkt for hva vi legger i de viktigste begrepene.", count: TERMS.length + " begreper", icon: "book-open", tint: "#eef0f3", ink: "#3c4757" }
 ];
@@ -1287,16 +1648,19 @@ const SUGGESTIONS = {
   unit: ["Hva har denne enheten ansvar for?", "Hvem er leder for enheten?", "Hvilke seksjoner ligger under?", "Hvordan får jeg tak i ressurser her?"],
   direktor: ["Hvem sitter i toppledergruppen?", "Hva beslutter porteføljestyret?", "Hvorfor er tilsynet ikke fast med i TLG?", "Når trer ny organisering i kraft?"],
   teams: ["Hvilke teamtyper finnes i Digdir?", "Hva skiller produktteam fra leveranseteam?", "Hvem er teameier for et team?", "Hvordan registrerer vi et nytt team?"],
+  kontrakt: ["Hva bør stå i en teamkontrakt?", "Hva er en personlig bruksanvisning?", "Hvem skriver kontrakten?", "Når bør vi revidere den?"],
+  mandat: ["Hva mangler i dette mandatet?", "Hva skal stå under avgrensninger?", "Hvem godkjenner mandatet?", "Hvor ofte bør mandatet revideres?"],
   team: ["Hva mangler i mandatet til dette teamet?", "Hva skal stå under Hva skal vi oppnå?", "Hvem godkjenner mandatet?", "Hvilke verktøy bør teamet bruke?"],
   veiviser: ["Når egner oppgaven seg for teamarbeid?", "Hva skiller prosjektteam fra leveranseteam?", "Hva kjennetegner et produkt?", "Hva om oppgaven ikke passer noen teamtype?"],
-  verktoy: ["Hva er forskjellen på teammandat og teamkontrakt?", "Når bruker vi Prosjektveiviseren?", "Hva er Team Canvas?", "Hvordan kommer vi i gang med OKR?"],
+  tool: ["Hvem er ansvarlig for dette verktøyet?", "Hvilke team bruker det?", "Når bør vi bruke det?", "Finnes det et alternativ?"],
+  verktoy: ["Hva er forskjellen på teammandat og teamkontrakt?", "Når bruker vi Prosjektveiviseren?", "Hvilke maler finnes for team?", "Hvordan kommer vi i gang med OKR?"],
   begreper: ["Hva er forskjellen på team og enhet?", "Hva betyr RAMO?", "Hva er en leveranse?", "Hva er et tverrgående team?"]
 };
 
 const chipStyle = (on) => "padding: 7px 14px; border-radius: 9999px; border: 1px solid " + (on ? "#0062B8" : "#9aa5b1") + "; background: " + (on ? "#0062B8" : "transparent") + "; color: " + (on ? "#fff" : "#1E2B3C") + "; font-size: 14px; font-weight: 500; cursor: pointer";
 
 class Component extends DCLogic {
-  state = { page: null, teamId: null, unitId: null, memberIndex: null, assistantOpen: false, assistantInput: "", assistantMessages: [], assistantBusy: false, query: "", typeFilter: "Alle", toolFilter: "Alle", toolTeamFilter: "Alle", areaFilter: "Alle", roleFilter: "Alle", wizardPath: [], wizardStep: "team", wizardResult: null, editing: false, draft: null, saved: false, mandates: {} };
+  state = { page: null, teamId: null, unitId: null, toolName: null, memberIndex: null, contracts: {}, contractEditing: false, contractDraft: null, contractSaved: false, assistantOpen: false, assistantInput: "", assistantMessages: [], assistantBusy: false, query: "", typeFilter: "Alle", audienceFilter: "Alle", toolFilter: "Alle", toolTeamFilter: "Alle", areaFilter: "Alle", roleFilter: "Alle", termFilter: "Alle", wizardPath: [], wizardStep: "team", wizardResult: null, editing: false, draft: null, saved: false, mandates: {} };
 
   go = (page) => () => this.setState({ page, query: "", editing: false, saved: false });
 
@@ -1310,9 +1674,10 @@ class Component extends DCLogic {
 
   openUnit = (id) => () => this.setState({ page: "unit", unitId: id });
 
+  openTool = (name) => () => this.setState({ page: "tool", toolName: name });
+
   assistantContext() {
     const roles = ROLES.map((r) => r.name + ": " + r.ramo.map((x) => x.label + " — " + x.value).join(" ")).join("\n");
-    const variants = ROLE_VARIANTS.map((v) => v.type + ": " + v.text).join("\n");
     const principles = PRINCIPLES.map((p) => p.num + " (" + p.area + ") " + p.title + ": " + p.body).join("\n");
     const terms = TERMS.map((t) => t.term + ": " + t.definition).join("\n");
     const tools = TOOLS.map((t) => t.name + " (" + t.type + ", " + t.forWhom + "): " + t.desc).join("\n");
@@ -1320,7 +1685,7 @@ class Component extends DCLogic {
     const units = UNITS.map((u) => u.level + " " + u.name + ": " + u.desc).join("\n");
     const wizard = WIZARD.map((w) => w.title + " → " + w.options.map((o) => o.label).join(" / ")).join("\n");
     const results = Object.keys(RESULTS).map((k) => RESULTS[k].title + ": " + RESULTS[k].body + " Krav: " + RESULTS[k].points.join("; ")).join("\n");
-    return ["ROLLER (RAMO)", roles, "VARIASJONER PER TEAMTYPE", variants, "PRINSIPPER", principles,
+    return ["ROLLER (RAMO)", roles, "PRINSIPPER", principles,
       "BEGREPER", terms, "VERKTØYKASSE", tools, "TEAM I DIGDIR", teams, "ORGANISASJON", units,
       "VEIVISER", wizard, "TEAMTYPER", results].join("\n\n");
   }
@@ -1338,7 +1703,7 @@ class Component extends DCLogic {
         + (u.tasks.length ? "\nOppgaver: " + u.tasks.join("; ") : "")
         + "\nNår brukeren skriver «denne enheten», mener de " + u.name + ".";
     }
-    if (page === "team") {
+    if (page === "team" || page === "mandat" || page === "kontrakt") {
       const t = TEAMS.find((x) => x.id === s.teamId);
       if (t) {
         const m = this.mandateFor(t);
@@ -1392,29 +1757,46 @@ class Component extends DCLogic {
 
     const q = s.query.trim().toLowerCase();
     const matches = (t) => !q || (t.name + " " + t.purpose + " " + t.lead + " " + t.type).toLowerCase().includes(q);
-    const visibleTeams = TEAMS.filter((t) => (s.typeFilter === "Alle" || t.type === s.typeFilter) && matches(t)).map((t) => ({
+    const visibleTeams = TEAMS.filter((t) => (s.typeFilter === "Alle" || t.type === s.typeFilter)
+      && (s.audienceFilter === "Alle"
+        || (s.audienceFilter === "Internt" ? (t.audiences || []).length === 0 : (t.audiences || []).indexOf(s.audienceFilter) !== -1))
+      && matches(t)).map((t) => ({
       name: t.name, type: t.type, division: t.division, purpose: t.purpose,
       tagStyle: tagStyle(t.type), go: this.openTeam(t.id),
       metaLabel: (t.members.length ? t.members.length + " medlemmer · " : "Medlemmer ikke registrert · ") + t.lead
     }));
 
-    const typeFilters = ["Alle", "Produktteam", "Leveranseteam", "Støtteteam", "Prosjektteam"].map((label) => ({
+    const typeFilters = ["Alle", "Produktteam", "Leveranseteam", "Støtteteam", "Prosjektteam", "Fagnettverk"].map((label) => ({
       label, style: chipStyle(s.typeFilter === label), go: () => this.setState({ typeFilter: label })
+    }));
+    const audienceFilters = ["Alle"].concat(AUDIENCES).concat(["Internt i Digdir"]).map((label) => ({
+      label, style: chipStyle(s.audienceFilter === label),
+      go: () => this.setState({ audienceFilter: label === "Internt i Digdir" ? "Internt" : label })
     }));
 
     const toolQ = q;
-    const forTeamType = (t) => s.toolTeamFilter === "Alle" || t.forWhom === s.toolTeamFilter
-      || t.forWhom === "Alle team" || t.forWhom === "Alle" || t.forWhom === "Nye team";
+    const forTeamType = (t) => s.toolTeamFilter === "Alle"
+      || (t.types ? t.types.indexOf(s.toolTeamFilter) !== -1
+        : t.forWhom === s.toolTeamFilter || t.forWhom === "Alle team" || t.forWhom === "Alle");
     const visibleTools = TOOLS.filter((t) => (s.toolFilter === "Alle" || t.type === s.toolFilter) && forTeamType(t)
       && (!toolQ || (t.name + " " + t.desc + " " + t.forWhom).toLowerCase().includes(toolQ)));
-    const toolFilters = ["Alle", "Mal", "Metode", "Rammeverk", "Veileder", "Verktøy"].map((label) => ({
+    const toolFilters = ["Alle", "Mal", "Metode", "Veileder", "Verktøy"].map((label) => ({
       label, style: chipStyle(s.toolFilter === label), go: () => this.setState({ toolFilter: label })
     }));
-    const toolTeamFilters = ["Alle", "Produktteam", "Leveranseteam", "Støtteteam", "Prosjektteam"].map((label) => ({
+    const toolTeamFilters = ["Alle", "Produktteam", "Leveranseteam", "Støtteteam", "Prosjektteam", "Fagnettverk"].map((label) => ({
       label, style: chipStyle(s.toolTeamFilter === label), go: () => this.setState({ toolTeamFilter: label })
     }));
 
-    const visibleTerms = TERMS.filter((t) => !q || (t.term + " " + t.definition).toLowerCase().includes(q));
+    const termSource = (t) => s.termFilter === "Alle"
+      || (s.termFilter === "Saman" && t.source.indexOf("Definert i Saman") !== -1)
+      || (s.termFilter === "Prosjektveiviseren" && t.source.indexOf("Prosjektveiviseren") !== -1)
+      || (s.termFilter === "Smidige begreper" && t.source.indexOf("smidige") !== -1)
+      || (s.termFilter === "Produktveilederen" && t.source.indexOf("Produktveilederen") !== -1);
+    const visibleTerms = TERMS.filter((t) => termSource(t) && (!q || (t.term + " " + t.definition).toLowerCase().includes(q)))
+      .sort((a, b) => a.term.localeCompare(b.term, "nb"));
+    const termFilters = ["Alle", "Saman", "Prosjektveiviseren", "Smidige begreper", "Produktveilederen"].map((label) => ({
+      label, style: chipStyle(s.termFilter === label), go: () => this.setState({ termFilter: label })
+    }));
 
     const visiblePrinciples = PRINCIPLES.filter((p) => s.areaFilter === "Alle" || p.area === s.areaFilter);
     const principleFilters = ["Alle", "Alle i Digdir", "Ledelse", "Arkitektur"].map((label) => ({
@@ -1438,6 +1820,7 @@ class Component extends DCLogic {
       style: "width: 34px; height: 5px; border-radius: 9999px; display: inline-block; background: " + (i <= stepIndex ? "#0062B8" : "#cfd6de")
     }));
 
+    const tool = TOOLS.find((x) => x.name === s.toolName);
     const unit = UNITS.find((u) => u.id === s.unitId);
     const unitParent = unit && unit.parent ? UNITS.find((u) => u.id === unit.parent) : null;
     const unitPeople = (unit && PEOPLE[unit.id]) || [];
@@ -1460,15 +1843,17 @@ class Component extends DCLogic {
       isRoller: page === "roller", isVeiviser: page === "veiviser", isVerktoy: page === "verktoy",
       isBegreper: page === "begreper", isPrinsipper: page === "prinsipper", isStyring: page === "styring", isOrg: page === "org",
       goHome: this.go("home"), goTeams: this.go("teams"), goOrg: this.go("org"), goBegreper: this.go("begreper"),
-      goVeiviser: this.go("veiviser"), goVerktoy: this.go("verktoy"), goRoller: this.go("roller"), goPrinsipper: this.go("prinsipper"),
+      goVeiviser: this.go("veiviser"), goStyring: this.go("styring"), goVerktoy: this.go("verktoy"), goRoller: this.go("roller"), goPrinsipper: this.go("prinsipper"),
 
       query: s.query,
       setQuery: (e) => this.setState({ query: e.target.value }),
 
-      visibleTeams, typeFilters, noTeams: visibleTeams.length === 0,
+      visibleTeams, typeFilters, audienceFilters, noTeams: visibleTeams.length === 0,
       teamCountLabel: visibleTeams.length + (visibleTeams.length === 1 ? " team" : " team") + (s.typeFilter === "Alle" ? "" : " av typen " + s.typeFilter.toLowerCase()),
 
       team: t ? { name: t.name, type: t.type, unitPath: t.unitPath, purpose: t.purpose, revised: t.revised, tagStyle: tagStyle(t.type), tools: t.tools, principles: t.principles,
+        audiences: t.audiences || [],
+        noAudiences: !(t.audiences || []).length,
         members: t.members.map((m, i) => {
           const parts = m.role.split(" · ");
           const photo = m.name === "Ronny Birkeli" ? "uploads/Portrett.jpg" : "";
@@ -1501,7 +1886,39 @@ class Component extends DCLogic {
         valueStyle: "font-size: 16px; line-height: 1.55; white-space: pre-line; color: " + (mandate[f.key] ? "#1E2B3C" : "#65707D") })) : [],
       mandateFrames: mandate ? MANDATE_LABELS.filter((f) => f.section).map((f) => ({ label: f.label, value: mandate[f.key] || "Ikke registrert ennå",
         valueStyle: "font-size: 15px; line-height: 1.55; white-space: pre-line; color: " + (mandate[f.key] ? "#1E2B3C" : "#65707D") })) : [],
-      mandateStatus: t ? "Ansvarlig leder: " + t.lead + " · Status: Utkast" : "",
+      mandateStatus: t ? (t.revised === "ikke registrert" ? "Sist oppdatert er ikke registrert" : "Sist oppdatert " + t.revised + " av " + t.lead) : "",
+      goMandate: () => this.setState({ page: "mandat" }),
+      isMandate: page === "mandat" && !!t,
+      goTeamFromMandate: () => this.setState({ page: "team" }),
+      contractGroups: t ? CONTRACT_GROUPS.map((g) => {
+        const filled = g.fields.filter((f) => (this.state.contracts[t.id] || {})[f.key]);
+        return {
+          group: g.group,
+          summary: filled.length ? filled.map((f) => f.label).join(", ") : "Ikke registrert ennå",
+          summaryStyle: "font-size: 16px; line-height: 1.55; color: " + (filled.length ? "#1E2B3C" : "#65707D"),
+          fields: g.fields.map((f) => {
+            const v = (this.state.contracts[t.id] || {})[f.key];
+            return { label: f.label, help: f.help, value: v || "Ikke registrert ennå",
+              valueStyle: "font-size: 16px; line-height: 1.55; white-space: pre-line; color: " + (v ? "#1E2B3C" : "#65707D") };
+          })
+        };
+      }) : [],
+      contractIncomplete: !!t && CONTRACT_GROUPS.some((g) => g.fields.some((f) => !(this.state.contracts[t.id] || {})[f.key])),
+      hasContract: !!t && t.type !== "Fagnettverk",
+      goContract: () => this.setState({ page: "kontrakt" }),
+      isContract: page === "kontrakt" && !!t && t.type !== "Fagnettverk",
+      contractEditing: s.contractEditing, contractNotEditing: !s.contractEditing,
+      contractSaved: s.contractSaved && !s.contractEditing,
+      startContractEdit: () => this.setState({ contractEditing: true, contractDraft: Object.assign({}, this.state.contracts[t.id] || {}), contractSaved: false }),
+      cancelContractEdit: () => this.setState({ contractEditing: false, contractDraft: null }),
+      saveContractEdit: () => this.setState((st) => ({ contractEditing: false, contractSaved: true,
+        contracts: Object.assign({}, st.contracts, { [t.id]: st.contractDraft || {} }), contractDraft: null })),
+      contractInputs: t ? CONTRACT_GROUPS.reduce((acc, g) => acc.concat(g.fields.map((f) => ({
+        label: f.label, help: f.help, group: g.group,
+        value: (s.contractDraft || this.state.contracts[t.id] || {})[f.key] || "",
+        onChange: (e) => { const v = e.target.value; this.setState((st) => ({ contractDraft: Object.assign({}, st.contractDraft || st.contracts[t.id] || {}, { [f.key]: v }) })); }
+      }))), []) : [],
+      contractStatus: t ? "Sist oppdatert er ikke registrert" : "",
       mandateIncomplete: !!mandate && MANDATE_LABELS.some((f) => !mandate[f.key]),
       revisedLabel: t ? (t.revised === "ikke registrert" ? "Sist revidert er ikke registrert" : "Sist revidert " + t.revised) : "",
       noMembers: !!t && t.members.length === 0,
@@ -1516,23 +1933,22 @@ class Component extends DCLogic {
       saveEdit: () => this.setState((st) => ({ editing: false, saved: true, mandates: Object.assign({}, st.mandates, { [t.id]: st.draft || mandate }), draft: null })),
 
       roles: (function (f) {
-        const base = f === "Prosjektteam"
-          ? []
-          : ROLES.map((r) => ({ name: r.name, ramo: r.ramo,
-              scope: f === "Alle" ? "Obligatorisk for alle teamtyper" : "Obligatorisk for " + f.toLowerCase() }));
+        const line = [{ name: LINE_MANAGER.name, ramo: LINE_MANAGER.ramo, scope: "Rolle i linjeorganisasjonen" }];
+        if (f === "Linjen") return line;
+        const base = (f === "Prosjektteam" || f === "Fagnettverk" ? [] : ROLES).map((r) => ({ name: r.name, ramo: r.ramo,
+          scope: f === "Alle" ? "Obligatorisk for produkt-, leveranse- og støtteteam" : "Obligatorisk for " + f.toLowerCase() }));
         const extraTypes = f === "Alle" ? Object.keys(ROLE_EXTRA) : (ROLE_EXTRA[f] ? [f] : []);
         const extra = [];
         extraTypes.forEach((type) => {
           ROLE_EXTRA[type].forEach((r) => extra.push({ name: r.name, ramo: r.ramo,
-            scope: type === "Prosjektteam" ? "Obligatorisk for prosjektteam" : "Egen rolle i " + type.toLowerCase() }));
+            scope: type === "Prosjektteam" ? "Obligatorisk for prosjektteam"
+              : type === "Fagnettverk" ? "Obligatorisk for fagnettverk" : "Egen rolle i " + type.toLowerCase() }));
         });
-        return f === "Prosjektteam" ? extra.concat(base) : base.concat(extra);
+        return (f === "Prosjektteam" || f === "Fagnettverk" ? extra.concat(base) : base.concat(extra)).concat(line);
       })(s.roleFilter),
-      roleTypeFilters: ["Alle", "Produktteam", "Leveranseteam", "Støtteteam", "Prosjektteam"].map((label) => ({
+      roleTypeFilters: ["Alle", "Produktteam", "Leveranseteam", "Støtteteam", "Prosjektteam", "Fagnettverk", "Linjen"].map((label) => ({
         label, style: chipStyle(s.roleFilter === label), go: () => this.setState({ roleFilter: label })
       })),
-      roleVariants: ROLE_VARIANTS.filter((v) => s.roleFilter === "Alle" || v.types.indexOf(s.roleFilter) !== -1),
-      noVariants: ROLE_VARIANTS.filter((v) => s.roleFilter === "Alle" || v.types.indexOf(s.roleFilter) !== -1).length === 0,
       roleFilterNote: s.roleFilter === "Prosjektteam" ? "I prosjektteam heter rollene prosjekteier og prosjektleder, og utøves i tråd med Digdirs prosjektveiviser." : "",
       hasRoleNote: s.roleFilter === "Prosjektteam",
 
@@ -1540,11 +1956,11 @@ class Component extends DCLogic {
       wizardProgress: s.wizardResult ? "Ferdig" : "Steg " + (stepIndex + 1) + " av " + WIZARD.length,
       wizardResult: s.wizardResult ? RESULTS[s.wizardResult] : null,
       goRolesForResult: () => {
-        const map = { prosjektteam: "Prosjektteam", produktteam: "Produktteam", leveranseteam: "Leveranseteam", stotteteam: "Støtteteam" };
+        const map = { prosjektteam: "Prosjektteam", produktteam: "Produktteam", leveranseteam: "Leveranseteam", stotteteam: "Støtteteam", ikkeTeam: "Linjen", fellesskap: "Fagnettverk" };
         this.setState({ page: "roller", query: "", editing: false, saved: false, roleFilter: map[s.wizardResult] || "Alle" });
       },
       goToolsForResult: () => {
-        const map = { prosjektteam: "Prosjektteam", produktteam: "Produktteam", leveranseteam: "Leveranseteam", stotteteam: "Støtteteam" };
+        const map = { prosjektteam: "Prosjektteam", produktteam: "Produktteam", leveranseteam: "Leveranseteam", stotteteam: "Støtteteam", fellesskap: "Alle" };
         this.setState({ page: "verktoy", editing: false, saved: false, toolFilter: "Alle", query: "", toolTeamFilter: map[s.wizardResult] || "Alle" });
       },
       canGoBack: s.wizardPath.length > 0,
@@ -1563,7 +1979,7 @@ class Component extends DCLogic {
           style: "text-align: left; width: 100%; padding: 12px 14px; border: 1px solid " + (a.advises ? "#F45F63" : "#dce1e7") + "; border-radius: 4px; background: #fff; font-size: 15px; font-weight: 500; cursor: pointer",
           children: UNITS.filter((s) => s.parent === a.id).map((s) => ({
             name: s.name, go: this.openUnit(s.id),
-            style: "text-align: left; width: 100%; padding: 8px 12px; border: none; border-radius: 4px; background: #f2f4f6; color: #44505f; font-size: 14px; cursor: pointer"
+            style: "text-align: left; width: 100%; padding: 8px 12px; border: 1px solid " + (s.advises ? "#F45F63" : "transparent") + "; border-radius: 4px; background: #f2f4f6; color: #44505f; font-size: 14px; cursor: pointer"
           }))
         }))
       })),
@@ -1606,9 +2022,23 @@ class Component extends DCLogic {
         text, go: () => { this.setState({ assistantInput: text }, () => this.sendAssistant()); }
       })),
 
-      visibleTools, toolFilters, toolTeamFilters,
+      visibleTools: visibleTools.map((t) => Object.assign({}, t, { go: this.openTool(t.name) })),
+      toolFilters, toolTeamFilters,
+      isTool: page === "tool" && !!tool,
+      tool: tool ? {
+        name: tool.name, type: tool.type, forWhom: tool.forWhom, desc: tool.desc, link: tool.link,
+        long: (TOOL_DETAILS[tool.name] || {}).long || "Ingen utvidet beskrivelse er lagt inn ennå.",
+        owner: (TOOL_DETAILS[tool.name] || {}).owner || "Ikke registrert",
+        contact: (TOOL_DETAILS[tool.name] || {}).contact || "Ikke registrert",
+        resources: ((TOOL_DETAILS[tool.name] || {}).resources || []).map((r) => ({ label: r[0], where: r[1] })),
+        noResources: !((TOOL_DETAILS[tool.name] || {}).resources || []).length,
+        users: TEAMS.filter((x) => x.tools.indexOf(tool.name) !== -1).map((x) => ({
+          name: x.name, type: x.type, tagStyle: tagStyle(x.type) + "; align-self: flex-start", go: this.openTeam(x.id) })),
+        noUsers: TEAMS.filter((x) => x.tools.indexOf(tool.name) !== -1).length === 0,
+        userCountLabel: TEAMS.filter((x) => x.tools.indexOf(tool.name) !== -1).length + " av " + TEAMS.length + " team"
+      } : null,
       noTools2: visibleTools.length === 0,
-      visibleTerms,
+      visibleTerms, termFilters, termCountLabel: visibleTerms.length + " begreper", noTerms: visibleTerms.length === 0,
       visiblePrinciples, principleFilters,
       goals: GOALS.map((g) => ({ title: g.title, points: g.points,
         headStyle: "padding: 16px 18px; border-radius: 4px 4px 0 0; background: " + g.tint + "; font-size: 17px; font-weight: 600; line-height: 1.35" })),
