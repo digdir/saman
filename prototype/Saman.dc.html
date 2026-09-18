@@ -55,7 +55,7 @@
         <div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 24px 40px; padding-bottom: 8px">
         <img src="uploads/Artboard 55@4x.png" alt="" style="order: 2; flex: 0 1 340px; min-width: 0; max-width: 340px; height: auto; margin-bottom: 24px" />
         <section style="order: 1; flex: 1 1 32rem; min-width: 0; padding: 64px 0 40px; max-width: 720px; display: flex; flex-direction: column; gap: 18px">
-          <span style="font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #0062B8">Rammeverk for team og leveranser</span>
+          <span data-noterm="true" style="font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #0062B8">Rammeverk for team og leveranser</span>
           <h1 style="margin: 0; font-size: 44px; font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; text-wrap: pretty">Slik jobber vi sammen i Digdir</h1>
           <p style="margin: 0; font-size: 19px; line-height: 1.6; color: #44505f; text-wrap: pretty">Saman er vår felles måte å jobbe sammen på – der vi bygger tillit, deler ansvar og drar i samme retning som ett lag.</p>
         </section>
@@ -98,10 +98,16 @@
 
     <sc-if value="{{ isTeams }}">
       <div style="padding-top: 40px; display: flex; flex-direction: column; gap: 28px">
-        <div style="display: flex; flex-direction: column; gap: 10px; max-width: 680px">
-          <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Teamoversikt</h1>
-          <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f">Alle team i Digdir, hva de leverer og hvorfor de finnes. Team registrerer og vedlikeholder informasjonen selv.</p>
+        <div style="display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-start; justify-content: space-between">
+          <div style="display: flex; flex-direction: column; gap: 10px; max-width: 680px">
+            <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Teamoversikt</h1>
+            <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f">Alle team i Digdir, hva de leverer og hvorfor de finnes. Team registrerer og vedlikeholder informasjonen selv.</p>
+          </div>
+          <button onClick="{{ openAdd }}" style="flex: 0 0 auto; padding: 10px 18px; border-radius: 4px; border: none; background: #0062B8; color: #fff; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #00509B">Legg til nytt team</button>
         </div>
+        <sc-if value="{{ addSaved }}">
+          <p data-noterm="true" style="margin: 0; padding: 12px 16px; border-left: 4px solid #118849; background: #ebfcf4; font-size: 15px; color: #1e2b3c">Teamet er lagt til i oversikten. Fyll ut mandat og medlemmer på teamsiden.</p>
+        </sc-if>
         <input value="{{ query }}" onChange="{{ setQuery }}" placeholder="Søk i team, leveranser og enheter" style="width: 100%; padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; background: #fff" />
         <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: -12px">
           <span style="font-size: 14px; color: #65707D">Teamtype</span>
@@ -136,6 +142,45 @@
         <sc-if value="{{ noTeams }}">
           <p style="margin: 0; padding: 32px; border: 1px dashed #b3c9e1; border-radius: 8px; text-align: center; color: #44505f">Ingen team passer søket. Prøv et annet ord eller fjern filteret.</p>
         </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ addOpen }}">
+      <div data-noterm="true" style="position: fixed; inset: 0; z-index: 900; background: rgba(30,43,60,.45); display: flex; align-items: flex-start; justify-content: center; padding: 48px 16px; overflow: auto">
+        <div style="width: 100%; max-width: 560px; background: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,.09), 0 12px 24px rgba(0,0,0,.1); padding: 28px; display: flex; flex-direction: column; gap: 20px">
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <h2 style="margin: 0; font-size: 24px; font-weight: 600">Nytt team</h2>
+            <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #44505f">Registrer det som skal til for å komme i gang. Mandat, teamkontrakt og medlemmer fylles ut på teamsiden etterpå.</p>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <span style="font-size: 15px; font-weight: 500">Type team</span>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap">
+              <sc-for list="{{ addTypeOptions }}" as="o" hint-placeholder-count="5">
+                <button onClick="{{ o.go }}" style="{{ o.style }}">{{ o.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+          <label style="display: flex; flex-direction: column; gap: 6px">
+            <span style="font-size: 15px; font-weight: 500">Navn på teamet</span>
+            <input value="{{ addName }}" onChange="{{ setAddName }}" placeholder="For eksempel Datadeling" style="width: 100%; padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; background: #fff; font-size: 15px" />
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 6px">
+            <span style="font-size: 15px; font-weight: 500">Eier</span>
+            <input value="{{ addOwner }}" onChange="{{ setAddOwner }}" placeholder="Navn på teameier" style="width: 100%; padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; background: #fff; font-size: 15px" />
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 6px">
+            <span style="font-size: 15px; font-weight: 500">Leder</span>
+            <input value="{{ addLead }}" onChange="{{ setAddLead }}" placeholder="Navn på teamleder eller koordinator" style="width: 100%; padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; background: #fff; font-size: 15px" />
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 6px">
+            <span style="font-size: 15px; font-weight: 500">Kort beskrivelse</span>
+            <textarea value="{{ addPurpose }}" onChange="{{ setAddPurpose }}" rows="3" placeholder="Hva teamet skal levere og hvorfor det finnes" style="width: 100%; padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; background: #fff; font-size: 15px; font-family: inherit; line-height: 1.5; resize: vertical"></textarea>
+          </label>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap; padding-top: 4px">
+            <button onClick="{{ saveAdd }}" disabled="{{ addDisabled }}" style="{{ addSaveStyle }}">Legg til team</button>
+            <button onClick="{{ closeAdd }}" style="padding: 10px 18px; border-radius: 4px; border: 1px solid #65707D; background: transparent; color: #1e2b3c; font-size: 15px; cursor: pointer">Avbryt</button>
+          </div>
+        </div>
       </div>
     </sc-if>
 
@@ -379,7 +424,7 @@
     </sc-if>
 
     <sc-if value="{{ isBegreper }}">
-      <div style="padding-top: 40px; display: flex; flex-direction: column; gap: 28px; max-width: 860px">
+      <div data-noterm="true" style="padding-top: 40px; display: flex; flex-direction: column; gap: 28px; max-width: 860px">
         <div style="display: flex; flex-direction: column; gap: 10px">
           <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Begreper</h1>
           <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f">Målet er ikke at alle skal bruke identisk språk, men at vi har et felles referansepunkt for hva vi legger i de viktigste begrepene.</p>
@@ -1010,7 +1055,7 @@
   </sc-if>
 
   <footer style="border-top: 1px solid #dce1e7; background: #f2f4f6">
-    <div style="max-width: 1180px; margin: 0 auto; padding: 28px 24px; display: flex; gap: 16px 32px; flex-wrap: wrap; align-items: baseline">
+    <div data-noterm="true" style="max-width: 1180px; margin: 0 auto; padding: 28px 24px; display: flex; gap: 16px 32px; flex-wrap: wrap; align-items: baseline">
       <span style="font-size: 15px; font-weight: 600">Saman</span>
       <span style="font-size: 14px; color: #44505f">Forvaltes av Virksomhetsstyring og utvikling (VSU)</span>
       <span style="font-size: 14px; color: #65707D; margin-left: auto">Prototype. Team og medlemmer er hentet fra baksia.digdir.no, organisasjonen fra Digdir 2.0.</span>
@@ -1101,6 +1146,22 @@ const TEAMS = [
     members: [ { name: "Stian Øye", role: "Teamleder" }, { name: "Brage Navarsete", role: "Kundeoppfølging" }, { name: "Birger Sjømæling Andresen", role: "Kundeoppfølging" }, { name: "Karsten Ellema Bjelde", role: "Kundeoppfølging" }, { name: "Justyna Mucha", role: "Kundeoppfølging" }, { name: "Ragnhild Helen Rørvik", role: "Kundeoppfølging" }, { name: "Eyvind Sjøstrøm", role: "Kundeoppfølging" } ],
     tools: ["Teammandat", "Helsesjekk for team"],
     principles: ["Vi løser reelle brukerbehov"] },
+  { id: "markedslaget", audiences: [], name: "Markedslaget", type: "Leveranseteam", division: "Ikke registrert", topology: "", lead: "ikke registrert",
+    unitPath: "Registrert i Saman",
+    purpose: "Beskrivelse ikke registrert.",
+    revised: "ikke registrert",
+    mandate: { oppna: "", formal: "", ansvarsomrader: "", ikkeAnsvar: "", myndighet: "" },
+    members: [],
+    tools: [],
+    principles: [] },
+  { id: "samordning-virkemiddelstotte", audiences: [], name: "Samordning og virkemiddelstøtte", type: "Leveranseteam", division: "Ikke registrert", topology: "", lead: "ikke registrert",
+    unitPath: "Registrert i Saman",
+    purpose: "Beskrivelse ikke registrert.",
+    revised: "ikke registrert",
+    mandate: { oppna: "", formal: "", ansvarsomrader: "", ikkeAnsvar: "", myndighet: "" },
+    members: [],
+    tools: [],
+    principles: [] },
   { id: "einnsyn", audiences: ["Innbyggarar","Offentleg sektor"], name: "eInnsyn", type: "Produktteam", division: "Innsyn og oppslag", topology: "Stream-aligned", lead: "John Eivind Presterud",
     unitPath: "Baksia-type: stream-aligned",
     purpose: "Forvalter og videreutvikler eInnsyn, den felles publiseringstjenesten for offentlige postjournaler og møtedokumenter.",
@@ -1169,10 +1230,17 @@ const AI_AGENT = { name: "KI-agent", ramo: [
 ] };
 
 const LINE_MANAGER = { name: "Linjeleder", ramo: [
-  { label: "Rolle", value: "Leder i linjeorganisasjonen med personalansvar: divisjonsdirektør, avdelingsdirektør eller seksjonsleder. Rollen er ikke en del av teamet, men avgir ressurser til det." },
-  { label: "Ansvar", value: "Eier fag, kvalitet og kapasitet i egen enhet. Ansvar for at medarbeidere som deltar i team har riktig kompetanse, tilstrekkelig tid og god oppfølging." },
-  { label: "Myndighet", value: "Beslutter bemanning og prioritering mellom leveranser i egen enhet, og hvor mye kapasitet som avgis til hvert team." },
-  { label: "Oppgaver", value: "Avgi og følge opp ressurser til team, utvikle folk og fagmiljø over tid, fjerne hindringer teamet ikke kan løse selv, og holde dialog med teameier om bemanning. I team der medlemmene hører til ulike seksjoner, avdelinger eller divisjoner har teameieren et særskilt ansvar for god dialog om bemanning med alle linjeledere som har en ansatt i teamet." }
+  { label: "Rolle", value: "Formelt ansatt som divisjonsdirektør, avdelingsleder eller seksjonsleder med personalansvar." },
+  { label: "Ansvar", value: "Bygge og sikre riktig kompetansekapasitet. Ivareta personalansvar, trivsel og medarbeiderutvikling (kompetanseplan). Styre og allokere ressurser. Lede strategisk rekruttering og omstilling (kompetanseutvikling)." },
+  { label: "Myndighet", value: "Godkjenne ansettelser og oppsigelser. Sette lønn, godkjenne ferie og fravær. Godkjenne kurs, sertifiseringer og opplæringsbudsjett, rollebeskrivelser. Bestemme endelig ressurstildeling ved konflikter." },
+  { label: "Oppgaver", value: "Gjennomføre medarbeidersamtaler og lønnssamtaler. Følge opp sykefravær og HR-prosesser. Planlegge langsiktige kompetanseløp og kurs. Kjøre rekrutteringsprosesser. Matche konsulenter/ansatte mot forespørsler." }
+] };
+
+const EMPLOYEE = { name: "Medarbeider", ramo: [
+  { label: "Rolle", value: "Formelt ansatt under en divisjonsdirektør, avdelingsleder eller seksjonsleder." },
+  { label: "Ansvar", value: "Levere på avtalte mål. Si fra dersom pri. er uklare, risiko og avvik. Melde fra om kapasitet og belastning. Ta ansvar for egen kompetanseutvikling - synliggjøre kompetanse og utviklingsbehov. Bidra til faglig utvikling. Gi og ta imot tilbakemeldinger. Bidra til at kompetansene brukes på riktig måte." },
+  { label: "Myndighet", value: "Ta beslutninger innen eget ansvarsområde og bruke faglig skjønn. Eskalere til relevant leder ang. ev risiko og avvik." },
+  { label: "Oppgaver", value: "Utføre avtalte arbeidsoppgaver, samarbeide med andre. Melde fra om avvik og bidra til forbedring på leveranser, og måten vi jobber på (metodeverket)." }
 ] };
 
 const PROJECT_WORDS = [
@@ -1666,16 +1734,131 @@ const SUGGESTIONS = {
 
 const chipStyle = (on) => "padding: 7px 14px; border-radius: 9999px; border: 1px solid " + (on ? "#0062B8" : "#9aa5b1") + "; background: " + (on ? "#0062B8" : "transparent") + "; color: " + (on ? "#fff" : "#1E2B3C") + "; font-size: 14px; font-weight: 500; cursor: pointer";
 
+const TERM_TIPS = ["RAMO", "Teamkontrakt", "Teammandat", "Produkteier", "OKR", "Retrospektiv", "Produktorganisering",
+  "Porteføljestyret", "Virksomhetsstyring", "Tverrgående team", "Innsatsområde", "Tight-loose-tight", "Produkttrio",
+  "Smidig styring", "Teknisk gjeld", "Produktkanvas", "Produktområder", "Styringsdokumentasjon", "Prototype",
+  "Kommunikasjonsstrategi", "Produktdokumentasjon", "Helsesjekk", "Rammeverk", "Mandat for konseptfasen", "Øvrig prosjektdokumentasjon"];
+
 class Component extends DCLogic {
-  state = { page: null, teamId: null, unitId: null, toolName: null, memberIndex: null, contracts: {}, contractEditing: false, contractDraft: null, contractSaved: false, assistantOpen: false, assistantInput: "", assistantMessages: [], assistantBusy: false, query: "", typeFilter: "Alle", audienceFilter: "Alle", toolFilter: "Alle", toolTeamFilter: "Alle", areaFilter: "Alle", roleFilter: "Alle", termFilter: "Alle", wizardPath: [], wizardStep: "team", wizardResult: null, editing: false, draft: null, saved: false, mandates: {} };
+  state = { page: null, teamId: null, unitId: null, toolName: null, memberIndex: null, contracts: {}, contractEditing: false, contractDraft: null, contractSaved: false, assistantOpen: false, assistantInput: "", assistantMessages: [], assistantBusy: false, query: "", typeFilter: "Alle", audienceFilter: "Alle", toolFilter: "Alle", toolTeamFilter: "Alle", areaFilter: "Alle", roleFilter: "Alle", termFilter: "Alle", wizardPath: [], wizardStep: "team", wizardResult: null, editing: false, draft: null, saved: false, mandates: {}, newTeams: [], addOpen: false, addSaved: false, addDraft: { type: "Produktteam", name: "", owner: "", lead: "", purpose: "" } };
+
+  allTeams() { return TEAMS.concat(this.state.newTeams || []); }
+
+  openAdd = () => this.setState({ addOpen: true, addSaved: false, addDraft: { type: "Produktteam", name: "", owner: "", lead: "", purpose: "" } });
+  closeAdd = () => this.setState({ addOpen: false });
+  setAdd = (key) => (e) => this.setState((st) => ({ addDraft: Object.assign({}, st.addDraft, { [key]: e.target.value }) }));
+  saveAdd = () => this.setState((st) => {
+    const d = st.addDraft;
+    if (!d.name.trim()) return {};
+    const team = {
+      id: "nytt-" + Date.now(), audiences: [], name: d.name.trim(), type: d.type,
+      division: "Ikke registrert", topology: "", lead: d.lead.trim() || "ikke registrert",
+      owner: d.owner.trim() || "ikke registrert",
+      unitPath: "Registrert i Saman",
+      purpose: d.purpose.trim() || "Beskrivelse ikke registrert.",
+      revised: "i dag",
+      mandate: { oppna: "", formal: d.purpose.trim(), ansvar: "", avgrensning: "", ressurser: "", varighet: "" },
+      members: [], tools: [], principles: []
+    };
+    return { newTeams: (st.newTeams || []).concat([team]), addOpen: false, addSaved: true, typeFilter: "Alle", audienceFilter: "Alle", query: "" };
+  });
 
   go = (page) => () => this.setState({ page, query: "", editing: false, saved: false });
 
   chatRef = React.createRef();
   drawIcons() { if (window.lucide) { try { window.lucide.createIcons(); } catch (e) {} } }
   scrollChat() { const el = this.chatRef.current; if (el) el.scrollTop = el.scrollHeight; }
-  componentDidMount() { this.drawIcons(); setTimeout(() => this.drawIcons(), 400); }
-  componentDidUpdate() { this.drawIcons(); this.scrollChat(); }
+  componentDidMount() { this.drawIcons(); setTimeout(() => this.drawIcons(), 400); this.initTermTips(); this.decorateTerms(); }
+  componentDidUpdate() { this.drawIcons(); this.scrollChat(); this.decorateTerms(); }
+
+  initTermTips() {
+    if (this._tipInit) return;
+    this._tipInit = true;
+    const tip = document.createElement("div");
+    tip.setAttribute("style", "position: fixed; z-index: 9999; max-width: 330px; padding: 12px 14px; background: #fff; border: 1px solid #c3c8ce; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,.09), 0 12px 24px rgba(0,0,0,.1); font-size: 14px; line-height: 1.5; color: #1e2b3c; pointer-events: none; opacity: 0; transition: opacity .15s ease-in-out");
+    document.body.appendChild(tip);
+    this._tip = tip;
+    const show = (el) => {
+      tip.innerHTML = "";
+      const h = document.createElement("div");
+      h.setAttribute("style", "font-weight: 600; margin-bottom: 4px");
+      h.textContent = el.dataset.term;
+      const d = document.createElement("div");
+      d.textContent = el.dataset.termDef;
+      const s = document.createElement("div");
+      s.setAttribute("style", "margin-top: 8px; font-size: 12px; color: #5b6774");
+      s.textContent = el.dataset.termSource || "";
+      tip.appendChild(h); tip.appendChild(d); if (el.dataset.termSource) tip.appendChild(s);
+      tip.style.opacity = "1";
+      const r = el.getBoundingClientRect();
+      const w = Math.min(330, window.innerWidth - 24);
+      let left = Math.max(12, Math.min(r.left, window.innerWidth - w - 12));
+      tip.style.left = left + "px";
+      const th = tip.offsetHeight;
+      tip.style.top = (r.top - th - 8 < 8 ? r.bottom + 8 : r.top - th - 8) + "px";
+    };
+    document.addEventListener("mouseover", (e) => {
+      const el = e.target && e.target.closest ? e.target.closest("[data-term]") : null;
+      if (el) show(el); else tip.style.opacity = "0";
+    });
+    document.addEventListener("focusin", (e) => {
+      const el = e.target && e.target.closest ? e.target.closest("[data-term]") : null;
+      if (el) show(el);
+    });
+    document.addEventListener("focusout", () => { tip.style.opacity = "0"; });
+    window.addEventListener("scroll", () => { tip.style.opacity = "0"; }, true);
+  }
+
+  decorateTerms() {
+    clearTimeout(this._termTimer);
+    this._termTimer = setTimeout(() => {
+      const root = document.querySelector("x-dc") || document.body;
+      if (!root) return;
+      const defs = {};
+      TERM_TIPS.forEach((name) => {
+        const t = TERMS.find((x) => x.term === name);
+        if (t) defs[name.toLowerCase()] = t;
+      });
+      const names = Object.keys(defs).sort((a, b) => b.length - a.length)
+        .map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+      if (!names.length) return;
+      const re = new RegExp("(?<![\\p{L}\\-])(" + names.join("|") + ")(?![\\p{L}\\-])", "iu");
+      const used = {};
+      root.querySelectorAll("[data-term]").forEach((el) => { used[(el.dataset.term || "").toLowerCase()] = true; });
+      const skip = /^(H1|H2|H3|H4|H5|BUTTON|A|INPUT|TEXTAREA|SELECT|LABEL|SVG|CODE|SCRIPT|STYLE|NOSCRIPT|TEMPLATE|HELMET|TITLE|X-DC)$/;
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+        acceptNode: (n) => {
+          if (!n.nodeValue || n.nodeValue.length < 3) return NodeFilter.FILTER_REJECT;
+          const p = n.parentElement;
+          if (!p || skip.test(p.tagName) || p.hasAttribute("data-term")) return NodeFilter.FILTER_REJECT;
+          if (p.closest("[data-noterm], h1, h2, h3, button, a, script, style, template, helmet")) return NodeFilter.FILTER_REJECT;
+          return re.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+        }
+      });
+      const targets = [];
+      let node;
+      while ((node = walker.nextNode())) targets.push(node);
+      targets.forEach((tn) => {
+        const m = re.exec(tn.nodeValue);
+        if (!m) return;
+        const key = m[1].toLowerCase();
+        if (used[key]) return;
+        const def = defs[key];
+        if (!def) return;
+        used[key] = true;
+        const after = tn.splitText(m.index);
+        after.nodeValue = after.nodeValue.slice(m[1].length);
+        const span = document.createElement("span");
+        span.setAttribute("tabindex", "0");
+        span.dataset.term = def.term;
+        span.dataset.termDef = def.definition;
+        span.dataset.termSource = def.source || "";
+        span.setAttribute("style", "border-bottom: 1px dashed #0062B8; cursor: help; text-decoration: none");
+        span.textContent = m[1];
+        after.parentNode.insertBefore(span, after);
+      });
+    }, 60);
+  }
 
   openTeam = (id) => () => this.setState({ page: "team", teamId: id, editing: false, saved: false, memberIndex: null });
 
@@ -1711,7 +1894,7 @@ class Component extends DCLogic {
         + "\nNår brukeren skriver «denne enheten», mener de " + u.name + ".";
     }
     if (page === "team" || page === "mandat" || page === "kontrakt") {
-      const t = TEAMS.find((x) => x.id === s.teamId);
+      const t = this.allTeams().find((x) => x.id === s.teamId);
       if (t) {
         const m = this.mandateFor(t);
         out += "\nValgt team: " + t.name + " (" + t.type + "), leder: " + t.lead + ". " + t.purpose
@@ -1749,7 +1932,7 @@ class Component extends DCLogic {
     const s = this.state;
     const page = s.page || this.props.startside || "home";
     const colorTypes = this.props.visTeamtypefarger ?? true;
-    const team = TEAMS.find((t) => t.id === s.teamId);
+    const team = this.allTeams().find((t) => t.id === s.teamId);
 
     const nav = NAV.map((n) => ({
       label: n.label,
@@ -1764,13 +1947,13 @@ class Component extends DCLogic {
 
     const q = s.query.trim().toLowerCase();
     const matches = (t) => !q || (t.name + " " + t.purpose + " " + t.lead + " " + t.type).toLowerCase().includes(q);
-    const visibleTeams = TEAMS.filter((t) => (s.typeFilter === "Alle" || t.type === s.typeFilter)
+    const visibleTeams = this.allTeams().filter((t) => (s.typeFilter === "Alle" || t.type === s.typeFilter)
       && (s.audienceFilter === "Alle"
         || (s.audienceFilter === "Internt" ? (t.audiences || []).length === 0 : (t.audiences || []).indexOf(s.audienceFilter) !== -1))
       && matches(t)).map((t) => ({
       name: t.name, type: t.type, division: t.division, purpose: t.purpose,
       tagStyle: tagStyle(t.type), go: this.openTeam(t.id),
-      metaLabel: (t.members.length ? t.members.length + " medlemmer · " : "Medlemmer ikke registrert · ") + t.lead
+      metaLabel: (t.members.length ? t.members.length + " medlemmer · " : "Medlemmer ikke registrert · ") + (t.lead === "ikke registrert" ? "leder ikke registrert" : t.lead) + (t.owner ? " · Eier: " + t.owner : "")
     }));
 
     const typeFilters = ["Alle", "Produktteam", "Leveranseteam", "Støtteteam", "Prosjektteam", "Fagnettverk"].map((label) => ({
@@ -1856,9 +2039,16 @@ class Component extends DCLogic {
       setQuery: (e) => this.setState({ query: e.target.value }),
 
       visibleTeams, typeFilters, audienceFilters, noTeams: visibleTeams.length === 0,
+      openAdd: this.openAdd, closeAdd: this.closeAdd, saveAdd: this.saveAdd, addOpen: !!s.addOpen, addSaved: !!s.addSaved,
+      addName: s.addDraft.name, addOwner: s.addDraft.owner, addLead: s.addDraft.lead, addPurpose: s.addDraft.purpose,
+      setAddName: this.setAdd("name"), setAddOwner: this.setAdd("owner"), setAddLead: this.setAdd("lead"), setAddPurpose: this.setAdd("purpose"),
+      addTypeOptions: ["Produktteam", "Prosjektteam", "Leveranseteam", "Støtteteam", "Fagnettverk"].map((label) => ({
+        label, style: chipStyle(s.addDraft.type === label), go: () => this.setState((st) => ({ addDraft: Object.assign({}, st.addDraft, { type: label }) })) })),
+      addDisabled: !s.addDraft.name.trim(),
+      addSaveStyle: "padding: 10px 18px; border-radius: 4px; border: none; background: " + (s.addDraft.name.trim() ? "#0062B8" : "#9aa5b1") + "; color: #fff; font-size: 15px; font-weight: 500; cursor: " + (s.addDraft.name.trim() ? "pointer" : "not-allowed"),
       teamCountLabel: visibleTeams.length + (visibleTeams.length === 1 ? " team" : " team") + (s.typeFilter === "Alle" ? "" : " av typen " + s.typeFilter.toLowerCase()),
 
-      team: t ? { name: t.name, type: t.type, unitPath: t.unitPath, purpose: t.purpose, revised: t.revised, tagStyle: tagStyle(t.type), tools: t.tools, principles: t.principles,
+      team: t ? { name: t.name, type: t.type, unitPath: t.unitPath + (t.owner ? " · Teameier: " + t.owner : ""), purpose: t.purpose, revised: t.revised, tagStyle: tagStyle(t.type), tools: t.tools, principles: t.principles,
         audiences: t.audiences || [],
         noAudiences: !(t.audiences || []).length,
         members: t.members.map((m, i) => {
@@ -1942,7 +2132,7 @@ class Component extends DCLogic {
       roles: (function (f) {
         const line = [{ name: LINE_MANAGER.name, ramo: LINE_MANAGER.ramo, scope: "Rolle i linjeorganisasjonen" }];
         const ai = [{ name: AI_AGENT.name, ramo: AI_AGENT.ramo, scope: "Aktuell for alle team" }];
-        if (f === "Linjen") return line;
+        if (f === "Linjen") return line.concat([{ name: EMPLOYEE.name, ramo: EMPLOYEE.ramo, scope: "Rolle i linjeorganisasjonen" }]);
         const base = (f === "Prosjektteam" || f === "Fagnettverk" ? [] : ROLES).map((r) => ({ name: r.name, ramo: r.ramo,
           scope: f === "Alle" ? "Obligatorisk for produkt-, leveranse- og støtteteam" : "Obligatorisk for " + f.toLowerCase() }));
         const extraTypes = f === "Alle" ? Object.keys(ROLE_EXTRA) : (ROLE_EXTRA[f] ? [f] : []);
@@ -1952,7 +2142,7 @@ class Component extends DCLogic {
             scope: type === "Prosjektteam" ? "Obligatorisk for prosjektteam"
               : type === "Fagnettverk" ? "Obligatorisk for fagnettverk" : "Egen rolle i " + type.toLowerCase() }));
         });
-        return (f === "Prosjektteam" || f === "Fagnettverk" ? extra.concat(base) : base.concat(extra)).concat(line).concat(ai);
+        return (f === "Prosjektteam" || f === "Fagnettverk" ? extra.concat(base) : base.concat(extra));
       })(s.roleFilter),
       roleTypeFilters: ["Alle", "Produktteam", "Leveranseteam", "Støtteteam", "Prosjektteam", "Fagnettverk", "Linjen"].map((label) => ({
         label, style: chipStyle(s.roleFilter === label), go: () => this.setState({ roleFilter: label })
