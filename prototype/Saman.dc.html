@@ -406,8 +406,13 @@
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 16px">
           <sc-for list="{{ visibleTools }}" as="t" hint-placeholder-count="6">
-            <button onClick="{{ t.go }}" style="text-align: left; display: flex; flex-direction: column; gap: 12px; padding: 22px; border: 1px solid #dce1e7; border-radius: 8px; background: #fff; cursor: pointer; height: 100%" style-hover="border-color: #0062B8">
-              <span style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap">
+            <button onClick="{{ t.go }}" style="position: relative; text-align: left; display: flex; flex-direction: column; gap: 12px; padding: 22px; border: 1px solid #dce1e7; border-radius: 8px; background: #fff; cursor: pointer; height: 100%" style-hover="border-color: #0062B8">
+              <sc-if value="{{ t.assessed }}">
+                <span title="ROS- og personvernvurdering (DPIA) er gjennomført" aria-label="ROS- og personvernvurdering (DPIA) er gjennomført" style="position: absolute; top: 14px; right: 14px; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 9999px; background: #EBFCF4; color: #066944">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5.5c0 4.3 2.9 8.3 7 9.5 4.1-1.2 7-5.2 7-9.5V6l-7-3Z"></path><path d="m9 12 2 2 4-4"></path></svg>
+                </span>
+              </sc-if>
+              <span style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding-right: 30px">
                 <span style="padding: 3px 10px; border-radius: 9999px; background: #f2f4f6; font-size: 13px; font-weight: 500; color: #44505f">{{ t.type }}</span>
                 <span style="font-size: 13px; color: #65707D; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{ t.forWhom }}</span>
               </span>
@@ -651,7 +656,7 @@
         </sc-if>
         <sc-if value="{{ editing }}">
           <div style="display: flex; flex-direction: column; gap: 18px">
-            <sc-for list="{{ mandateInputs }}" as="f" hint-placeholder-count="9">
+            <sc-for list="{{ mandateInputs }}" as="f" hint-placeholder-count="4">
               <label style="display: flex; flex-direction: column; gap: 6px">
                 <span style="font-size: 15px; font-weight: 500">{{ f.label }}</span>
                 <span style="font-size: 14px; color: #65707D">{{ f.help }}</span>
@@ -666,24 +671,15 @@
         </sc-if>
 
         <sc-if value="{{ notEditing }}" hint-placeholder-val="{{ true }}">
-        <section style="display: flex; flex-direction: column; gap: 18px">
-          <sc-for list="{{ mandateFields }}" as="f" hint-placeholder-count="3">
-            <div style="display: flex; flex-direction: column; gap: 6px">
+        <section style="display: flex; flex-direction: column; gap: 24px">
+          <sc-for list="{{ mandateFields }}" as="f" hint-placeholder-count="4">
+            <div style="display: flex; flex-direction: column; gap: 8px">
               <h2 style="margin: 0; font-size: 21px; font-weight: 600">{{ f.label }}</h2>
               <span style="{{ f.valueStyle }}">{{ f.value }}</span>
             </div>
           </sc-for>
         </section>
 
-        <section style="display: flex; flex-direction: column; gap: 18px">
-          <h2 style="margin: 0; font-size: 21px; font-weight: 600">Andre rammer</h2>
-          <sc-for list="{{ mandateFrames }}" as="f" hint-placeholder-count="6">
-            <div style="display: flex; flex-direction: column; gap: 5px">
-              <h3 style="margin: 0; font-size: 17px; font-weight: 600">{{ f.label }}</h3>
-              <span style="{{ f.valueStyle }}">{{ f.value }}</span>
-            </div>
-          </sc-for>
-        </section>
         </sc-if>
 
         <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center">
@@ -869,6 +865,73 @@
       </div>
     </sc-if>
 
+    <sc-if value="{{ isUnitMandate }}">
+      <div style="padding-top: 28px; display: flex; flex-direction: column; gap: 32px; max-width: 820px">
+        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 15px">
+          <button onClick="{{ goOrg }}" style="background: none; border: none; padding: 0; color: #0062B8; cursor: pointer; text-decoration: underline">Organisasjon</button>
+          <span style="color: #65707D">/</span>
+          <button onClick="{{ goUnitFromMandate }}" style="background: none; border: none; padding: 0; color: #0062B8; cursor: pointer; text-decoration: underline">{{ unit.name }}</button>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 12px">
+          <span style="font-size: 14px; color: #65707D">{{ unit.meta }}</span>
+          <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Mandat</h1>
+          <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f">Mandatet er avtalen mellom enheten og den som har gitt oppdraget. Det sier hvorfor enheten finnes, hva den skal oppnå og hvilket handlingsrom den har.</p>
+        </div>
+
+        <sc-if value="{{ unitMandateIncomplete }}">
+          <p style="margin: 0; padding: 12px 14px; border-radius: 4px; background: #fdf2da; border: 1px solid #ecd69a; font-size: 15px; line-height: 1.5; color: #1E2B3C">Mandatet er ikke komplett. Enheten fyller ut resten selv.</p>
+        </sc-if>
+        <sc-if value="{{ unitSavedNotice }}">
+          <p style="margin: 0; padding: 12px 14px; border-radius: 4px; background: #e6f3ec; color: #12402c; font-size: 15px; border: 1px solid #b7dcc7">Mandatet er lagret. Endringen er synlig for alle i Digdir.</p>
+        </sc-if>
+
+        <sc-if value="{{ unitNotEditing }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ startUnitEdit }}" style="align-self: flex-start; padding: 9px 16px; border-radius: 4px; border: 1px solid #0062B8; background: transparent; color: #0062B8; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #e6f2fd">Rediger mandat</button>
+        </sc-if>
+
+        <sc-if value="{{ unitEditing }}">
+          <div style="display: flex; flex-direction: column; gap: 18px">
+            <sc-for list="{{ unitMandateInputs }}" as="f" hint-placeholder-count="4">
+              <label style="display: flex; flex-direction: column; gap: 6px">
+                <span style="font-size: 15px; font-weight: 500">{{ f.label }}</span>
+                <span style="font-size: 14px; line-height: 1.5; color: #65707D">{{ f.help }}</span>
+                <textarea value="{{ f.value }}" onChange="{{ f.onChange }}" rows="4" style="padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; resize: vertical; line-height: 1.5; font-family: inherit; font-size: 15px"></textarea>
+              </label>
+            </sc-for>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap">
+              <button onClick="{{ saveUnitEdit }}" style="padding: 10px 18px; border-radius: 4px; border: none; background: #0062B8; color: #fff; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #00417d">Lagre mandat</button>
+              <button onClick="{{ cancelUnitEdit }}" style="padding: 10px 18px; border-radius: 4px; border: 1px solid #65707D; background: transparent; font-size: 15px; cursor: pointer" style-hover="background: #f2f4f6">Avbryt</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ unitNotEditing }}" hint-placeholder-val="{{ true }}">
+          <section style="display: flex; flex-direction: column; gap: 24px">
+            <sc-for list="{{ unitMandateFields }}" as="f" hint-placeholder-count="4">
+              <div style="display: flex; flex-direction: column; gap: 8px">
+                <h2 style="margin: 0; font-size: 21px; font-weight: 600">{{ f.label }}</h2>
+                <span style="{{ f.valueStyle }}">{{ f.value }}</span>
+                <sc-if value="{{ f.showTasks }}">
+                  <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; line-height: 1.55">
+                    <sc-for list="{{ unit.tasks }}" as="task" hint-placeholder-count="5">
+                      <li>{{ task }}</li>
+                    </sc-for>
+                  </ul>
+                  <span style="font-size: 13px; color: #65707D">Listen er ikke uttømmende.</span>
+                </sc-if>
+              </div>
+            </sc-for>
+          </section>
+        </sc-if>
+
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center">
+          <button onClick="{{ goUnitFromMandate }}" style="padding: 10px 18px; border-radius: 4px; border: 1px solid #0062B8; background: transparent; color: #0062B8; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #e6f2fd">Tilbake til enheten</button>
+          <span style="font-size: 13px; color: #65707D">{{ unitMandateStatus }}</span>
+        </div>
+      </div>
+    </sc-if>
+
     <sc-if value="{{ isUnit }}">
       <div style="padding-top: 28px; display: flex; flex-direction: column; gap: 32px; max-width: 900px">
         <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 15px">
@@ -885,17 +948,38 @@
           </sc-if>
         </div>
 
-        <section style="display: flex; flex-direction: column; gap: 14px; padding: 26px; border: 1px solid #dce1e7; border-radius: 8px">
-          <h2 style="margin: 0; font-size: 20px; font-weight: 600">Oppgaver</h2>
-          <sc-if value="{{ unit.noTasks }}">
-            <p style="margin: 0; font-size: 15px; color: #65707D">Oppgavene ligger på seksjonene under.</p>
-          </sc-if>
-          <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; line-height: 1.55">
-            <sc-for list="{{ unit.tasks }}" as="task" hint-placeholder-count="5">
-              <li>{{ task }}</li>
-            </sc-for>
-          </ul>
-          <p style="margin: 0; font-size: 13px; color: #65707D">Oppgavelisten er ikke uttømmende.</p>
+        <section style="display: flex; flex-direction: column; gap: 24px; padding: 26px; border: 1px solid #dce1e7; border-radius: 8px">
+          <h2 style="margin: 0; font-size: 20px; font-weight: 600">Mandat</h2>
+
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <h3 style="margin: 0; font-size: 17px; font-weight: 600">Hva skal vi løse?</h3>
+            <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #65707D">Ikke registrert ennå.</p>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <h3 style="margin: 0; font-size: 17px; font-weight: 600">Hva skal vi oppnå?</h3>
+            <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #65707D">Ikke registrert ennå.</p>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 10px">
+            <h3 style="margin: 0; font-size: 17px; font-weight: 600">Hva forventes av oss?</h3>
+            <sc-if value="{{ unit.noTasks }}">
+              <p style="margin: 0; font-size: 15px; color: #65707D">Ansvar og oppgaver ligger på seksjonene under.</p>
+            </sc-if>
+            <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; line-height: 1.55">
+              <sc-for list="{{ unit.tasks }}" as="task" hint-placeholder-count="5">
+                <li>{{ task }}</li>
+              </sc-for>
+            </ul>
+            <p style="margin: 0; font-size: 13px; color: #65707D">Listen er ikke uttømmende.</p>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <h3 style="margin: 0; font-size: 17px; font-weight: 600">Hvilke grenseflater har vi med andre?</h3>
+            <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #65707D">Ikke registrert ennå.</p>
+          </div>
+
+          <button onClick="{{ goUnitMandate }}" style="align-self: flex-start; background: none; border: none; padding: 0; color: #0062B8; font-size: 15px; font-weight: 500; cursor: pointer; text-decoration: underline">Se hele mandatet</button>
         </section>
 
         <section style="display: flex; flex-direction: column; gap: 16px">
@@ -1334,8 +1418,8 @@ const TOOLS = [
   { name: "Retrospektiv", type: "Metode", forWhom: "Alle team", desc: "Fast øvelse der teamet ser tilbake på perioden og blir enige om hva som skal endres.", link: "Kjøreplan" },
   { name: "Helsesjekk for team", type: "Metode", forWhom: "Alle team", desc: "Jevnlig pulsmåling av samarbeid, mestring og retning i teamet.", link: "Skjema" },
   { name: "Produktstrategi", type: "Mal", forWhom: "Produktteam", desc: "Beskriver produktets retning, hvem brukerne er og hvilket problem produktet løser for dem.", link: "Mal" },
-  { name: "Begrepskatalogen", type: "Verktøy", forWhom: "Alle", desc: "Nasjonal katalog for begrepsdefinisjoner. Begreper i Saman kan kobles til definisjoner her.", link: "data.norge.no" },
-  { name: "Figma", type: "Verktøy", forWhom: "Design", desc: "Digdir har lisens. Brukes til design, skisser og samarbeid om grensesnitt.", link: "Logg inn med Digdir-konto" }
+  { name: "Begrepskatalogen", type: "Verktøy", assessed: true, forWhom: "Alle", desc: "Nasjonal katalog for begrepsdefinisjoner. Begreper i Saman kan kobles til definisjoner her.", link: "data.norge.no" },
+  { name: "Figma", type: "Verktøy", assessed: true, forWhom: "Design", desc: "Digdir har lisens. Brukes til design, skisser og samarbeid om grensesnitt.", link: "Logg inn med Digdir-konto" }
 ];
 
 const TOOL_DETAILS = {
@@ -1682,11 +1766,11 @@ const CONTRACT_GROUPS = [
 const MANDATE_LABELS = [
   { key: "formal", label: "Hva skal vi løse?", help: "Gi en presis og avgrenset beskrivelse av problemet eller behovet som skal løses. Lenk til mer detaljerte beskrivelser av brukerbehov." },
   { key: "oppna", label: "Hva skal vi oppnå?", help: "Beskriv konkrete, målbare resultater og gevinster. Tenk suksesskriterier som gjør oss i stand til å vite at oppdraget er løst godt nok." },
-  { key: "myndighet", label: "Hva forventes av oss?", help: "Beskriv forventninger og retning for arbeidet (fra TLG, ansvarlig leder eller teameier), spesielt eventuelle milepæler og viktige frister." },
-  { key: "ansvarsomrader", label: "Hva har vi ansvar for?", help: "Hva teamet eier og svarer for i det daglige.", section: "Andre rammer" },
+  { key: "myndighet", label: "Hva forventes av oss?", help: "Beskriv forventninger og retning for arbeidet (fra TLG, ansvarlig leder eller teameier), konkrete ansvarsområder og oppgaver og hvem teamet rapporterer til." },
+  { key: "ansvarsomrader", label: "Hva forventes av oss? – ansvar i det daglige", help: "Hva teamet eier og svarer for i det daglige.", mergeInto: "myndighet" },
+  { key: "involvering", label: "Hvilke grenseflater har vi med andre?", help: "Beskriv samspill og samarbeidsområder med andre team eller enheter, eller med eksterne aktører." },
   { key: "begreper", label: "Nyttige begrepsavklaringer", help: "Legg inn begreper og definisjoner som er viktige for å forstå oppdraget.", section: "Andre rammer" },
   { key: "ikkeAnsvar", label: "Avgrensninger og avhengigheter", help: "Hva er eksplisitt utenfor scope? Hvilke andre oppdrag er dette avhengig av?", section: "Andre rammer" },
-  { key: "involvering", label: "Hvordan skal andre involveres?", help: "Beskriv involvering av andre avdelinger, etater eller ekstern kompetanse.", section: "Andre rammer" },
   { key: "forankring", label: "Hvordan er arbeidet forankret?", help: "Beskriv forankring og lenk til eventuelle styringsdokumenter.", section: "Andre rammer" },
   { key: "oppfolging", label: "Hvordan skal arbeidet følges opp etter slutt?", help: "Hvem har ansvar for forvaltning, gevinstrealisering og evaluering?", section: "Andre rammer" },
   { key: "ressurser", label: "Rammer for ressursbruk", help: "Antall personer, tidsbruk, budsjett o.l.", section: "Andre rammer" }
@@ -1739,8 +1823,15 @@ const TERM_TIPS = ["RAMO", "Teamkontrakt", "Teammandat", "Produkteier", "OKR", "
   "Smidig styring", "Teknisk gjeld", "Produktkanvas", "Produktområder", "Styringsdokumentasjon", "Prototype",
   "Kommunikasjonsstrategi", "Produktdokumentasjon", "Helsesjekk", "Rammeverk", "Mandat for konseptfasen", "Øvrig prosjektdokumentasjon"];
 
+const UNIT_MANDATE_FIELDS = [
+  { key: "lose", label: "Hva skal vi løse?", help: "Beskriv hvorfor enheten finnes. Gi en presis og avgrenset beskrivelse av problemet eller behovet som skal løses." },
+  { key: "oppna", label: "Hva skal vi oppnå?", help: "Beskriv konkrete, målbare resultater og gevinster (evt. OKR). Tenk suksesskriterier som gjør oss i stand til å vite at enheten leverer godt nok." },
+  { key: "forventes", label: "Hva forventes av oss?", help: "Beskriv forventninger og retning for enheten (fra TLG, DFD eller nærmeste leder), konkrete ansvarsområder og oppgaver og hvem enheten rapporterer til." },
+  { key: "grenseflater", label: "Hvilke grenseflater har vi med andre?", help: "Beskriv samspill og samarbeidsområder med andre enheter eller med eksterne aktører." }
+];
+
 class Component extends DCLogic {
-  state = { page: null, teamId: null, unitId: null, toolName: null, memberIndex: null, contracts: {}, contractEditing: false, contractDraft: null, contractSaved: false, assistantOpen: false, assistantInput: "", assistantMessages: [], assistantBusy: false, query: "", typeFilter: "Alle", audienceFilter: "Alle", toolFilter: "Alle", toolTeamFilter: "Alle", areaFilter: "Alle", roleFilter: "Alle", termFilter: "Alle", wizardPath: [], wizardStep: "team", wizardResult: null, editing: false, draft: null, saved: false, mandates: {}, newTeams: [], addOpen: false, addSaved: false, addDraft: { type: "Produktteam", name: "", owner: "", lead: "", purpose: "" } };
+  state = { page: null, teamId: null, unitId: null, unitMandates: {}, unitEditing: false, unitDraft: null, unitSaved: false, toolName: null, memberIndex: null, contracts: {}, contractEditing: false, contractDraft: null, contractSaved: false, assistantOpen: false, assistantInput: "", assistantMessages: [], assistantBusy: false, query: "", typeFilter: "Alle", audienceFilter: "Alle", toolFilter: "Alle", toolTeamFilter: "Alle", areaFilter: "Alle", roleFilter: "Alle", termFilter: "Alle", wizardPath: [], wizardStep: "team", wizardResult: null, editing: false, draft: null, saved: false, mandates: {}, newTeams: [], addOpen: false, addSaved: false, addDraft: { type: "Produktteam", name: "", owner: "", lead: "", purpose: "" } };
 
   allTeams() { return TEAMS.concat(this.state.newTeams || []); }
 
@@ -1862,7 +1953,12 @@ class Component extends DCLogic {
 
   openTeam = (id) => () => this.setState({ page: "team", teamId: id, editing: false, saved: false, memberIndex: null });
 
-  openUnit = (id) => () => this.setState({ page: "unit", unitId: id });
+  openUnit = (id) => () => this.setState({ page: "unit", unitId: id, unitEditing: false, unitSaved: false });
+
+  unitMandateOf(unit) {
+    const saved = (this.state.unitMandates || {})[unit.id];
+    return saved || { lose: "", oppna: "", forventes: "", grenseflater: "" };
+  }
 
   openTool = (name) => () => this.setState({ page: "tool", toolName: name });
 
@@ -2079,8 +2175,13 @@ class Component extends DCLogic {
         };
       })(this),
       hasMember: s.memberIndex !== null,
-      mandateFields: mandate ? MANDATE_LABELS.filter((f) => !f.section).map((f) => ({ label: f.label, value: mandate[f.key] || "Ikke registrert ennå",
-        valueStyle: "font-size: 16px; line-height: 1.55; white-space: pre-line; color: " + (mandate[f.key] ? "#1E2B3C" : "#65707D") })) : [],
+      mandateFields: mandate ? MANDATE_LABELS.filter((f) => !f.section && !f.mergeInto).map((f) => {
+        const merged = MANDATE_LABELS.filter((m) => m.mergeInto === f.key).map((m) => mandate[m.key]).filter(Boolean);
+        const own = mandate[f.key] || "";
+        const text = [own].concat(merged).filter(Boolean).join("\n\n");
+        return { label: f.label, value: text || "Ikke registrert ennå",
+          valueStyle: "font-size: 16px; line-height: 1.6; white-space: pre-line; color: " + (text ? "#1E2B3C" : "#65707D") };
+      }) : [],
       mandateFrames: mandate ? MANDATE_LABELS.filter((f) => f.section).map((f) => ({ label: f.label, value: mandate[f.key] || "Ikke registrert ennå",
         valueStyle: "font-size: 15px; line-height: 1.55; white-space: pre-line; color: " + (mandate[f.key] ? "#1E2B3C" : "#65707D") })) : [],
       mandateStatus: t ? (t.revised === "ikke registrert" ? "Sist oppdatert er ikke registrert" : "Sist oppdatert " + t.revised + " av " + t.lead) : "",
@@ -2116,11 +2217,11 @@ class Component extends DCLogic {
         onChange: (e) => { const v = e.target.value; this.setState((st) => ({ contractDraft: Object.assign({}, st.contractDraft || st.contracts[t.id] || {}, { [f.key]: v }) })); }
       }))), []) : [],
       contractStatus: t ? "Sist oppdatert er ikke registrert" : "",
-      mandateIncomplete: !!mandate && MANDATE_LABELS.some((f) => !mandate[f.key]),
+      mandateIncomplete: !!mandate && MANDATE_LABELS.filter((f) => !f.section).some((f) => !mandate[f.key]),
       revisedLabel: t ? (t.revised === "ikke registrert" ? "Sist revidert er ikke registrert" : "Sist revidert " + t.revised) : "",
       noMembers: !!t && t.members.length === 0,
       noTools: !!t && t.tools.length === 0,
-      mandateInputs: MANDATE_LABELS.map((f) => ({
+      mandateInputs: MANDATE_LABELS.filter((f) => !f.section).map((f) => ({
         label: f.label, help: f.help, value: draft[f.key] || "",
         onChange: (e) => { const v = e.target.value; this.setState((st) => ({ draft: Object.assign({}, st.draft || mandate, { [f.key]: v }) })); }
       })),
@@ -2193,6 +2294,35 @@ class Component extends DCLogic {
         children: UNITS.filter((c) => c.parent === unit.id).map((c) => ({ name: c.name, level: c.level, desc: c.desc, go: this.openUnit(c.id) })),
         hasChildren: UNITS.some((c) => c.parent === unit.id)
       } : null,
+      isUnitMandate: page === "enhetsmandat" && !!unit,
+      goUnitMandate: () => this.setState({ page: "enhetsmandat", unitEditing: false, unitSaved: false }),
+      goUnitFromMandate: () => this.setState({ page: "unit", unitEditing: false }),
+      unitEditing: !!s.unitEditing,
+      unitNotEditing: !s.unitEditing,
+      unitSavedNotice: !!s.unitSaved && !s.unitEditing,
+      startUnitEdit: unit ? () => this.setState({ unitEditing: true, unitSaved: false, unitDraft: Object.assign({}, this.unitMandateOf(unit)) }) : null,
+      cancelUnitEdit: () => this.setState({ unitEditing: false, unitDraft: null }),
+      saveUnitEdit: unit ? () => this.setState((st) => ({
+        unitMandates: Object.assign({}, st.unitMandates, { [unit.id]: st.unitDraft }),
+        unitEditing: false, unitDraft: null, unitSaved: true
+      })) : null,
+      unitMandateInputs: unit ? UNIT_MANDATE_FIELDS.map((f) => ({
+        label: f.label, help: f.help,
+        value: (s.unitDraft || this.unitMandateOf(unit))[f.key] || "",
+        onChange: (e) => { const v = e.target.value; this.setState((st) => ({ unitDraft: Object.assign({}, st.unitDraft, { [f.key]: v }) })); }
+      })) : [],
+      unitMandateFields: unit ? UNIT_MANDATE_FIELDS.map((f) => {
+        const v = (this.unitMandateOf(unit))[f.key];
+        const tasks = f.key === "forventes" && unit.tasks.length > 0;
+        return {
+          label: f.label,
+          value: v ? v : (tasks ? "" : (f.key === "forventes" && unit.tasks.length === 0 ? "Ansvar og oppgaver ligger på seksjonene under." : "Ikke registrert ennå.")),
+          showTasks: tasks,
+          valueStyle: "font-size: 16px; line-height: 1.6; color: " + (v ? "#1E2B3C" : "#65707D")
+        };
+      }) : [],
+      unitMandateIncomplete: unit ? UNIT_MANDATE_FIELDS.some((f) => !(this.unitMandateOf(unit))[f.key] && !(f.key === "forventes" && unit.tasks.length > 0)) : false,
+      unitMandateStatus: unit ? (Object.keys((s.unitMandates || {})[unit.id] || {}).some((k) => ((s.unitMandates || {})[unit.id] || {})[k]) ? "Sist oppdatert i dag" : "Sist oppdatert er ikke registrert") : "",
       unitLeads: unitPeople.filter((p) => p.lead).map(toPerson),
       unitStaff: unitPeople.filter((p) => !p.lead).map(toPerson),
       noLead: unitPeople.filter((p) => p.lead).length === 0,
