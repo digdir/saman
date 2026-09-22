@@ -507,16 +507,21 @@
 
         <section style="display: flex; flex-direction: column; gap: 16px">
           <h2 style="margin: 0; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Vårt målbilde</h2>
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: 16px; align-items: start">
+          <div style="position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr)); gap: 16px; align-items: start">
+            <button onClick="{{ goalsToggle }}" aria-label="{{ goalsToggleLabel }}" title="{{ goalsToggleLabel }}" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 2; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 9999px; border: 1px solid #dce1e7; background: #ffffff; color: #0062B8; box-shadow: 0 2px 4px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06); cursor: pointer" style-hover="background: #e6f2fd">
+              <i data-lucide="{{ goalsToggleIcon }}" style="width: 22px; height: 22px"></i>
+            </button>
             <sc-for list="{{ goals }}" as="g" hint-placeholder-count="4">
-              <article style="display: flex; flex-direction: column; border: 1px solid #dce1e7; border-radius: 8px; overflow: hidden; height: 100%">
+              <div style="{{ g.cardStyle }}">
                 <h3 style="{{ g.headStyle }}">{{ g.title }}</h3>
-                <ul style="margin: 0; padding: 18px 18px 22px 36px; display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.5; color: #44505f">
-                  <sc-for list="{{ g.points }}" as="p" hint-placeholder-count="4">
-                    <li>{{ p }}</li>
-                  </sc-for>
-                </ul>
-              </article>
+                <sc-if value="{{ g.open }}">
+                  <ul style="margin: 0; padding: 18px 18px 22px 36px; display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.5; color: #44505f">
+                    <sc-for list="{{ g.points }}" as="p" hint-placeholder-count="4">
+                      <li>{{ p }}</li>
+                    </sc-for>
+                  </ul>
+                </sc-if>
+              </div>
             </sc-for>
           </div>
         </section>
@@ -1230,7 +1235,7 @@ const TEAMS = [
     members: [ { name: "Stian Øye", role: "Teamleder" }, { name: "Brage Navarsete", role: "Kundeoppfølging" }, { name: "Birger Sjømæling Andresen", role: "Kundeoppfølging" }, { name: "Karsten Ellema Bjelde", role: "Kundeoppfølging" }, { name: "Justyna Mucha", role: "Kundeoppfølging" }, { name: "Ragnhild Helen Rørvik", role: "Kundeoppfølging" }, { name: "Eyvind Sjøstrøm", role: "Kundeoppfølging" } ],
     tools: ["Teammandat", "Helsesjekk for team"],
     principles: ["Vi løser reelle brukerbehov"] },
-  { id: "markedslaget", audiences: [], name: "Markedslaget", type: "Leveranseteam", division: "Ikke registrert", topology: "", lead: "ikke registrert",
+  { id: "markedslaget", audiences: ["Offentleg sektor", "Innbyggarar", "Næringslivet", "Frivillig sektor", "Interne"], name: "Markedslaget", type: "Leveranseteam", division: "Ikke registrert", topology: "", lead: "ikke registrert",
     unitPath: "Registrert i Saman",
     purpose: "Beskrivelse ikke registrert.",
     revised: "ikke registrert",
@@ -1238,7 +1243,7 @@ const TEAMS = [
     members: [],
     tools: [],
     principles: [] },
-  { id: "samordning-virkemiddelstotte", audiences: [], name: "Samordning og virkemiddelstøtte", type: "Leveranseteam", division: "Ikke registrert", topology: "", lead: "ikke registrert",
+  { id: "samordning-virkemiddelstotte", audiences: ["Offentleg sektor"], name: "Samordning og virkemiddelstøtte", type: "Leveranseteam", division: "Ikke registrert", topology: "", lead: "ikke registrert",
     unitPath: "Registrert i Saman",
     purpose: "Beskrivelse ikke registrert.",
     revised: "ikke registrert",
@@ -1744,6 +1749,7 @@ const VALUES = [
 ];
 
 const AUDIENCES = ["Offentleg sektor", "Innbyggarar", "Næringslivet", "Frivillig sektor"];
+const AUDIENCES_STYRING = AUDIENCES.concat(["Interne"]);
 
 const ROLES_INST = [
   "Ledestjerne for digitalisering i offentleg sektor",
@@ -2055,10 +2061,10 @@ class Component extends DCLogic {
     const typeFilters = ["Alle", "Produktteam", "Leveranseteam", "Støtteteam", "Prosjektteam", "Fagnettverk"].map((label) => ({
       label, style: chipStyle(s.typeFilter === label), go: () => this.setState({ typeFilter: label })
     }));
-    const audienceFilters = ["Alle"].concat(AUDIENCES).concat(["Internt i Digdir"]).map((label) => ({
-      label, style: chipStyle(s.audienceFilter === label),
-      go: () => this.setState({ audienceFilter: label === "Internt i Digdir" ? "Internt" : label })
-    }));
+    const audienceFilters = ["Alle"].concat(AUDIENCES).concat(["Interne"]).map((label) => {
+      const val = label === "Interne" ? "Internt" : label;
+      return { label, style: chipStyle(s.audienceFilter === val), go: () => this.setState({ audienceFilter: val }) };
+    });
 
     const toolQ = q;
     const forTeamType = (t) => s.toolTeamFilter === "Alle"
@@ -2368,9 +2374,19 @@ class Component extends DCLogic {
       noTools2: visibleTools.length === 0,
       visibleTerms, termFilters, termCountLabel: visibleTerms.length + " begreper", noTerms: visibleTerms.length === 0,
       visiblePrinciples, principleFilters,
-      goals: GOALS.map((g) => ({ title: g.title, points: g.points,
-        headStyle: "padding: 16px 18px; border-radius: 4px 4px 0 0; background: " + g.tint + "; font-size: 17px; font-weight: 600; line-height: 1.35" })),
-      values: VALUES, audiences: AUDIENCES, instRoles: ROLES_INST,
+      goalsOpen: !!s.goalsOpen,
+      goalsToggle: () => this.setState((st) => ({ goalsOpen: !st.goalsOpen })),
+      goalsToggleIcon: s.goalsOpen ? "minimize-2" : "maximize-2",
+      goalsToggleLabel: s.goalsOpen ? "Skjul detaljer om målbildet" : "Vis detaljer om målbildet",
+      goals: GOALS.map((g) => {
+        const open = !!s.goalsOpen;
+        return { title: g.title, points: g.points, open,
+          cardStyle: "display: flex; flex-direction: column; border: 1px solid #dce1e7; border-radius: 8px; overflow: hidden; height: 100%; transition: background 0.25s ease; background: " + (open ? "#ffffff" : g.tint),
+          headStyle: open
+            ? "margin: 0; padding: 16px 18px; min-height: 78px; display: flex; align-items: flex-start; justify-content: flex-start; text-align: left; background: " + g.tint + "; font-size: 17px; font-weight: 600; line-height: 1.35; transition: all 0.25s ease"
+            : "margin: 0; padding: 30px 26px; min-height: 172px; flex: 1 1 auto; display: flex; align-items: center; justify-content: center; text-align: center; background: " + g.tint + "; font-size: 21px; font-weight: 600; line-height: 1.35; transition: all 0.25s ease" };
+      }),
+      values: VALUES, audiences: AUDIENCES_STYRING, instRoles: ROLES_INST,
       divisions: DIVISIONS, portfolio: PORTFOLIO
     };
   }
