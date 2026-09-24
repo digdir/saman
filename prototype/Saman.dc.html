@@ -1313,9 +1313,9 @@ const ROLES = [
 
 const AI_AGENT = { name: "KI-agent", ramo: [
   { label: "Rolle", value: "Kunstig intelligens som deltar i teamets arbeid som støtte, ikke som medlem. Rollen er aktuell for alle team." },
-  { label: "Ansvar", value: "Støtte kunnskapsarbeid og effektivisering." },
-  { label: "Myndighet", value: "Ingen formell avgjøringsmyndighet." },
-  { label: "Oppgaver", value: "Analyse, sammenstilling, utkast til dokument, idéutvikling, informasjonsinnhenting og automatisert støtte." }
+  { label: "Ansvar", value: "Støtte kunnskapsarbeid og effektivisering" },
+  { label: "Myndighet", value: "Ingen formell avgjerdsmynde" },
+  { label: "Oppgaver", value: "Analyse, samanfatting, utkast til dokument, idéutvikling, informasjonsinnhenting og automatisert støtte" }
 ] };
 
 const LINE_MANAGER = { name: "Linjeleder", ramo: [
@@ -2249,7 +2249,7 @@ class Component extends DCLogic {
             scope: type === "Prosjektteam" ? "Obligatorisk for prosjektteam"
               : type === "Fagnettverk" ? "Obligatorisk for fagnettverk" : "Egen rolle i " + type.toLowerCase() }));
         });
-        return (f === "Prosjektteam" || f === "Fagnettverk" ? extra.concat(base) : base.concat(extra));
+        return (f === "Prosjektteam" || f === "Fagnettverk" ? extra.concat(base) : base.concat(extra)).concat(ai);
       })(s.roleFilter),
       roleTypeFilters: ["Alle", "Produktteam", "Leveranseteam", "Støtteteam", "Prosjektteam", "Fagnettverk", "Linjen"].map((label) => ({
         label, style: chipStyle(s.roleFilter === label), go: () => this.setState({ roleFilter: label })
@@ -2376,7 +2376,7 @@ class Component extends DCLogic {
       visiblePrinciples, principleFilters,
       goalsOpen: !!s.goalsOpen,
       goalsToggle: () => this.setState((st) => ({ goalsOpen: !st.goalsOpen })),
-      goalsToggleIcon: s.goalsOpen ? "minimize-2" : "maximize-2",
+      goalsToggleIcon: s.goalsOpen ? "chevrons-down-up" : "chevrons-up-down",
       goalsToggleLabel: s.goalsOpen ? "Skjul detaljer om målbildet" : "Vis detaljer om målbildet",
       goals: GOALS.map((g) => {
         const open = !!s.goalsOpen;
