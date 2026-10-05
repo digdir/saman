@@ -27,7 +27,26 @@ REMOVE=(
   "uploads/*.pdf"
   "uploads/*.docx"
 )
+
 # ---------------------------------------------------------------------------
+# Paths never deleted by the stale cleanup below, even when an export stops
+# containing them. Globs are allowed; paths are relative to the prototype root.
+# ---------------------------------------------------------------------------
+KEEP=(
+  "assets"
+  "assets/*"
+)
+# ---------------------------------------------------------------------------
+
+# True when $1 (a path relative to ROOT) matches any pattern in KEEP.
+is_kept() {
+  local rel="$1" pattern
+  for pattern in "${KEEP[@]}"; do
+    # shellcheck disable=SC2053  # pattern is meant to glob
+    [[ "$rel" == $pattern ]] && return 0
+  done
+  return 1
+}
 
 if [[ ! -f "$ZIP" ]]; then
   echo "error: zip not found: $ZIP" >&2
@@ -71,6 +90,7 @@ if [[ -f "$MANIFEST" ]]; then
   while IFS= read -r rel; do
     [[ -n "$rel" ]] || continue
     grep -Fxq -- "$rel" "$NEW_LIST" && continue   # still present, keep it
+    is_kept "$rel" && continue                    # protected, never removed
     [[ -e "$ROOT/$rel" ]] || continue             # already gone
     rm -f -- "$ROOT/$rel"
     echo "  x $rel"
@@ -78,6 +98,7 @@ if [[ -f "$MANIFEST" ]]; then
     # Clean up directories this leaves empty, innermost first.
     dir="$(dirname -- "$rel")"
     while [[ "$dir" != "." && "$dir" != "/" ]]; do
+      is_kept "$dir" && break
       rmdir -- "$ROOT/$dir" 2>/dev/null || break
       dir="$(dirname -- "$dir")"
     done
