@@ -72,22 +72,81 @@
         </section>
         </div>
 
-        <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: 16px; padding-bottom: 24px">
-          <sc-for list="{{ areas }}" as="area" hint-placeholder-count="8">
-            <button onClick="{{ area.go }}" style="text-align: left; display: flex; flex-direction: column; gap: 10px; padding: 24px; background: #fff; border: 1px solid #dce1e7; border-radius: 8px; cursor: pointer; height: 100%" style-hover="border-color: #0062B8; box-shadow: 0 0 1px rgba(0,0,0,.16), 0 2px 4px rgba(0,0,0,.08)">
-              <span style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
-                <span style="{{ area.iconWrapStyle }}">
-                  <span aria-hidden="true" style="{{ area.iconStyle }}"></span>
-                </span>
-                <span style="font-size: 13px; color: #65707D; white-space: nowrap">{{ area.count }}</span>
-              </span>
-              <span style="font-size: 20px; font-weight: 600">{{ area.title }}</span>
-              <span style="font-size: 15px; line-height: 1.55; color: #44505f">{{ area.desc }}</span>
-            </button>
-          </sc-for>
+
+
+        <section role="search" style="margin-top: 8px; padding: 28px 32px; border-radius: 8px; background: #eef4fa; display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px">
+          <div style="display: flex; flex-direction: column; gap: 4px; flex: 1 1 16rem">
+            <h2 style="margin: 0; font-size: 22px; font-weight: 600">Finn en kollega</h2>
+            <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #44505f">Søk etter navn, rolle, enhet eller team.</p>
+          </div>
+          <form onSubmit="{{ homeSearchSubmit }}" style="display: flex; gap: 8px; flex: 2 1 22rem; min-width: 0">
+            <input type="search" value="{{ homeSearch }}" onInput="{{ setHomeSearch }}" aria-label="Søk etter kollega" placeholder="F.eks. Ingrid eller produkteier" style="flex: 1; min-width: 0; padding: 11px 14px; border: 1px solid #65707D; border-radius: 4px; font-size: 17px; font-family: inherit; background: #fff"></input>
+            <button type="submit" style="padding: 11px 20px; border-radius: 4px; border: none; background: #0062B8; color: #fff; font-size: 16px; font-weight: 500; font-family: inherit; cursor: pointer" style-hover="background: #00417d">Søk</button>
+          </form>
         </section>
 
-        <section style="margin-top: 32px; padding: 32px; border-radius: 8px; background: #eef4fa; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 28px 40px">
+        <div style="margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); gap: 16px">
+            <section style="display: flex; flex-direction: column; gap: 14px; padding: 24px; border: 1px solid #dce1e7; border-radius: 8px; background: #fff">
+              <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap">
+                <h2 style="margin: 0; font-size: 20px; font-weight: 600">Dagens begrep</h2>
+                <button onClick="{{ goBegreper }}" style="background: none; border: none; padding: 0; color: #0062B8; font-size: 15px; font-family: inherit; cursor: pointer; text-decoration: underline">Alle begreper</button>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 8px">
+                <span style="font-size: 26px; font-weight: 600; letter-spacing: -0.005em; line-height: 1.25">{{ dailyTerm.term }}</span>
+                <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #44505f; text-wrap: pretty">{{ dailyTerm.definition }}</p>
+                <span style="font-size: 13px; color: #65707D">{{ dailyTerm.source }}</span>
+              </div>
+            </section>
+            <section style="display: flex; flex-direction: column; gap: 14px; padding: 24px; border: 1px solid #dce1e7; border-radius: 8px; background: #fff">
+              <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap">
+                <h2 style="margin: 0; font-size: 20px; font-weight: 600">OKR-puls</h2>
+                <button onClick="{{ goTeams }}" style="background: none; border: none; padding: 0; color: #0062B8; font-size: 15px; font-family: inherit; cursor: pointer; text-decoration: underline">Se teamene</button>
+              </div>
+              <div style="display: flex; align-items: center; gap: 20px">
+                <div role="img" aria-label="{{ pulse.aria }}" style="{{ pulse.ringStyle }}">
+                  <span style="width: 70px; height: 70px; border-radius: 9999px; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 600; font-variant-numeric: tabular-nums; color: #1E2B3C">{{ pulse.ncs }}</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 4px; min-width: 0">
+                  <span style="font-size: 17px; font-weight: 600">Net Confidence Score for {{ pulse.period }}</span>
+                  <span style="font-size: 14px; line-height: 1.5; color: #44505f">{{ pulse.sub }}</span>
+                </div>
+              </div>
+              <div style="display: flex; gap: 8px 20px; flex-wrap: wrap; font-size: 14px; color: #44505f">
+                <span style="display: flex; align-items: center; gap: 6px"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 9999px; background: #068718"></span>{{ pulse.green }} på sporet</span>
+                <span style="display: flex; align-items: center; gap: 6px"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 9999px; background: #E5AA20"></span>{{ pulse.yellow }} usikre</span>
+                <span style="display: flex; align-items: center; gap: 6px"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 9999px; background: #C30000"></span>{{ pulse.red }} utenfor sporet</span>
+              </div>
+            </section>
+            <section style="display: flex; flex-direction: column; gap: 14px; padding: 24px; border: 1px solid #dce1e7; border-radius: 8px; background: #fff">
+              <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap">
+                <h2 style="margin: 0; font-size: 20px; font-weight: 600">Nytt i verktøykassen</h2>
+                <button onClick="{{ goVerktoy }}" style="background: none; border: none; padding: 0; color: #0062B8; font-size: 15px; font-family: inherit; cursor: pointer; text-decoration: underline">Hele verktøykassen</button>
+              </div>
+              <div style="display: flex; flex-direction: column">
+                <sc-for list="{{ newTools }}" as="nt" hint-placeholder-count="2">
+                  <button onClick="{{ nt.go }}" style="text-align: left; width: 100%; display: flex; flex-direction: column; gap: 4px; padding: 12px 6px; border: none; border-top: 1px solid #eaeef2; background: transparent; font-family: inherit; cursor: pointer" style-hover="background: #f2f4f6">
+                    <span style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; width: 100%">
+                      <span style="font-size: 16px; font-weight: 600; color: #0062B8">{{ nt.name }}</span>
+                      <span style="font-size: 13px; color: #65707D; white-space: nowrap">{{ nt.type }} · {{ nt.dateLabel }}</span>
+                    </span>
+                    <span style="font-size: 14px; line-height: 1.5; color: #44505f">{{ nt.desc }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </section>
+            <section style="display: flex; flex-direction: column; gap: 14px; padding: 24px; border: 1px solid #dce1e7; border-radius: 8px; background: #fff">
+              <h2 style="margin: 0; font-size: 20px; font-weight: 600">Endringer i Saman</h2>
+              <div style="display: flex; flex-direction: column">
+                <sc-for list="{{ changelog }}" as="c" hint-placeholder-count="4">
+                  <button onClick="{{ c.go }}" style="text-align: left; width: 100%; display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: 12px; padding: 12px 6px; border: none; border-top: 1px solid #eaeef2; background: transparent; font-family: inherit; cursor: pointer" style-hover="background: #f2f4f6">
+                    <span style="font-size: 13px; color: #65707D; padding-top: 2px">{{ c.dateLabel }}</span>
+                    <span style="font-size: 15px; line-height: 1.5; color: #1E2B3C">{{ c.text }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </section>
+        </div>
+        <section style="margin-top: 40px; padding: 32px; border-radius: 8px; background: #eef4fa; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 28px 40px">
           <div style="display: flex; flex-direction: column; gap: 10px">
             <h2 style="margin: 0; font-size: 22px; font-weight: 600">Ny i Digdir?</h2>
             <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #44505f">Start med organisasjonen og begrepene. Da blir resten av rammeverket lettere å lese.</p>
@@ -101,6 +160,13 @@
             <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #44505f">Veiviseren tar deg gjennom noen spørsmål og foreslår arbeidsform, mandatkrav og roller.</p>
             <div style="margin-top: 4px">
               <button onClick="{{ goVeiviser }}" style="padding: 9px 16px; border-radius: 4px; border: none; background: #0062B8; color: #fff; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #00417d">Start veiviseren</button>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 10px">
+            <h2 style="margin: 0; font-size: 22px; font-weight: 600">{{ homeOkrTitle }}</h2>
+            <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #44505f">{{ homeOkrText }}</p>
+            <div style="margin-top: 4px">
+              <button onClick="{{ goTeams }}" style="padding: 9px 16px; border-radius: 4px; border: none; background: #0062B8; color: #fff; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #00417d">Finn teamet ditt</button>
             </div>
           </div>
         </section>
@@ -153,6 +219,121 @@
         <sc-if value="{{ noTeams }}">
           <p style="margin: 0; padding: 32px; border: 1px dashed #b3c9e1; border-radius: 8px; text-align: center; color: #44505f">Ingen team passer søket. Prøv et annet ord eller fjern filteret.</p>
         </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ okrEditing }}">
+    <div data-noterm="true" onClick="{{ okrBackdrop }}" style="position: fixed; inset: 0; z-index: 900; background: rgba(30,43,60,.45); display: flex; align-items: flex-start; justify-content: center; padding: 48px 16px; overflow: auto">
+      <div role="dialog" aria-modal="true" aria-label="{{ okrFormTitle }}" style="width: 100%; max-width: 640px; background: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,.09), 0 12px 24px rgba(0,0,0,.1); padding: 28px; display: flex; flex-direction: column; gap: 20px">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px">
+          <h2 style="margin: 0; font-size: 24px; font-weight: 600">{{ okrFormTitle }}</h2>
+          <button onClick="{{ cancelOkr }}" aria-label="Lukk" style="display: flex; padding: 6px; border: none; border-radius: 4px; background: transparent; color: #1E2B3C; cursor: pointer" style-hover="background: #f2f4f6"><span aria-hidden="true" style="flex: none; display: inline-block; width: 20px; height: 20px; background: currentColor; -webkit-mask: url('assets/icons/XMark.svg') center / contain no-repeat; mask: url('assets/icons/XMark.svg') center / contain no-repeat"></span></button>
+        </div>
+        <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-end">
+          <label style="display: flex; flex-direction: column; gap: 6px">
+            <span style="font-size: 15px; font-weight: 500">År</span>
+            <select value="{{ okrDraftYear }}" onChange="{{ setOkrYear }}" style="padding: 9px 12px; border: 1px solid #65707D; border-radius: 4px; font-size: 16px; font-family: inherit; background: #fff">
+              <sc-for list="{{ okrYears }}" as="y" hint-placeholder-count="4">
+                <option value="{{ y }}">{{ y }}</option>
+              </sc-for>
+            </select>
+          </label>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <span style="font-size: 15px; font-weight: 500">Periode</span>
+            <div role="group" aria-label="Periode" style="display: flex; gap: 0; border: 1px solid #65707D; border-radius: 4px; overflow: hidden">
+              <sc-for list="{{ okrTerms }}" as="p" hint-placeholder-count="4">
+                <button onClick="{{ p.pick }}" aria-pressed="{{ p.on }}" style="{{ p.style }}">{{ p.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        <label style="display: flex; flex-direction: column; gap: 6px">
+          <span style="font-size: 15px; font-weight: 500">Mål (objective)</span>
+          <span style="font-size: 14px; color: #65707D">Hva vil teamet oppnå i perioden?</span>
+          <textarea value="{{ okrDraftObjective }}" onChange="{{ setOkrObjective }}" rows="2" style="padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; resize: vertical; line-height: 1.5; font-size: 16px; font-family: inherit"></textarea>
+        </label>
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <div style="display: flex; flex-direction: column; gap: 2px">
+            <span style="font-size: 15px; font-weight: 500">Nøkkelresultater (key results)</span>
+            <span style="font-size: 14px; color: #65707D">Normalt 2–5. Net Confidence Score (0–10) sier hvor trygge vi er på å nå resultatet.</span>
+          </div>
+          <sc-for list="{{ okrKrRows }}" as="r" hint-placeholder-count="3">
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px 16px; align-items: center; padding: 12px; border: 1px solid #dce1e7; border-radius: 4px; background: #fff">
+              <input value="{{ r.text }}" onChange="{{ r.setText }}" aria-label="{{ r.label }}" placeholder="{{ r.label }}" style="padding: 9px 12px; border: 1px solid #65707D; border-radius: 4px; font-size: 16px; font-family: inherit; min-width: 0"></input>
+              <button onClick="{{ r.remove }}" disabled="{{ r.cannotRemove }}" style="background: none; border: none; padding: 0; color: #44505f; font-size: 14px; font-family: inherit; cursor: pointer; text-decoration: underline">Fjern</button>
+              <label style="grid-column: 1 / -1; display: flex; align-items: center; gap: 12px">
+                <span style="font-size: 14px; color: #44505f; white-space: nowrap">Confidence</span>
+                <input type="range" min="0" max="10" step="1" value="{{ r.conf }}" onChange="{{ r.setConf }}" style="flex: 1; min-width: 0; accent-color: #0062B8"></input>
+                <span style="{{ r.confStyle }}">{{ r.confLabel }}</span>
+              </label>
+            </div>
+          </sc-for>
+          <button onClick="{{ addKr }}" style="align-self: flex-start; background: none; border: none; padding: 0; color: #0062B8; font-size: 15px; font-family: inherit; cursor: pointer; text-decoration: underline">Legg til nøkkelresultat</button>
+        </div>
+        <sc-if value="{{ okrError }}">
+          <p style="margin: 0; padding: 12px 14px; border-radius: 4px; background: #fbe9ea; border: 1px solid #f0b8bc; color: #6b1018; font-size: 15px">{{ okrError }}</p>
+        </sc-if>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap">
+          <button onClick="{{ saveOkr }}" style="padding: 10px 18px; border-radius: 4px; border: none; background: #0062B8; color: #fff; font-size: 15px; font-weight: 500; font-family: inherit; cursor: pointer" style-hover="background: #00417d">Lagre OKR</button>
+          <button onClick="{{ cancelOkr }}" style="padding: 10px 18px; border-radius: 4px; border: 1px solid #65707D; background: transparent; font-size: 15px; font-family: inherit; cursor: pointer" style-hover="background: #f2f4f6">Avbryt</button>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ memberDialogOpen }}">
+      <div data-noterm="true" onClick="{{ memberBackdrop }}" style="position: fixed; inset: 0; z-index: 900; background: rgba(30,43,60,.45); display: flex; align-items: flex-start; justify-content: center; padding: 48px 16px; overflow: auto">
+        <div role="dialog" aria-modal="true" aria-label="Legg til medlem" style="width: 100%; max-width: 560px; background: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,.09), 0 12px 24px rgba(0,0,0,.1); padding: 28px; display: flex; flex-direction: column; gap: 20px">
+          <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px">
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <h2 style="margin: 0; font-size: 24px; font-weight: 600">Legg til medlem</h2>
+              <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #44505f">{{ memberDialogSub }}</p>
+            </div>
+            <button onClick="{{ closeAddMember }}" aria-label="Lukk" style="display: flex; padding: 6px; border: none; border-radius: 4px; background: transparent; color: #1E2B3C; cursor: pointer" style-hover="background: #f2f4f6"><span aria-hidden="true" style="flex: none; display: inline-block; width: 20px; height: 20px; background: currentColor; -webkit-mask: url('assets/icons/XMark.svg') center / contain no-repeat; mask: url('assets/icons/XMark.svg') center / contain no-repeat"></span></button>
+          </div>
+
+          <sc-if value="{{ memberSearching }}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; flex-direction: column; gap: 12px">
+              <input type="search" value="{{ memberQuery }}" onInput="{{ setMemberQuery }}" aria-label="Søk i ansattlisten" placeholder="Søk etter navn, rolle eller enhet" style="padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; font-size: 16px; font-family: inherit"></input>
+              <div style="display: flex; flex-direction: column; max-height: 360px; overflow: auto">
+                <sc-for list="{{ memberResults }}" as="c" hint-placeholder-count="5">
+                  <button onClick="{{ c.pick }}" style="text-align: left; width: 100%; display: flex; align-items: center; gap: 12px; padding: 10px 6px; border: none; border-top: 1px solid #eaeef2; background: transparent; font-family: inherit; cursor: pointer" style-hover="background: #f2f4f6">
+                    <span role="img" aria-label="{{ c.name }}" style="{{ c.avatarStyle }}">{{ c.initials }}</span>
+                    <span style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+                      <span style="font-size: 16px; color: #1E2B3C">{{ c.name }}</span>
+                      <span style="font-size: 14px; color: #44505f">{{ c.sub }}</span>
+                    </span>
+                  </button>
+                </sc-for>
+                <sc-if value="{{ memberNoResults }}">
+                  <p style="margin: 0; padding: 10px 6px; font-size: 15px; color: #65707D">Ingen treff i ansattlisten.</p>
+                </sc-if>
+              </div>
+              <span style="font-size: 13px; color: #65707D">{{ memberResultNote }}</span>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ memberPicked }}">
+            <div style="display: flex; flex-direction: column; gap: 18px">
+              <div style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #dce1e7; border-radius: 4px">
+                <span role="img" aria-label="{{ memberPick.name }}" style="{{ memberPick.avatarStyle }}">{{ memberPick.initials }}</span>
+                <span style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+                  <span style="font-size: 16px; font-weight: 600">{{ memberPick.name }}</span>
+                  <span style="font-size: 14px; color: #44505f">{{ memberPick.sub }}</span>
+                </span>
+                <button onClick="{{ unpickMember }}" style="margin-left: auto; background: none; border: none; padding: 0; color: #0062B8; font-size: 14px; font-family: inherit; cursor: pointer; text-decoration: underline">Bytt person</button>
+              </div>
+              <label style="display: flex; flex-direction: column; gap: 6px">
+                <span style="font-size: 15px; font-weight: 500">Rolle i teamet</span>
+                <input value="{{ memberRole }}" onChange="{{ setMemberRole }}" style="padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; font-size: 16px; font-family: inherit"></input>
+              </label>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap">
+                <button onClick="{{ confirmAddMember }}" style="padding: 10px 18px; border-radius: 4px; border: none; background: #0062B8; color: #fff; font-size: 15px; font-weight: 500; font-family: inherit; cursor: pointer" style-hover="background: #00417d">Legg til i teamet</button>
+                <button onClick="{{ closeAddMember }}" style="padding: 10px 18px; border-radius: 4px; border: 1px solid #65707D; background: transparent; font-size: 15px; font-family: inherit; cursor: pointer" style-hover="background: #f2f4f6">Avbryt</button>
+              </div>
+            </div>
+          </sc-if>
+        </div>
       </div>
     </sc-if>
 
@@ -246,6 +427,7 @@
             <p style="margin: 0; font-size: 13px; color: #65707D">{{ contractStatus }}</p>
           </section>
           </sc-if>
+
           </div>
 
           <div style="display: flex; flex-direction: column; gap: 24px">
@@ -263,6 +445,7 @@
               <sc-if value="{{ noMembers }}">
                 <p style="margin: 0; font-size: 15px; color: #65707D">Ingen medlemmer registrert ennå.</p>
               </sc-if>
+              <button onClick="{{ openAddMember }}" style="align-self: flex-start; padding: 8px 14px; border-radius: 4px; border: 1px solid #0062B8; background: transparent; color: #0062B8; font-size: 15px; font-family: inherit; cursor: pointer" style-hover="background: #eef4fa">Legg til medlem</button>
             </section>
             <section style="display: flex; flex-direction: column; gap: 14px; padding: 24px; border: 1px solid #dce1e7; border-radius: 8px">
               <h2 style="margin: 0; font-size: 20px; font-weight: 600">Teameier</h2>
@@ -315,6 +498,70 @@
             </section>
           </div>
         </div>
+
+        <section style="display: flex; flex-direction: column; gap: 18px; padding: 24px; border: 1px solid #dce1e7; border-radius: 8px">
+          <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <h2 style="margin: 0; font-size: 20px; font-weight: 600">OKR</h2>
+              <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #44505f">Objectives and Key Results: målene teamet jobber mot, og nøkkelresultatene som viser om vi når dem.</p>
+            </div>
+            <sc-if value="{{ okrCanAdd }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ addOkr }}" style="padding: 8px 14px; border-radius: 4px; border: 1px solid #0062B8; background: transparent; color: #0062B8; font-size: 15px; font-family: inherit; cursor: pointer" style-hover="background: #eef4fa">Legg til OKR</button>
+            </sc-if>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 16px">
+            <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding: 20px 24px; border: 1px solid #dce1e7; border-radius: 8px; background: #fff">
+              <span style="align-self: center; height: 96px; display: flex; align-items: center; font-size: 84px; font-weight: 600; line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: #1E2B3C">{{ okrDaysLeft }}</span>
+              <div style="display: flex; flex-direction: column; gap: 4px">
+                <span style="font-size: 17px; font-weight: 600">Dager igjen</span>
+                <span style="font-size: 14px; color: #44505f">{{ okrTermLabel }}</span>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding: 20px 24px; border: 1px solid #dce1e7; border-radius: 8px; background: #fff">
+              <div role="img" aria-label="{{ okrNcsAria }}" style="{{ okrRingStyle }}; align-self: center">
+                <span style="width: 70px; height: 70px; border-radius: 9999px; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 600; font-variant-numeric: tabular-nums; color: #1E2B3C">{{ okrAvgNcs }}</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 4px">
+                <span style="font-size: 17px; font-weight: 600">Net Confidence Score</span>
+                <span style="font-size: 14px; color: #44505f">Andel på sporet minus andel utenfor sporet</span>
+                <span style="font-size: 14px; color: #44505f">{{ okrNcsSub }}</span>
+              </div>
+            </div>
+          </div>
+          <sc-if value="{{ okrEmpty }}">
+            <p style="margin: 0; font-size: 15px; color: #65707D">Ingen OKR registrert ennå.</p>
+          </sc-if>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); gap: 16px; align-items: start">
+          <sc-for list="{{ okrList }}" as="o" hint-placeholder-count="2">
+            <div style="display: flex; flex-direction: column; gap: 12px; padding: 20px; border: 1px solid #dce1e7; border-radius: 8px; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.06)">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap">
+                <span style="padding: 4px 10px; border-radius: 9999px; background: #eef0f3; color: #3c4757; font-size: 13px; font-weight: 500">{{ o.periodLabel }}</span>
+                <div style="display: flex; gap: 12px">
+                  <button onClick="{{ o.edit }}" style="background: none; border: none; padding: 0; color: #0062B8; font-size: 14px; font-family: inherit; cursor: pointer; text-decoration: underline">Rediger</button>
+                  <button onClick="{{ o.remove }}" style="background: none; border: none; padding: 0; color: #44505f; font-size: 14px; font-family: inherit; cursor: pointer; text-decoration: underline">Slett</button>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 4px">
+                <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Mål</span>
+                <span style="font-size: 17px; font-weight: 600; line-height: 1.4">{{ o.objective }}</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 0">
+                <div style="display: flex; justify-content: space-between; gap: 12px; padding-bottom: 6px">
+                  <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Nøkkelresultater</span>
+                  <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Confidence</span>
+                </div>
+                <sc-for list="{{ o.krs }}" as="k" hint-placeholder-count="3">
+                  <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px; padding: 10px 0; border-top: 1px solid #eaeef2">
+                    <span style="font-size: 15px; line-height: 1.5">{{ k.text }}</span>
+                    <span style="{{ k.confStyle }}">{{ k.confLabel }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+          </div>
+        </section>
       </div>
     </sc-if>
 
@@ -786,6 +1033,13 @@
                 <input type="search" placeholder="Søk etter navn, rolle, enhet eller team" aria-label="Søk blant ansatte" value="{{ peopleQuery }}" onInput="{{ setPeopleQuery }}" style="flex: 1 1 18rem; max-width: 28rem; padding: 10px 12px; border: 1px solid #8e99a6; border-radius: 4px; font: inherit; font-size: 15px">
                 <span style="font-size: 14px; color: #65707D">{{ peopleCountLabel }}</span>
               </div>
+              <div style="display: flex; align-items: center; gap: 8px 20px; flex-wrap: wrap; font-size: 14px; color: #44505f">
+                <span style="font-weight: 500; color: #1E2B3C">Allokering</span>
+                <span style="display: flex; align-items: center; gap: 6px"><span aria-hidden="true" style="width: 14px; height: 14px; border-radius: 9999px; border: 3px solid #1E98F5; flex: none"></span>Under 80 %</span>
+                <span style="display: flex; align-items: center; gap: 6px"><span aria-hidden="true" style="width: 14px; height: 14px; border-radius: 9999px; border: 3px solid #068718; flex: none"></span>80–100 %</span>
+                <span style="display: flex; align-items: center; gap: 6px"><span aria-hidden="true" style="width: 14px; height: 14px; border-radius: 9999px; border: 3px solid #E5AA20; flex: none"></span>101–120 %</span>
+                <span style="display: flex; align-items: center; gap: 6px"><span aria-hidden="true" style="width: 14px; height: 14px; border-radius: 9999px; border: 3px solid #C30000; flex: none"></span>Over 120 %</span>
+              </div>
               <div style="display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 8px 12px; border-bottom: 1px solid #c3cbd4; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">
                 <span style="flex: 1 1 16rem">Navn og rolle</span><span style="flex: 1 1 14rem">Enhet i linjen</span><span style="flex: 1 1 14rem">Team</span>
               </div>
@@ -846,26 +1100,21 @@
     <sc-if value="{{ isOrg }}">
       <div style="padding-top: 40px; display: flex; flex-direction: column; gap: 32px">
         <div style="display: flex; flex-direction: column; gap: 10px; max-width: 760px">
-          <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Organisasjon</h1>
-          <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f">Digdir er todelt: en fast linjeorganisasjon der personalansvaret ligger, og tverrgående strukturer som opprettes og legges ned etter behov.</p>
+          <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Linjeorganisasjon</h1>
+          <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f"><span style="color: rgb(30, 43, 60); font-size: 15px; letter-spacing: 0.08px; background-color: rgb(238, 244, 250);">Bestemme hvilke fagmiljøer og ressurser Digdir trenger, og hvordan vi skal utvikle og forvalte dem.</span></p>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 16px">
-          <section style="display: flex; flex-direction: column; gap: 10px; padding: 26px; border-radius: 8px; background: #eef4fa">
-            <h2 style="margin: 0; font-size: 20px; font-weight: 600">Linjeorganisasjon (vertikalt)</h2>
-            <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #1E2B3C">Bestemme hvilke fagmiljøer og ressurser Digdir trenger, og hvordan vi skal utvikle og forvalte dem.</p>
-          </section>
-          <section style="display: flex; flex-direction: column; gap: 10px; padding: 26px; border-radius: 8px; background: #f2f4f6">
-            <h2 style="margin: 0; font-size: 20px; font-weight: 600">Tverrgående strukturer (horisontalt)</h2>
-            <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #1E2B3C">Bestemme hvordan vi samler kompetansen og løser behovet på tvers.</p>
-          </section>
-        </div>
+        
 
         <section style="display: flex; flex-direction: column; gap: 16px">
           <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap">
             <h2 style="margin: 0; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Organisasjonskart</h2>
             <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap">
               <sc-if value="{{ isChartView }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ toggleNcs }}" role="switch" aria-checked="{{ showNcs }}" style="display: flex; align-items: center; gap: 8px; padding: 4px 0; border: none; background: none; font-family: inherit; font-size: 14px; color: #1E2B3C; cursor: pointer">
+                  <span style="{{ ncsSwitchStyle }}"><span style="{{ ncsKnobStyle }}"></span></span>
+                  Vis OKR-status
+                </button>
                 <span style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #65707D">
                   <span style="width: 14px; height: 14px; border: 1px solid #F45F63; border-radius: 3px; display: inline-block"></span>
                   Bistår og rådgir hele Digdir
@@ -879,27 +1128,46 @@
               <div style="display: flex; align-items: flex-start; justify-content: flex-end; padding-top: 22px">
                 <div style="display: flex; flex-direction: column; gap: 4px; width: min(100%, 15rem)">
                   <button onClick="{{ tdiHead.go }}" style="text-align: left; display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border: none; border-radius: 4px; background: #1E2B3C; color: #fff; cursor: pointer" style-hover="background: #0062B8">
-                    <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; opacity: 0.8">{{ tdiHead.code }}</span>
+                    <span style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px; width: 100%">
+                      <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; opacity: 0.8">{{ tdiHead.code }}</span>
+                      <span title="Antall ansatte" style="font-size: 12px; opacity: 0.8; font-variant-numeric: tabular-nums">{{ tdiHead.size }}</span>
+                    </span>
                     <span style="font-size: 14px; font-weight: 600; line-height: 1.3">{{ tdiHead.name }}</span>
-                    <span style="font-size: 12px; opacity: 0.8">{{ tdiHead.size }}</span>
+                    <span style="font-size: 12px; opacity: 0.8">{{ tdiHead.leader }}</span>
+                    <sc-if value="{{ tdiHead.showNcs }}">
+                      <span title="{{ tdiHead.ncsTitle }}" style="display: flex; align-items: center; gap: 8px; width: 100%; padding-top: 4px"><span style="{{ tdiHead.ncsBarStyle }}"></span><span style="{{ tdiHead.ncsNumStyle }}">{{ tdiHead.ncs }}</span></span>
+                    </sc-if>
                   </button>
                   <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px">
                     <sc-for list="{{ tdiHead.children }}" as="c" hint-placeholder-count="2">
-                      <button onClick="{{ c.go }}" style="padding: 6px 10px; border: 1px solid transparent; border-radius: 4px; background: #f2f4f6; color: #44505f; font-size: 14px; cursor: pointer" style-hover="background: #e6f2fd; color: #0062B8">{{ c.name }}</button>
+                      <button onClick="{{ c.go }}" title="{{ c.ncsTitle }}" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 10px; border: 1px solid transparent; border-radius: 4px; background: #f2f4f6; color: #44505f; font-size: 14px; cursor: pointer" style-hover="background: #e6f2fd; color: #0062B8"><span>{{ c.name }}</span><sc-if value="{{ c.showNcs }}"><span style="display: flex; align-items: center; gap: 6px; width: 100%"><span style="{{ c.ncsBarStyle }}"></span><span style="{{ c.ncsNumStyle }}">{{ c.ncs }}</span></span></sc-if></button>
                     </sc-for>
                   </div>
                 </div>
                 <div style="flex: 1 1 96px; min-width: 96px; margin-top: 40px; border-top: 2px dashed #9aa5b1"></div>
               </div>
               <div style="position: relative; background: #cfd6de">
-                <button onClick="{{ goDirektor }}" style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 1; white-space: nowrap; padding: 14px 32px; border: none; border-radius: 4px; background: #F45F63; color: #000000; font-size: 15px; font-weight: 600; letter-spacing: 0.06em; cursor: pointer" style-hover="background: #e2474c">DIREKTØR</button>
+                <button onClick="{{ goDirektor }}" title="{{ digdirNcs.title }}" style="{{ direktorStyle }}" style-hover="{{ direktorHover }}">
+                  <span>DIREKTØR</span>
+                  <span style="font-size: 13px; font-weight: 500; letter-spacing: 0">Frode Danielsen</span>
+                  <sc-if value="{{ showNcs }}">
+                    <span style="display: flex; align-items: center; gap: 8px; letter-spacing: 0; font-size: 12px; font-weight: 500">
+                      Digdir samlet
+                      <span style="{{ digdirNcs.barStyle }}"></span>
+                      <span style="font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums">{{ digdirNcs.label }}</span>
+                    </span>
+                  </sc-if>
+                </button>
               </div>
-              <div style="display: flex; align-items: flex-start; padding-top: 56px; padding-bottom: 28px">
+              <div style="{{ komColStyle }}">
                 <div style="flex: 0 0 32px; margin-top: 24px; height: 2px; background: #cfd6de"></div>
                 <button onClick="{{ komHead.go }}" style="text-align: left; display: flex; flex-direction: column; gap: 4px; width: min(100%, 15rem); padding: 12px 16px; border: 1px solid #dce1e7; border-radius: 4px; background: #fff; color: #1E2B3C; cursor: pointer" style-hover="border-color: #0062B8; color: #0062B8">
                   <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #65707D">{{ komHead.code }}</span>
                   <span style="font-size: 14px; font-weight: 600; line-height: 1.3">{{ komHead.name }}</span>
                   <span style="font-size: 12px; color: #65707D">{{ komHead.size }}</span>
+                  <sc-if value="{{ komHead.showNcs }}">
+                    <span title="{{ komHead.ncsTitle }}" style="display: flex; align-items: center; gap: 8px; width: 100%; padding-top: 4px"><span style="{{ komHead.ncsBarStyle }}"></span><span style="{{ komHead.ncsNumStyle }}">{{ komHead.ncs }}</span></span>
+                  </sc-if>
                 </button>
               </div>
             </div>
@@ -910,17 +1178,23 @@
               <div style="display: flex; flex-direction: column; align-items: center; gap: 0">
                 <div style="width: 2px; height: 16px; background: #cfd6de"></div>
                 <button onClick="{{ d.go }}" style="{{ d.headStyle }}" style-hover="background: #0062B8">
-                  <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; opacity: 0.8">{{ d.code }}</span>
+                  <span style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px; width: 100%">
+                    <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; opacity: 0.8">{{ d.code }}</span>
+                    <span title="Antall ansatte" style="font-size: 12px; opacity: 0.8; font-variant-numeric: tabular-nums">{{ d.size }}</span>
+                  </span>
                   <span style="font-size: 14px; font-weight: 600; line-height: 1.3">{{ d.name }}</span>
-                  <span style="font-size: 12px; opacity: 0.8">{{ d.size }}</span>
+                  <span style="font-size: 12px; opacity: 0.8">{{ d.leader }}</span>
+                  <sc-if value="{{ d.showNcs }}">
+                    <span title="{{ d.ncsTitle }}" style="display: flex; align-items: center; gap: 8px; width: 100%; padding-top: 4px"><span style="{{ d.ncsBarStyle }}"></span><span style="{{ d.ncsNumStyle }}">{{ d.ncs }}</span></span>
+                  </sc-if>
                 </button>
                 <div style="width: 100%; display: flex; flex-direction: column; gap: 6px; padding-top: 8px">
                   <sc-for list="{{ d.children }}" as="a" hint-placeholder-count="4">
                     <div style="display: flex; flex-direction: column; gap: 6px">
-                      <button onClick="{{ a.go }}" style="{{ a.style }}" style-hover="border-color: #0062B8; color: #0062B8">{{ a.name }}</button>
+                      <button onClick="{{ a.go }}" title="{{ a.ncsTitle }}" style="{{ a.style }}" style-hover="border-color: #0062B8; color: #0062B8"><span>{{ a.name }}</span><sc-if value="{{ a.showNcs }}"><span style="display: flex; align-items: center; gap: 6px; width: 100%"><span style="{{ a.ncsBarStyle }}"></span><span style="{{ a.ncsNumStyle }}">{{ a.ncs }}</span></span></sc-if></button>
                       <div style="display: flex; flex-direction: column; gap: 3px; padding-left: 8px; border-left: 2px solid #eaeef2">
                         <sc-for list="{{ a.children }}" as="s" hint-placeholder-count="0">
-                          <button onClick="{{ s.go }}" style="{{ s.style }}" style-hover="background: #e6f2fd; color: #0062B8">{{ s.name }}</button>
+                          <button onClick="{{ s.go }}" title="{{ s.ncsTitle }}" style="{{ s.style }}" style-hover="background: #e6f2fd; color: #0062B8"><span>{{ s.name }}</span><sc-if value="{{ s.showNcs }}"><span style="display: flex; align-items: center; gap: 6px; width: 100%"><span style="{{ s.ncsBarStyle }}"></span><span style="{{ s.ncsNumStyle }}">{{ s.ncs }}</span></span></sc-if></button>
                         </sc-for>
                       </div>
                     </div>
@@ -1073,6 +1347,7 @@
           <p style="margin: 0; font-size: 17px; line-height: 1.65; color: #1E2B3C; white-space: pre-line; max-width: 720px">{{ tool.long }}</p>
         </section>
 
+
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 16px; align-items: start">
           <section style="display: flex; flex-direction: column; gap: 14px; padding: 24px; border: 1px solid #dce1e7; border-radius: 8px">
             <h2 style="margin: 0; font-size: 20px; font-weight: 600">Ressurser og maler</h2>
@@ -1096,12 +1371,28 @@
               <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Enhet</span>
               <span style="font-size: 16px; line-height: 1.5">{{ tool.owner }}</span>
             </div>
+
             <div style="display: flex; flex-direction: column; gap: 4px">
               <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Kontaktperson</span>
               <span style="font-size: 16px; line-height: 1.5">{{ tool.contact }}</span>
             </div>
           </section>
         </div>
+
+        <sc-if value="{{ tool.hasUses }}">
+          <section style="display: flex; flex-direction: column; gap: 12px">
+            <h2 style="margin: 0; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Bruker disse verktøyene</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 16px">
+              <sc-for list="{{ tool.uses }}" as="u" hint-placeholder-count="2">
+                <button onClick="{{ u.go }}" style="display: flex; flex-direction: column; gap: 8px; padding: 20px 24px; border: 1px solid #dce1e7; border-radius: 8px; background: #fff; text-align: left; font: inherit; color: inherit; cursor: pointer" style-hover="border-color: #0062B8">
+                  <span style="font-size: 13px; color: #65707D">{{ u.type }}</span>
+                  <span style="font-size: 18px; font-weight: 600; color: #0062B8">{{ u.name }}</span>
+                  <span style="font-size: 15px; line-height: 1.55; color: #44505f">{{ u.desc }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </section>
+        </sc-if>
 
         <section style="display: flex; flex-direction: column; gap: 16px">
           <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap">
@@ -1126,7 +1417,7 @@
     <sc-if value="{{ isDirektor }}">
       <div style="padding-top: 28px; display: flex; flex-direction: column; gap: 32px; max-width: 900px">
         <div style="display: flex; gap: 8px; align-items: center; font-size: 15px">
-          <button onClick="{{ goOrg }}" style="background: none; border: none; padding: 0; color: #0062B8; cursor: pointer; text-decoration: underline">Organisasjon</button>
+          <button onClick="{{ goOrg }}" style="background: none; border: none; padding: 0; color: #0062B8; cursor: pointer; text-decoration: underline">Linjeorganisasjon</button>
           <span style="color: #65707D">/</span>
           <span style="color: #65707D">Direktør</span>
         </div>
@@ -1171,7 +1462,7 @@
     <sc-if value="{{ isUnitMandate }}">
       <div style="padding-top: 28px; display: flex; flex-direction: column; gap: 32px; max-width: 820px">
         <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 15px">
-          <button onClick="{{ goOrg }}" style="background: none; border: none; padding: 0; color: #0062B8; cursor: pointer; text-decoration: underline">Organisasjon</button>
+          <button onClick="{{ goOrg }}" style="background: none; border: none; padding: 0; color: #0062B8; cursor: pointer; text-decoration: underline">Linjeorganisasjon</button>
           <span style="color: #65707D">/</span>
           <button onClick="{{ goUnitFromMandate }}" style="background: none; border: none; padding: 0; color: #0062B8; cursor: pointer; text-decoration: underline">{{ unit.name }}</button>
         </div>
@@ -1238,7 +1529,7 @@
     <sc-if value="{{ isUnit }}">
       <div style="padding-top: 28px; display: flex; flex-direction: column; gap: 32px; max-width: 900px">
         <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 15px">
-          <button onClick="{{ goOrg }}" style="background: none; border: none; padding: 0; color: #0062B8; cursor: pointer; text-decoration: underline">Organisasjon</button>
+          <button onClick="{{ goOrg }}" style="background: none; border: none; padding: 0; color: #0062B8; cursor: pointer; text-decoration: underline">Linjeorganisasjon</button>
           <span style="color: #65707D">/</span>
           <button onClick="{{ unit.goParent }}" style="background: none; border: none; padding: 0; color: #0062B8; cursor: pointer; text-decoration: underline">{{ unit.parentLabel }}</button>
         </div>
@@ -1343,6 +1634,82 @@
             </div>
           </section>
         </sc-if>
+
+        <section style="display: flex; flex-direction: column; gap: 18px; padding: 24px; border: 1px solid #dce1e7; border-radius: 8px">
+          <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <h2 style="margin: 0; font-size: 20px; font-weight: 600">OKR</h2>
+              <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #44505f">Objectives and Key Results: målene enheten jobber mot, og nøkkelresultatene som viser om vi når dem.</p>
+            </div>
+            <sc-if value="{{ okrCanAdd }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ addOkr }}" style="padding: 8px 14px; border-radius: 4px; border: 1px solid #0062B8; background: transparent; color: #0062B8; font-size: 15px; font-family: inherit; cursor: pointer" style-hover="background: #eef4fa">Legg til OKR</button>
+            </sc-if>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 16px">
+            <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding: 20px 24px; border: 1px solid #dce1e7; border-radius: 8px; background: #fff">
+              <span style="align-self: center; height: 96px; display: flex; align-items: center; font-size: 84px; font-weight: 600; line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: #1E2B3C">{{ okrDaysLeft }}</span>
+              <div style="display: flex; flex-direction: column; gap: 4px">
+                <span style="font-size: 17px; font-weight: 600">Dager igjen</span>
+                <span style="font-size: 14px; color: #44505f">{{ okrTermLabel }}</span>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding: 20px 24px; border: 1px solid #dce1e7; border-radius: 8px; background: #fff">
+              <div role="img" aria-label="{{ okrNcsAria }}" style="{{ okrRingStyle }}; align-self: center">
+                <span style="width: 70px; height: 70px; border-radius: 9999px; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 600; font-variant-numeric: tabular-nums; color: #1E2B3C">{{ okrAvgNcs }}</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 4px">
+                <span style="font-size: 17px; font-weight: 600">Net Confidence Score</span>
+                <span style="font-size: 14px; color: #44505f">Andel på sporet minus andel utenfor sporet</span>
+                <span style="font-size: 14px; color: #44505f">{{ okrNcsSub }}</span>
+              </div>
+            </div>
+            <sc-if value="{{ okrHasAgg }}">
+            <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding: 20px 24px; border: 1px solid #dce1e7; border-radius: 8px; background: #fff">
+              <div role="img" aria-label="{{ okrAgg.aria }}" style="{{ okrAgg.ringStyle }}; align-self: center">
+                <span style="width: 70px; height: 70px; border-radius: 9999px; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 600; font-variant-numeric: tabular-nums; color: #1E2B3C">{{ okrAgg.ncs }}</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 4px">
+                <span style="font-size: 17px; font-weight: 600">Samlet NCS med underenheter</span>
+                <span style="font-size: 14px; color: #44505f">Enhetens egne, alle underenheters og tilhørende teams nøkkelresultater</span>
+                <span style="font-size: 14px; color: #44505f">{{ okrAgg.sub }}</span>
+              </div>
+            </div>
+            </sc-if>
+          </div>
+          <sc-if value="{{ okrEmpty }}">
+            <p style="margin: 0; font-size: 15px; color: #65707D">Ingen OKR registrert ennå.</p>
+          </sc-if>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); gap: 16px; align-items: start">
+          <sc-for list="{{ okrList }}" as="o" hint-placeholder-count="2">
+            <div style="display: flex; flex-direction: column; gap: 12px; padding: 20px; border: 1px solid #dce1e7; border-radius: 8px; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.06)">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap">
+                <span style="padding: 4px 10px; border-radius: 9999px; background: #eef0f3; color: #3c4757; font-size: 13px; font-weight: 500">{{ o.periodLabel }}</span>
+                <div style="display: flex; gap: 12px">
+                  <button onClick="{{ o.edit }}" style="background: none; border: none; padding: 0; color: #0062B8; font-size: 14px; font-family: inherit; cursor: pointer; text-decoration: underline">Rediger</button>
+                  <button onClick="{{ o.remove }}" style="background: none; border: none; padding: 0; color: #44505f; font-size: 14px; font-family: inherit; cursor: pointer; text-decoration: underline">Slett</button>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 4px">
+                <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Mål</span>
+                <span style="font-size: 17px; font-weight: 600; line-height: 1.4">{{ o.objective }}</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 0">
+                <div style="display: flex; justify-content: space-between; gap: 12px; padding-bottom: 6px">
+                  <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Nøkkelresultater</span>
+                  <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">Confidence</span>
+                </div>
+                <sc-for list="{{ o.krs }}" as="k" hint-placeholder-count="3">
+                  <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px; padding: 10px 0; border-top: 1px solid #eaeef2">
+                    <span style="font-size: 15px; line-height: 1.5">{{ k.text }}</span>
+                    <span style="{{ k.confStyle }}">{{ k.confLabel }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+          </div>
+        </section>
       </div>
     </sc-if>
 
@@ -1637,7 +2004,7 @@ const TEAMS = [
 
 const ROLES = [
   { name: "Teameier", ramo: [
-    { label: "Rolle", value: "Formelt utpekt som teameier ved etablering av teamet. Teameiere bør ha personalansvar for flere av teammedlemmene og/eller et tyngre fagansvar og risikoeierskap rundt teamets leveranser." },
+    { label: "Rolle", value: "Formelt utpekt som teameier ved etablering av teamet. Teameiere bør ha personalansvar for flere av teammedlemmene og/eller et tyngre fagansvar og risikoeierskap rundt teamets leveranser. For team som hører til et innsatsområde så fyller områdeansvarlig rollen som teameier.\n" },
     { label: "Ansvar", value: "Sikre at teamet leverer i tråd med virksomhetens mål og har de nødvendige rammer." },
     { label: "Myndighet", value: "Fastsette mandat, mål/OKR, budsjett og prioriteringer på overordnet nivå." },
     { label: "Oppgaver", value: "Definere mål og forventninger, godkjenne mandat og teamkontrakt, sikre linjeforankring og riktig bemanning i dialog med andre linjeledere, evaluere teamets måloppnåelse og tilrettelegge for samspill med andre team. Tett dialog med teamleder." } ] },
@@ -1747,7 +2114,7 @@ const WIZARD = [
 ];
 
 const RESULTS = {
-  ikkeTeam: { kicker: "Anbefaling", title: "Team er ikke alltid det beste!", body: "Det er ikke sikkert team er den mest hensiktsmessige arbeidsformen for denne oppgaven.", listTitle: "Vurder om oppgaven kan løses:", points: ["Gjennom individuelt ansvar", "Gjennom enklere koordinering i linjen", "Som et fagnettverk"] },
+  ikkeTeam: { kicker: "Anbefaling", title: "Team er ikke alltid det beste!", body: "Det er ikke sikkert team er den mest hensiktsmessige arbeidsformen for denne oppgaven.", listTitle: "Vurder om oppgaven kan løses:", points: ["Gjennom individuelt ansvar", "Gjennom enklere koordinering i linjen"] },
   fellesskap: { kicker: "Arbeidsform", title: "Fagnettverk", body: "Et fagnettverk samler personer som har et felles fagområde, kompetanse, interesse eller profesjonell bakgrunn, og som ønsker å dele kunnskap, lære av hverandre og utvikle fagområdet. Nettverket kan for eksempel organiseres som et fagforum, nettverk eller laug — eller med et helt annet navn.\n\nI motsetning til et team har et fagnettverk vanligvis ikke ansvar for en felles leveranse eller et felles resultat, og medlemmene har normalt sitt ansvar og sine oppgaver andre steder i organisasjonen.\n\nEt tydelig formål gjør det enklere å skape relevant aktivitet og verdi for deltakerne, samtidig som nettverket beholder den fleksible formen som skiller det fra et team.", listTitle: "For å gi nettverket gode rammer er det viktig å:", points: ["ha et tydelig formål som beskriver hvorfor nettverket finnes og hva det skal bidra til", "avklare hvem nettverket er for, og hvordan deltakelse og medlemskap fungerer", "identifisere én eller flere personer som har ansvar for å koordinere og legge til rette for aktivitet, og registrere disse i Digdirs teamoversikt", "avklare hvordan nettverket skal dele kunnskap, erfaringer og praksis"] },
   prosjektteam: { kicker: "Teamtype", title: "Prosjektteam", body: "Et prosjektteam etableres for å løse en avgrenset oppgave med et definert mål og en tydelig avslutning. Når målet er nådd og oppgaven er løst, kan teamet oppløses.", listTitle: "Dette må på plass:", points: ["Et tydelig prosjektmandat som beskriver formål, mål, rammer og myndighet", "Prosjekteier, prosjektleder og medlemmer registrert i teamoversikten", "En teamkontrakt om samarbeid, kommunikasjon og beslutninger", "For større prosjekter: Digdirs prosjektveiviser som støtte"] },
   stotteteam: { kicker: "Teamtype", title: "Støtteteam", body: "Et støtteteam har et varig ansvar for å skape verdi internt i Digdir, slik at medarbeidere, ledere og andre team kan løse sine oppgaver på en effektiv og god måte.", listTitle: "Dette må på plass:", points: ["Et tydelig mandat som beskriver formål, ansvar, mål og handlingsrom", "Teameier, teamleder og medlemmer registrert i teamoversikten", "En teamkontrakt om samarbeid, kommunikasjon og beslutninger"] },
@@ -1766,6 +2133,7 @@ const TOOLS = [
   { name: "DevOps", type: "Metode", forWhom: "Produktteam", desc: "Arbeidsmåte der utvikling og drift er samlet i samme team, med små og hyppige endringer, automatisert testing og utrulling, og tett oppfølging av løsningen i bruk.", link: "Veileder" },
   { name: "Helsesjekk for team", type: "Metode", forWhom: "Alle team", desc: "Jevnlig pulsmåling av samarbeid, mestring og retning i teamet.", link: "Skjema" },
   { name: "Produktstrategi", type: "Mal", forWhom: "Produktteam", desc: "Beskriver produktets retning, hvem brukerne er og hvilket problem produktet løser for dem.", link: "Mal" },
+  { name: "Team Restart", type: "Metode", forWhom: "Alle team", uses: ["Teamkontrakt", "Teammandat"], desc: "Opplegg for å starte et etablert team på nytt, for eksempel etter endringer i mandat, sammensetning eller retning.", link: "Miro-mal" },
   { name: "KI Skills Bibliotek", type: "Verktøy", forWhom: "Alle team", desc: "Samling av ferdige KI-ferdigheter som team kan ta i bruk og dele med hverandre.", link: "Bibliotek" },
   { name: "Begrepskatalogen", type: "Verktøy", assessed: true, forWhom: "Alle", desc: "Nasjonal katalog for begrepsdefinisjoner. Begreper i Saman kan kobles til definisjoner her.", link: "data.norge.no" },
   { name: "Figma", type: "Verktøy", assessed: true, forWhom: "Design", desc: "Digdir har lisens. Brukes til design, skisser og samarbeid om grensesnitt.", link: "Logg inn med Digdir-konto" }
@@ -1778,6 +2146,9 @@ const TOOL_DETAILS = {
   "Prosjektmandat": { owner: "VSU · Strategi og styring", contact: "Dag Hovden",
     long: "Prosjektmandatet beskriver formål, mål, rammer og myndighet for et prosjekt med definert start og slutt. Det tilsvarer teammandatet, men følger Prosjektveiviserens struktur og knyttes til beslutningspunktene.\n\nFor større prosjekter brukes mandat for konseptfasen først, og deretter styringsdokumentet.",
     resources: [["Mal for prosjektmandat (Word)", "prosjektveiviseren.no"], ["Mandat for konseptfasen", "prosjektveiviseren.no"]] },
+  "Team Restart": {
+    long: "Team Restart er en samling der teamet går gjennom mandatet og teamkontrakten sammen og oppdaterer dem. Samlingen gjennomføres i en egen Miro-mal.",
+    resources: [["Team Restart i Miro (ikke på plass ennå)", "Miro"]] },
   "Teamkontrakt": { owner: "VSU · Organisasjonslæring", contact: "Anders Rø",
     long: "Der mandatet sier hva teamet skal løse, sier kontrakten hvordan teamet jobber sammen for å lykkes med det. Den avklarer mål og formål, personlige bruksanvisninger, roller og ansvar, spilleregler og arbeidsformer.\n\nKontrakten skrives av teamet selv, helst i løpet av de første ukene, og tas fram igjen ved retrospektiv eller når teamet endrer sammensetning.",
     resources: [["Teamkontrakt i Miro", "Miro"], ["Mal for teamkontrakt (Word)", "SharePoint"], ["Om teamkontrakter", "teamagile.no"]] },
@@ -1923,10 +2294,10 @@ const PRINCIPLES = [
   { num: "3", area: "Alle i Digdir", title: "Vi måler effekt, ikke bare aktivitet", body: "Enheter, team og medarbeidere får klare mål knyttet til effekt og samfunnsnytte, ikke detaljerte oppgavelister. Innenfor målene har enheten/teamet myndighet til å velge hvordan de jobber, så lenge de holder seg innenfor avtalte rammer og søker avklaring når det trengs. Vi bruker OKR-er for å holde fokus på det som betyr noe for brukerne og samfunnet." },
   { num: "4", area: "Alle i Digdir", title: "Vi leverer i korte, læringsdrevne sykluser", body: "Vi jobber iterativt, tester tidlig og ofte, og tilpasser oss basert på tilbakemeldinger og data. Korte sykluser i form av sprinter og MVP-er gir oss mulighet til å lære underveis, redusere risiko og øke farten på det som virker." },
   { num: "5", area: "Alle i Digdir", title: "Vi deler åpent og lærer sammen", body: "Kode, dokumentasjon, metoder og lærdommer deles åpent internt. Vi feirer både suksesser og feil, så lenge vi lærer av dem. Alle team gjennomfører retrospektive øvelser eller helsesjekk med jevne mellomrom og bidrar i demoer og erfaringsutveksling." },
-  { num: "T1", area: "Team", title: "Vi bygger stabile team med riktig kapasitet og god forankring", body: "Vi etablerer team med faste medlemmer og tilstrekkelig kapasitet til å levere, og unngår å tynne ut team med for mange parallelle oppgaver eller hyppige bytter. Alle team har egen teameier og teamleder samt definert handlingsrom gjennom eget mandat og teamkontrakt." },
+  { num: "6", area: "Alle i Digdir", title: "Vi utvikler medarbeiderskap sammen", body: "Medarbeiderskap handler om hvordan vi forholder oss til oppgavene våre, til Digdir og til hverandre. Det er et forpliktende samspill der vi som medarbeidere og ledere sammen tar ansvar for samarbeid, utvikling og resultater. Når vi eier egne oppgaver, bidrar på tvers og handler i tråd med Digdirs verdier, skaper vi en kultur preget av tillit, engasjement og gode resultater." },
+  { num: "T1", area: "Team", title: "Vi bygger stabile team med riktig kapasitet og god forankring", body: "Vi etablerer team med faste medlemmer og tilstrekkelig kapasitet til å levere, og unngår å tynne ut team med for mange parallelle oppgaver eller hyppige bytter. Alle team har egen teameier og teamleder samt definert handlingsrom gjennom eget mandat og teamkontrakt.\n\nDet frarådes å allokere medarbeidere til et team med mindre enn 50%. Derfor er hovedregelen at medarbeidere bør delta fast i inntil to team samtidig." },
   { num: "L1", area: "Ledelse", title: "Vi leder gjennom tydelig retning og handlingsrom", body: "Ledere setter tydelige mål og rammer – og gir team og medarbeidere frihet til å finne løsninger innenfor dem. Vi leder etter tight-loose-tight-prinsippet: stramme nok rammer til å sikre retning og samspill, løse nok til å gi autonomi og eierskap, og tett nok oppfølging til å lære underveis og justere kursen når det trengs. Ledere tar initiativ som styrker samarbeid, involvering og leveranser." },
   { num: "L2", area: "Ledelse", title: "Vi prioriterer i fellesskap", body: "Porteføljestyret samordner tiltak som går på tvers av divisjonene, og delegerer det divisjonene kan eie selv. Prioritering skjer i dialog, ikke gjennom parallelle køer." },
-  { num: "L3", area: "Ledelse", title: "Vi utvikler medarbeiderskap sammen", body: "Medarbeiderskap handler om hvordan vi forholder oss til oppgavene våre, til Digdir og til hverandre. Det er et forpliktende samspill der vi som medarbeidere og ledere sammen tar ansvar for samarbeid, utvikling og resultater. Når vi eier egne oppgaver, bidrar på tvers og handler i tråd med Digdirs verdier, skaper vi en kultur preget av tillit, engasjement og gode resultater." },
   { num: "A1", area: "Arkitektur", title: "Vi gjenbruker før vi bygger nytt", body: "Vi ser etter nasjonale fellesløsninger, felles komponenter og eksisterende data før vi lager noe eget. Nye løsninger skal passe inn i nasjonal arkitektur og følge etablerte standarder." }
 ];
 
@@ -2074,6 +2445,35 @@ const PEOPLE = {
 
 const EXAMPLE_PEOPLE_UNITS = ["vsu-orglaering"];
 
+// Hvilken enhet i linjen hvert team hører til (for NCS-aggregering). Foreløpig antatt, må bekreftes.
+const TEAM_UNIT = {
+  "altinn-studio": "tdu-ud2",
+  "designsystemet": "prt-design",
+  "plattform": "tdu-plattform",
+  "sikkerhet": "tdu-sikkerhet",
+  "servicedesk": "prt-brukerstotte",
+  "kitt": "kin"
+};
+
+const NEW_HIRES = [
+  { name: "Frida Lunde", start: "2026-10-01" },
+  { name: "Preben Vold", start: "2026-09-15" },
+  { name: "Morten Eide", start: "2026-09-01" }
+];
+
+const NEW_TOOLS = [
+  { name: "Team Restart", added: "2026-10-12" },
+  { name: "KI Skills Bibliotek", added: "2026-09-24" },
+  { name: "DevOps", added: "2026-09-22" }
+];
+
+const CHANGELOG = [
+  { date: "2026-10-12", text: "Teamsidene har fått OKR med Net Confidence Score.", page: "teams" },
+  { date: "2026-10-12", text: "Team Restart er lagt til i verktøykassen.", page: "verktoy" },
+  { date: "2026-10-08", text: "«Vi utvikler medarbeiderskap sammen» gjelder nå for alle i Digdir.", page: "prinsipper" },
+  { date: "2026-10-01", text: "Porteføljestyring har fått egen side under Styring.", page: "portefolje" }
+];
+
 const PORTFOLIO = [
   { level: "Strategisk prioritering", who: "Porteføljestyret (TLG) og områdeansvarlige", text: "Samordner og prioriterer tiltak som går på tvers av divisjonene ved å opprette, følge opp og legge ned innsatsområder og programmer. Områdeansvarlige koordinerer leveranser fra flere tverrgående team innenfor sitt innsatsområde." },
   { level: "Taktisk prioritering", who: "Linjeorganisasjonen", text: "Oppretter, følger opp og legger ned interne team og oppgaver innad i divisjonen, og avgir ressurser til tverrgående team." },
@@ -2174,7 +2574,7 @@ const NAV_GROUPS = [
     { page: "folk", label: "Folk" }] },
   { key: "organisering", label: "Organisering", icon: "Buildings3", pages: [
     { page: "teams", label: "Team" },
-    { page: "org", label: "Organisasjon" },
+    { page: "org", label: "Linjeorganisasjon" },
     { page: "roller", label: "Roller" }] },
   { key: "verktoy", label: "Verktøy", icon: "Wrench", pages: [
     { page: "verktoy", label: "Verktøykasse" },
@@ -2188,7 +2588,7 @@ const AREAS = [
   { page: "styring", title: "Styringsfundament", desc: "Visjon, samfunnsoppdrag, målbilde, verdier og institusjonelle roller.", count: "MVP", icon: "SealCheckmark", tint: "#eef0f3", ink: "#3c4757" },
   { page: "prinsipper", title: "Prinsipper", desc: "Føringene for hvordan vi organiserer team, følger dem opp og jobber.", count: PRINCIPLES.length + " prinsipper", icon: "Compass", tint: "#fdf2da", ink: "#5a4208" },
   { page: "roller", title: "Roller og ansvar", desc: "Hva ligger i rollene, og hvem har ansvar for hva? Beskrevet etter RAMO.", count: (ROLES.length + 2 + Object.keys(ROLE_EXTRA).reduce((n, k) => n + ROLE_EXTRA[k].length, 0)) + " roller", icon: "Briefcase", tint: "#fdeaea", ink: "#8f1f26" },
-  { page: "org", title: "Organisasjon", desc: "Divisjoner, avdelinger og de tverrgående strukturene i Digdir 2.0.", count: "7 enheter", icon: "Buildings3", tint: "#fdeaea", ink: "#8f1f26" },
+  { page: "org", title: "Linjeorganisasjon", desc: "Divisjoner, avdelinger og de tverrgående strukturene i Digdir 2.0.", count: "7 enheter", icon: "Buildings3", tint: "#fdeaea", ink: "#8f1f26" },
   { page: "teams", title: "Teamoversikt", desc: "Alle team i Digdir, hva de leverer og hvorfor de finnes.", count: TEAMS.length + " team", icon: "PersonGroup", tint: "#e6f2fd", ink: "#0062B8" },
   { page: "veiviser", title: "Veiviser", desc: "Spørsmål som hjelper deg å finne riktig arbeidsform og teamtype.", count: WIZARD.length + " steg", icon: "Branching", tint: "#fdf2da", ink: "#5a4208" },
   { page: "verktoy", title: "Verktøykasse", desc: "Anbefalte metoder, maler og verktøy for team- og prosjektarbeid.", count: TOOLS.length + " verktøy", icon: "Wrench", tint: "#e6f2fd", ink: "#0062B8" },
@@ -2229,9 +2629,239 @@ const UNIT_MANDATE_FIELDS = [
 ];
 
 class Component extends DCLogic {
-  state = { page: null, teamId: null, unitId: null, unitMandates: {}, unitEditing: false, unitDraft: null, unitSaved: false, toolName: null, personName: null, contracts: {}, contractEditing: false, contractDraft: null, contractSaved: false, assistantOpen: false, assistantInput: "", assistantMessages: [], assistantBusy: false, query: "", typeFilter: "Alle", audienceFilter: "Alle", toolFilter: "Alle", toolTeamFilter: "Alle", areaFilter: "Alle", roleFilter: "Alle", termFilter: "Alle", wizardPath: [], wizardStep: "team", wizardResult: null, editing: false, draft: null, saved: false, mandates: {}, newTeams: [], addOpen: false, addSaved: false, addDraft: { type: "Produktteam", name: "", owner: "", lead: "", purpose: "" } };
+  state = { page: null, teamId: null, unitId: null, unitMandates: {}, unitEditing: false, unitDraft: null, unitSaved: false, toolName: null, personName: null, contracts: {}, okrs: { "altinn-studio": [
+    { id: "okr-as-1", year: 2026, term: "T3", objective: "Tjenesteeiere kommer raskere i gang med å lage sine første tjenester i Altinn Studio", krs: [
+      { text: "Median tid fra opprettet app til første publisering i test er redusert fra 21 til 10 dager", conf: 6 },
+      { text: "80 % av nye tjenesteeiere fullfører veiledet oppstart uten å kontakte brukerstøtte", conf: 8 } ] },
+    { id: "okr-as-2", year: 2026, term: "", objective: "Altinn Studio er en stabil plattform tjenesteeierne kan stole på", krs: [
+      { text: "Oppetid for kjørende apper er minst 99,9 % hver måned", conf: 9 },
+      { text: "Ingen hendelser med alvorlighetsgrad 1 varer lenger enn 2 timer", conf: 5 },
+      { text: "Antall henvendelser om feil i utviklingsmiljøet er halvert sammenlignet med 2025", conf: 3 } ] }
+  ] }, okrDraft: null, okrSaved: false, okrError: "", contractEditing: false, contractDraft: null, contractSaved: false, assistantOpen: false, assistantInput: "", assistantMessages: [], assistantBusy: false, query: "", typeFilter: "Alle", audienceFilter: "Alle", toolFilter: "Alle", toolTeamFilter: "Alle", areaFilter: "Alle", roleFilter: "Alle", termFilter: "Alle", wizardPath: [], wizardStep: "team", wizardResult: null, editing: false, draft: null, saved: false, mandates: {}, newTeams: [], addOpen: false, addSaved: false, addDraft: { type: "Produktteam", name: "", owner: "", lead: "", purpose: "" } };
 
-  allTeams() { return TEAMS.concat(this.state.newTeams || []); }
+  okrVals(t) {
+    const s = this.state;
+    if (!t) return { okrList: [], okrEmpty: false, okrEditing: false, okrCanAdd: false };
+    const list = (s.okrs[t.id] || []).slice().sort((a, b) => (a.year - b.year) || ((a.term || "T0").localeCompare(b.term || "T0")));
+    const confColor = (c) => c <= 3 ? ["#fbe9ea", "#6b1018"] : c <= 6 ? ["#fdf2da", "#5a4208"] : ["#e6f3ec", "#12402c"];
+    const pill = (c) => { const [bg, fg] = confColor(c); return "min-width: 48px; text-align: center; padding: 3px 10px; border-radius: 9999px; background: " + bg + "; color: " + fg + "; font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums"; };
+    const d = s.okrDraft && s.okrDraft.teamId === t.id ? s.okrDraft : null;
+    const setD = (patch) => this.setState((st) => ({ okrDraft: Object.assign({}, st.okrDraft, patch), okrError: "" }));
+    const setKr = (i, patch) => this.setState((st) => ({ okrError: "", okrDraft: Object.assign({}, st.okrDraft, { krs: st.okrDraft.krs.map((k, j) => j === i ? Object.assign({}, k, patch) : k) }) }));
+    const thisYear = new Date().getFullYear();
+    const blank = () => ({ teamId: t.id, id: null, year: thisYear, term: "", objective: "", krs: [{ text: "", conf: 5 }, { text: "", conf: 5 }] });
+    const now = new Date();
+    const curTerm = "T" + (Math.floor(now.getMonth() / 4) + 1);
+    const termEnd = new Date(now.getFullYear(), (Math.floor(now.getMonth() / 4) + 1) * 4, 0);
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const daysLeft = Math.round((termEnd - today) / 86400000);
+    const isActive = (o) => o.year === now.getFullYear() && (!o.term || o.term === curTerm);
+    const active = list.filter(isActive);
+    const confs = active.reduce((acc, o) => acc.concat(o.krs.map((k) => k.conf)), []);
+    const unitId = String(t.id).indexOf("unit:") === 0 ? String(t.id).slice(5) : null;
+    const desc = [];
+    if (unitId) { const walk = (pid) => UNITS.filter((u) => u.parent === pid).forEach((u) => { desc.push(u.id); walk(u.id); }); walk(unitId); }
+    const aggConfs = unitId ? this.aggConfs(unitId) : confs.slice();
+    const an = aggConfs.length, ag = aggConfs.filter((c) => c >= 7).length, ay = aggConfs.filter((c) => c >= 4 && c <= 6).length, ar = an - ag - ay;
+    const agp = an ? ag / an * 100 : 0, ayp = an ? (ag + ay) / an * 100 : 0;
+    const av = an ? Math.round((ag - ar) / an * 100) : null, alab = av === null ? "–" : (av > 0 ? "+" : "") + av;
+    const n = confs.length;
+    const g = confs.filter((c) => c >= 7).length, y = confs.filter((c) => c >= 4 && c <= 6).length, r = n - g - y;
+    const gp = n ? g / n * 100 : 0, yp = n ? (g + y) / n * 100 : 0;
+    const ring = n ? "conic-gradient(#068718 0 " + gp + "%, #E5AA20 " + gp + "% " + yp + "%, #C30000 " + yp + "% 100%)" : "#dce1e7";
+    const ncs = n ? Math.round(g / n * 100 - r / n * 100) : null;
+    const avg = ncs === null ? "–" : (ncs > 0 ? "+" : "") + ncs;
+    return {
+      okrDaysLeft: String(daysLeft),
+      okrHasAgg: desc.length > 0 || (!!unitId && Object.keys(TEAM_UNIT).some((k) => TEAM_UNIT[k] === unitId)),
+      okrAgg: { ncs: alab,
+        ringStyle: "flex: none; width: 96px; height: 96px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; background: " + (an ? "conic-gradient(#068718 0 " + agp + "%, #E5AA20 " + agp + "% " + ayp + "%, #C30000 " + ayp + "% 100%)" : "#dce1e7"),
+        aria: an ? "Samlet NCS " + alab + ". " + ag + " grønne, " + ay + " gule, " + ar + " røde nøkkelresultater" : "Ingen nøkkelresultater i perioden",
+        sub: an ? an + " nøkkelresultater · " + ag + " grønne, " + ay + " gule, " + ar + " røde" : "Ingen nøkkelresultater i enheten, underenhetene eller teamene deres i " + curTerm + " " + now.getFullYear() },
+      okrTermLabel: curTerm + " " + now.getFullYear() + " slutter " + termEnd.getDate() + ". " + ["januar","februar","mars","april","mai","juni","juli","august","september","oktober","november","desember"][termEnd.getMonth()],
+      okrAvgNcs: avg,
+      okrRingStyle: "flex: none; width: 96px; height: 96px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; background: " + ring,
+      okrNcsAria: n ? "NCS " + avg + ". " + g + " grønne, " + y + " gule, " + r + " røde nøkkelresultater" : "Ingen nøkkelresultater i perioden",
+      okrNcsSub: n ? n + " nøkkelresultater i " + curTerm + " " + now.getFullYear() + " · " + g + " grønne, " + y + " gule, " + r + " røde" : "Ingen nøkkelresultater i " + curTerm + " " + now.getFullYear(),
+      okrEmpty: list.length === 0 && !d,
+      okrSaved: s.okrSaved && !d,
+      okrCanAdd: !d,
+      okrEditing: !!d,
+      okrError: s.okrError,
+      okrList: list.map((o) => ({
+        periodLabel: o.year + " · " + (o.term || "Hele året"),
+        objective: o.objective,
+        krs: o.krs.map((k) => ({ text: k.text, confLabel: k.conf + "/10", confStyle: pill(k.conf) })),
+        edit: () => this.setState({ okrSaved: false, okrError: "", okrDraft: { teamId: t.id, id: o.id, year: o.year, term: o.term, objective: o.objective, krs: o.krs.map((k) => Object.assign({}, k)) } }),
+        remove: () => this.setState((st) => ({ okrSaved: false, okrs: Object.assign({}, st.okrs, { [t.id]: (st.okrs[t.id] || []).filter((x) => x.id !== o.id) }) }))
+      })),
+      addOkr: () => this.setState({ okrDraft: blank(), okrSaved: false, okrError: "" }),
+      okrFormTitle: d && d.id ? "Rediger OKR" : "Ny OKR",
+      okrDraftYear: d ? String(d.year) : "",
+      okrYears: [thisYear - 1, thisYear, thisYear + 1, thisYear + 2].map(String),
+      setOkrYear: (e) => setD({ year: Number(e.target.value) }),
+      okrTerms: ["", "T1", "T2", "T3"].map((v) => {
+        const on = !!d && d.term === v;
+        return { label: v || "Hele året", on, pick: () => setD({ term: v }),
+          style: "padding: 9px 14px; border: none; border-left: " + (v ? "1px solid #65707D" : "none") + "; background: " + (on ? "#0062B8" : "#fff") + "; color: " + (on ? "#fff" : "#1E2B3C") + "; font-size: 15px; font-family: inherit; cursor: pointer" };
+      }),
+      okrDraftObjective: d ? d.objective : "",
+      setOkrObjective: (e) => setD({ objective: e.target.value }),
+      okrKrRows: d ? d.krs.map((k, i) => ({
+        text: k.text, label: "Nøkkelresultat " + (i + 1), conf: k.conf, confLabel: k.conf + "/10", confStyle: pill(k.conf),
+        setText: (e) => setKr(i, { text: e.target.value }),
+        setConf: (e) => setKr(i, { conf: Number(e.target.value) }),
+        cannotRemove: d.krs.length <= 1,
+        remove: () => this.setState((st) => ({ okrDraft: Object.assign({}, st.okrDraft, { krs: st.okrDraft.krs.filter((_, j) => j !== i) }) }))
+      })) : [],
+      addKr: () => this.setState((st) => ({ okrDraft: Object.assign({}, st.okrDraft, { krs: st.okrDraft.krs.concat([{ text: "", conf: 5 }]) }) })),
+      cancelOkr: () => this.setState({ okrDraft: null, okrError: "" }),
+      okrBackdrop: (e) => { if (e.target === e.currentTarget) this.setState({ okrDraft: null, okrError: "" }); },
+      saveOkr: () => {
+        const dr = this.state.okrDraft;
+        const krs = dr.krs.filter((k) => k.text.trim());
+        if (!dr.objective.trim()) return this.setState({ okrError: "Skriv inn et mål." });
+        if (!krs.length) return this.setState({ okrError: "Legg inn minst ett nøkkelresultat." });
+        const item = { id: dr.id || ("okr-" + Date.now()), year: dr.year, term: dr.term, objective: dr.objective.trim(), krs: krs.map((k) => ({ text: k.text.trim(), conf: k.conf })) };
+        this.setState((st) => {
+          const cur = st.okrs[t.id] || [];
+          const next = dr.id ? cur.map((x) => x.id === dr.id ? item : x) : cur.concat([item]);
+          return { okrs: Object.assign({}, st.okrs, { [t.id]: next }), okrDraft: null, okrSaved: true, okrError: "" };
+        });
+      }
+    };
+  }
+
+  allTeams() {
+    const extra = this.state.extraMembers || {};
+    return TEAMS.concat(this.state.newTeams || []).map((t) => extra[t.id] ? Object.assign({}, t, { members: t.members.concat(extra[t.id]) }) : t);
+  }
+
+  unitLeader(id) {
+    const p = (PEOPLE[id] || []).find((x) => x.lead);
+    return p ? p.name : "Leder ikke innplassert";
+  }
+
+  activeConfs(key) {
+    const now = new Date(), curTerm = "T" + (Math.floor(now.getMonth() / 4) + 1);
+    return ((this.state.okrs || {})[key] || []).filter((o) => o.year === now.getFullYear() && (!o.term || o.term === curTerm))
+      .reduce((acc, o) => acc.concat(o.krs.map((k) => k.conf)), []);
+  }
+
+  aggConfs(unitId) {
+    let out = this.activeConfs("unit:" + unitId);
+    Object.keys(TEAM_UNIT).forEach((tid) => { if (TEAM_UNIT[tid] === unitId) out = out.concat(this.activeConfs(tid)); });
+    UNITS.filter((u) => u.parent === unitId).forEach((u) => { out = out.concat(this.aggConfs(u.id)); });
+    return out;
+  }
+
+  ncsSummary(confs) {
+    const n = confs.length, g = confs.filter((c) => c >= 7).length, y = confs.filter((c) => c >= 4 && c <= 6).length, r = n - g - y;
+    const gp = n ? g / n * 100 : 0, yp = n ? (g + y) / n * 100 : 0;
+    const v = n ? Math.round((g - r) / n * 100) : null;
+    return { n, g, y, r, label: v === null ? "–" : (v > 0 ? "+" : "") + v,
+      fill: n ? "linear-gradient(to right, #068718 0 " + gp + "%, #E5AA20 " + gp + "% " + yp + "%, #C30000 " + yp + "% 100%)" : "#dce1e7",
+      ring: n ? "conic-gradient(#068718 0 " + gp + "%, #E5AA20 " + gp + "% " + yp + "%, #C30000 " + yp + "% 100%)" : "#dce1e7" };
+  }
+
+  unitNcs(unitId, dark) {
+    const on = !!this.state.showNcs;
+    const own = this.ncsSummary(this.activeConfs("unit:" + unitId));
+    const agg = this.ncsSummary(this.aggConfs(unitId));
+    return { showNcs: on, ncs: agg.label,
+      ncsBarStyle: "display: block; flex: 1; min-width: 24px; height: 5px; border-radius: 9999px; background: " + agg.fill,
+      ncsNumStyle: "font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; color: " + (dark ? "#fff" : (agg.n ? "#1E2B3C" : "#65707D")),
+      ncsTitle: agg.n ? "Samlet NCS " + agg.label + " (" + agg.n + " nøkkelresultater: " + agg.g + " grønne, " + agg.y + " gule, " + agg.r + " røde). Egen NCS " + own.label + "." : "Ingen OKR registrert i perioden." };
+  }
+
+  homeFeed() {
+    const M = ["jan.","feb.","mars","apr.","mai","juni","juli","aug.","sep.","okt.","nov.","des."];
+    const fmt = (iso) => { const d = new Date(iso + "T00:00:00"); return d.getDate() + ". " + M[d.getMonth()]; };
+    const now = new Date();
+    const dayNo = Math.floor((Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) - Date.UTC(now.getFullYear(), 0, 0)) / 86400000);
+    const term = TERMS[dayNo % TERMS.length];
+    const emp = this.employees();
+    return {
+      dailyTerm: { term: term.term, definition: term.definition, source: term.source || "" },
+      pulse: (() => {
+        const ti = Math.floor(now.getMonth() / 4), curTerm = "T" + (ti + 1), yr = now.getFullYear();
+        const okrs = this.state.okrs || {};
+        let teams = 0; const confs = [];
+        Object.keys(okrs).forEach((tid) => {
+          const act = (okrs[tid] || []).filter((o) => o.year === yr && (!o.term || o.term === curTerm));
+          if (act.length) teams++;
+          act.forEach((o) => o.krs.forEach((k) => confs.push(k.conf)));
+        });
+        const n = confs.length, g = confs.filter((c) => c >= 7).length, y = confs.filter((c) => c >= 4 && c <= 6).length, r = n - g - y;
+        const gp = n ? g / n * 100 : 0, yp = n ? (g + y) / n * 100 : 0;
+        const ncs = n ? Math.round((g - r) / n * 100) : null;
+        const label = ncs === null ? "–" : (ncs > 0 ? "+" : "") + ncs;
+        const total = this.allTeams().length;
+        return { ncs: label, period: curTerm + " " + yr, green: g, yellow: y, red: r,
+          sub: n ? n + " nøkkelresultater fra " + teams + " av " + total + " team" : "Ingen team har registrert OKR for perioden ennå.",
+          aria: n ? "NCS " + label + " på tvers av " + teams + " team" : "Ingen nøkkelresultater i perioden",
+          ringStyle: "flex: none; width: 96px; height: 96px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; background: " + (n ? "conic-gradient(#068718 0 " + gp + "%, #E5AA20 " + gp + "% " + yp + "%, #C30000 " + yp + "% 100%)" : "#dce1e7") };
+      })(),
+      newHires: NEW_HIRES.map((nh) => {
+        const p = emp.find((e) => e.name === nh.name) || { name: nh.name, role: "", unit: "" };
+        const unitLabel = this.unitChainLabel((this.state.memberUnits || {})[p.name] ?? p.unit);
+        const photo = p.photo || "";
+        return { name: p.name, sub: [p.role, unitLabel].filter(Boolean).join(" · "), startLabel: "Startet " + fmt(nh.start), open: this.openPerson(p.name),
+          initials: photo ? "" : p.name.split(" ").map((x) => x[0]).slice(0, 2).join(""),
+          avatarStyle: this.loadRing(p.name) + "width: 40px; height: 40px; border-radius: 9999px; flex: none; display: grid; place-items: center; font-size: 13px; font-weight: 600; color: #0062B8; background: " + (photo ? "#eaeef2 url('" + photo + "') center top / cover no-repeat" : "#e6f2fd") };
+      }),
+      newTools: NEW_TOOLS.slice(0, 2).map((nt) => { const t = TOOLS.find((x) => x.name === nt.name) || {}; return { name: nt.name, type: t.type || "", desc: t.desc || "", dateLabel: fmt(nt.added), go: this.openTool(nt.name) }; }),
+      changelog: CHANGELOG.map((c) => ({ text: c.text, dateLabel: fmt(c.date), go: this.go(c.page) }))
+    };
+  }
+
+  employees() {
+    const map = {};
+    Object.keys(PEOPLE).forEach((uid) => PEOPLE[uid].forEach((pp) => {
+      const p = map[pp.name] || (map[pp.name] = { name: pp.name, role: pp.role, unit: uid, photo: pp.photo || "" });
+      p.photo = p.photo || pp.photo || "";
+    }));
+    this.allTeams().forEach((t) => t.members.forEach((m) => { if (!map[m.name]) map[m.name] = { name: m.name, role: m.role.split(" · ")[0], unit: "", photo: "" }; }));
+    return Object.keys(map).map((k) => map[k]);
+  }
+
+  memberVals(t) {
+    const s = this.state;
+    const open = !!t && s.memberDialogTeam === t.id;
+    const toItem = (p) => {
+      const uid = (s.memberUnits || {})[p.name] ?? p.unit;
+      const unitLabel = this.unitChainLabel(uid);
+      const photo = p.photo || (p.name === "Ronny Birkeli" ? "assets/Portrett.jpg" : "");
+      return { name: p.name, role: p.role, sub: [p.role, unitLabel].filter(Boolean).join(" · "),
+        initials: photo ? "" : p.name.split(" ").map((x) => x[0]).slice(0, 2).join(""),
+        avatarStyle: this.loadRing(p.name) + "width: 40px; height: 40px; border-radius: 9999px; flex: none; display: grid; place-items: center; font-size: 13px; font-weight: 600; color: #0062B8; background: " + (photo ? "#eaeef2 url('" + photo + "') center top / cover no-repeat" : "#e6f2fd") };
+    };
+    const close = () => this.setState({ memberDialogTeam: null, memberQuery: "", memberPickName: null, memberRole: "" });
+    const base = { openAddMember: () => this.setState({ memberDialogTeam: t ? t.id : null, memberQuery: "", memberPickName: null, memberRole: "" }),
+      memberDialogOpen: open, closeAddMember: close, memberBackdrop: (e) => { if (e.target === e.currentTarget) close(); } };
+    if (!open) return Object.assign(base, { memberSearching: false, memberPicked: false, memberResults: [], memberNoResults: false, memberPick: {} });
+    const existing = t.members.map((m) => m.name);
+    const all = this.employees().filter((p) => existing.indexOf(p.name) === -1);
+    const q = (s.memberQuery || "").trim().toLowerCase();
+    const hits = all.map(toItem).filter((p) => !q || (p.name + " " + p.sub).toLowerCase().includes(q)).sort((a, b) => a.name.localeCompare(b.name, "nb"));
+    const shown = hits.slice(0, 30);
+    const picked = s.memberPickName ? toItem(all.find((p) => p.name === s.memberPickName) || { name: s.memberPickName, role: "" }) : null;
+    return Object.assign(base, {
+      memberDialogSub: "Søk opp personen i ansattlisten og legg til i " + t.name + ".",
+      memberSearching: !picked, memberPicked: !!picked, memberPick: picked || {},
+      memberQuery: s.memberQuery || "", setMemberQuery: (e) => this.setState({ memberQuery: e.target.value }),
+      memberResults: shown.map((p) => Object.assign({}, p, { pick: () => this.setState({ memberPickName: p.name, memberRole: p.role }) })),
+      memberNoResults: hits.length === 0,
+      memberResultNote: hits.length > shown.length ? "Viser " + shown.length + " av " + hits.length + " treff. Søk for å snevre inn." : hits.length + (hits.length === 1 ? " treff" : " treff"),
+      unpickMember: () => this.setState({ memberPickName: null }),
+      memberRole: s.memberRole || "", setMemberRole: (e) => this.setState({ memberRole: e.target.value }),
+      confirmAddMember: () => this.setState((st) => {
+        const role = (st.memberRole || "").trim() || "Teammedlem";
+        const list = ((st.extraMembers || {})[t.id] || []).concat([{ name: st.memberPickName, role }]);
+        return { extraMembers: Object.assign({}, st.extraMembers, { [t.id]: list }), memberDialogTeam: null, memberQuery: "", memberPickName: null, memberRole: "" };
+      })
+    });
+  }
 
   openAdd = () => this.setState({ addOpen: true, addSaved: false, addDraft: { type: "Produktteam", name: "", owner: "", lead: "", purpose: "" } });
   closeAdd = () => this.setState({ addOpen: false });
@@ -2378,6 +3008,18 @@ class Component extends DCLogic {
   openTeam = (id) => () => this.setState({ page: "team", teamId: id, editing: false, saved: false, personName: null });
   openPerson = (name) => () => this.setState({ personName: name, personUnitEdit: false });
 
+  loadOf(name) {
+    const teams = this.allTeams().filter((x) => x.members.some((mm) => mm.name === name));
+    const n = teams.length || 1;
+    return teams.reduce((sum, x) => { const v = (this.state.allocations || {})[x.id + "|" + name]; return sum + (typeof v === "number" ? v : Math.round(100 / n)); }, 0);
+  }
+
+  loadRing(name) {
+    const t = this.loadOf(name);
+    const c = t > 120 ? "#C30000" : t > 100 ? "#E5AA20" : t >= 80 ? "#068718" : "#1E98F5";
+    return "box-shadow: 0 0 0 2px #fff, 0 0 0 5px " + c + "; ";
+  }
+
   personVals(name) {
     if (!name) return null;
     const s = this.state;
@@ -2511,7 +3153,7 @@ class Component extends DCLogic {
       return { open: this.openPerson(p.name), name: p.name, role: p.role, teams: p.teams, noTeams: p.teams.length === 0, unitLabel, hasUnit: !!unitLabel, noUnit: !unitLabel,
         goUnit: unitLabel ? this.openUnit(uid) : null,
         initials: photo ? "" : p.name.split(" ").map((x) => x[0]).slice(0, 2).join(""),
-        avatarStyle: "width: 40px; height: 40px; border-radius: 9999px; flex: none; display: grid; place-items: center; font-size: 13px; font-weight: 600; color: #0062B8; background: " + (photo ? "#eaeef2 url('" + photo + "') center top / cover no-repeat" : "#e6f2fd"),
+        avatarStyle: this.loadRing(p.name) + "width: 40px; height: 40px; border-radius: 9999px; flex: none; display: grid; place-items: center; font-size: 13px; font-weight: 600; color: #0062B8; background: " + (photo ? "#eaeef2 url('" + photo + "') center top / cover no-repeat" : "#e6f2fd"),
         hay: (p.name + " " + p.role + " " + unitLabel + " " + p.teams.map((x) => x.name).join(" ")).toLowerCase() };
     }).filter((p) => !q || p.hay.includes(q)).sort((a, b) => a.name.localeCompare(b.name, "nb"));
     return Object.assign(base, { people, noPeople: people.length === 0, peopleCountLabel: people.length + (people.length === 1 ? " person" : " personer") });
@@ -2622,6 +3264,7 @@ class Component extends DCLogic {
 
     const tool = TOOLS.find((x) => x.name === s.toolName);
     const unit = UNITS.find((u) => u.id === s.unitId);
+    const okrsAll = () => s.okrs || {};
     const unitParent = unit && unit.parent ? UNITS.find((u) => u.id === unit.parent) : null;
     const unitPeople = (() => {
       if (!unit) return [];
@@ -2644,7 +3287,7 @@ class Component extends DCLogic {
       mailto: "mailto:" + p.email,
       initialsLabel: p.photo ? "" : p.name.split(" ").map((x) => x[0]).slice(0, 2).join(""),
       leadAvatarStyle: "width: 88px; height: 100px; border-radius: 4px; flex: none; display: grid; place-items: center; font-size: 24px; font-weight: 600; background: " + (p.photo ? "#eaeef2 url('" + p.photo + "') center top / cover no-repeat" : "#e6f2fd") + "; color: #0062B8",
-      staffAvatarStyle: "width: 52px; height: 52px; border-radius: 9999px; flex: none; display: grid; place-items: center; font-size: 15px; font-weight: 600; background: " + (p.photo ? "#eaeef2 url('" + p.photo + "') center top / cover no-repeat" : "#eaeef2") + "; color: #44505f"
+      staffAvatarStyle: this.loadRing(p.name) + "width: 52px; height: 52px; border-radius: 9999px; flex: none; display: grid; place-items: center; font-size: 15px; font-weight: 600; background: " + (p.photo ? "#eaeef2 url('" + p.photo + "') center top / cover no-repeat" : "#eaeef2") + "; color: #44505f"
     });
     const t = team;
     const mandate = t ? this.mandateFor(t) : null;
@@ -2659,6 +3302,20 @@ class Component extends DCLogic {
       isHome: page === "home", isPortefolje: page === "portefolje", isFolk: page === "folk", isTeams: page === "teams", isTeam: page === "team" && !!t,
       isRoller: page === "roller", isVeiviser: page === "veiviser", isVerktoy: page === "verktoy",
       isBegreper: page === "begreper", isPrinsipper: page === "prinsipper", isStyring: page === "styring", isOppdrag: page === "oppdrag", extGridRef: this.extGridRef, intGridRef: this.intGridRef, goOppdrag: this.go("oppdrag"), oppdragExt: OPPDRAG_EXT.map(mkDoc), oppdragInt: OPPDRAG_INT.map(mkDoc), kalender: KALENDER.map((k) => ({ month: k.month, dfd: k.dfd, intern: k.intern })), calOpen: !!s.calOpen, calClosed: !s.calOpen, calToggle: () => this.setState((st) => ({ calOpen: !st.calOpen })), calLabel: s.calOpen ? "Skjul styringskalenderen" : "Vis styringskalenderen for 2026", calChevron: "display: block; transition: transform 0.2s ease; transform: rotate(" + (s.calOpen ? "180deg" : "0deg") + ")", isOrg: page === "org",
+      ...(() => {
+        const now = new Date(), ti = Math.floor(now.getMonth() / 4), term = "T" + (ti + 1);
+        const end = new Date(now.getFullYear(), (ti + 1) * 4, 0);
+        const days = Math.round((end - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 86400000);
+        const next = ti === 2 ? "T1 " + (now.getFullYear() + 1) : "T" + (ti + 2) + " " + now.getFullYear();
+        return days <= 30
+          ? { homeOkrTitle: term + " slutter om " + days + " dager", homeOkrText: "Oppdater confidence på nøkkelresultatene og sett OKR for " + next + "." }
+          : { homeOkrTitle: "Oppdater OKR-ene for " + term, homeOkrText: "Det er " + days + " dager igjen av " + term + " " + now.getFullYear() + ". Sjekk at målene og confidence på nøkkelresultatene er oppdatert." };
+      })(),
+      ...this.homeFeed(),
+      goFolk: this.go("folk"),
+      homeSearch: this.state.homeSearch || "",
+      setHomeSearch: (e) => this.setState({ homeSearch: e.target.value }),
+      homeSearchSubmit: (e) => { e.preventDefault(); this.setState({ peopleQuery: this.state.homeSearch || "", orgView: "list" }); this.go("folk")(); },
       goHome: this.go("home"), goTeams: this.go("teams"), goOrg: this.go("org"), goBegreper: this.go("begreper"),
       goVeiviser: this.go("veiviser"), goStyring: this.go("styring"), goVerktoy: this.go("verktoy"), goRoller: this.go("roller"), goPrinsipper: this.go("prinsipper"),
 
@@ -2694,7 +3351,7 @@ class Component extends DCLogic {
           const photo = m.name === "Ronny Birkeli" ? "assets/Portrett.jpg" : "";
           return { name: m.name, role: m.role, roleOnly: parts[0], location: parts[1] || "Ikke registrert",
             initials: photo ? "" : m.name.split(" ").map((x) => x[0]).slice(0, 2).join(""),
-            avatarStyle: "width: 32px; height: 32px; border-radius: 9999px; flex: none; display: grid; place-items: center; font-size: 12px; font-weight: 600; color: #44505f; background: " + (photo ? "#eaeef2 url('" + photo + "') center top / cover no-repeat" : "#f2f4f6"),
+            avatarStyle: this.loadRing(m.name) + "width: 32px; height: 32px; border-radius: 9999px; flex: none; display: grid; place-items: center; font-size: 12px; font-weight: 600; color: #44505f; background: " + (photo ? "#eaeef2 url('" + photo + "') center top / cover no-repeat" : "#f2f4f6"),
             email: m.name.toLowerCase().replace(/æ/g, "ae").replace(/ø/g, "o").replace(/å/g, "a").replace(/[^a-z ]/g, "").split(" ").filter(Boolean).join(".") + "@digdir.no",
             photo: photo,
             open: this.openPerson(m.name) };
@@ -2733,6 +3390,8 @@ class Component extends DCLogic {
       isContract: page === "kontrakt" && !!t && t.type !== "Fagnettverk",
       contractEditing: s.contractEditing, contractNotEditing: !s.contractEditing,
       contractSaved: s.contractSaved && !s.contractEditing,
+      ...this.okrVals(page === "unit" && unit ? { id: "unit:" + unit.id } : t),
+      ...this.memberVals(t),
       startContractEdit: () => this.setState({ contractEditing: true, contractDraft: Object.assign({}, this.state.contracts[t.id] || {}), contractSaved: false }),
       cancelContractEdit: () => this.setState({ contractEditing: false, contractDraft: null }),
       saveContractEdit: () => this.setState((st) => ({ contractEditing: false, contractSaved: true,
@@ -2800,21 +3459,32 @@ class Component extends DCLogic {
       }),
       wizardReset: () => this.setState({ wizardPath: [], wizardStep: "team", wizardResult: null }),
 
-      tdiHead: (() => { const u = UNITS.find((x) => x.id === "tdi"); return { code: u.code, name: u.name, size: u.size, go: this.openUnit(u.id), children: UNITS.filter((x) => x.parent === "tdi").map((x) => ({ name: x.name, go: this.openUnit(x.id) })) }; })(),
-      komHead: (() => { const u = UNITS.find((x) => x.id === "kom"); return { code: u.code, name: u.name, size: u.size, go: this.openUnit(u.id) }; })(),
+      tdiHead: (() => { const u = UNITS.find((x) => x.id === "tdi"); return Object.assign({ code: u.code, name: u.name, size: String(u.size || "").replace(/^ca\.\s*/, ""), leader: this.unitLeader(u.id), go: this.openUnit(u.id), children: UNITS.filter((x) => x.parent === "tdi").map((x) => Object.assign({ name: x.name, go: this.openUnit(x.id) }, this.unitNcs(x.id))) }, this.unitNcs(u.id, true)); })(),
+      komHead: (() => { const u = UNITS.find((x) => x.id === "kom"); return Object.assign({ code: u.code, name: u.name, size: u.size, go: this.openUnit(u.id) }, this.unitNcs(u.id)); })(),
       orgTree: UNITS.filter((u) => !u.parent && u.id !== "tdi" && u.id !== "kom").map((d) => ({
-        code: d.code, name: d.name, size: d.size, id: d.id, go: this.openUnit(d.id),
+        code: d.code, name: d.name, size: String(d.size || "").replace(/^ca\.\s*/, ""), leader: this.unitLeader(d.id), id: d.id, go: this.openUnit(d.id), ...this.unitNcs(d.id, true),
         headStyle: "text-align: left; width: 100%; display: flex; flex-direction: column; gap: 3px; padding: 12px 12px; border: none; border-radius: 4px; background: #1E2B3C; color: #fff; cursor: pointer",
         children: UNITS.filter((a) => a.parent === d.id).map((a) => ({
-          name: a.name, go: this.openUnit(a.id),
-          style: "text-align: left; width: 100%; padding: 8px 10px; border: 1px solid " + (a.advises ? "#F45F63" : "#dce1e7") + "; border-radius: 4px; background: #fff; font-size: 13px; font-weight: 500; cursor: pointer",
+          name: a.name, go: this.openUnit(a.id), ...this.unitNcs(a.id),
+          style: "text-align: left; width: 100%; display: flex; flex-direction: column; gap: 6px; padding: 8px 10px; border: 1px solid " + (a.advises ? "#F45F63" : "#dce1e7") + "; border-radius: 4px; background: #fff; font-size: 13px; font-weight: 500; cursor: pointer",
           children: UNITS.filter((s) => s.parent === a.id).map((s) => ({
-            name: s.name, go: this.openUnit(s.id),
-            style: "text-align: left; width: 100%; padding: 5px 8px; border: 1px solid " + (s.advises ? "#F45F63" : "transparent") + "; border-radius: 4px; background: #f2f4f6; color: #44505f; font-size: 12px; cursor: pointer"
+            name: s.name, go: this.openUnit(s.id), ...this.unitNcs(s.id),
+            style: "text-align: left; width: 100%; display: flex; flex-direction: column; gap: 4px; padding: 5px 8px; border: 1px solid " + (s.advises ? "#F45F63" : "transparent") + "; border-radius: 4px; background: #f2f4f6; color: #44505f; font-size: 12px; cursor: pointer"
           }))
         }))
       })),
       isUnit: page === "unit" && !!unit,
+      showNcs: !!s.showNcs,
+      toggleNcs: () => this.setState((st) => ({ showNcs: !st.showNcs })),
+      ncsSwitchStyle: "position: relative; width: 36px; height: 20px; border-radius: 9999px; flex: none; background: " + (s.showNcs ? "#0062B8" : "#9aa5b1"),
+      ncsKnobStyle: "position: absolute; top: 2px; left: " + (s.showNcs ? "18px" : "2px") + "; width: 16px; height: 16px; border-radius: 9999px; background: #fff",
+      digdirNcs: (() => { let all = []; UNITS.filter((u) => !u.parent).forEach((u) => { all = all.concat(this.aggConfs(u.id)); });
+        Object.keys(okrsAll()).forEach((k) => { if (k.indexOf("unit:") !== 0 && !TEAM_UNIT[k]) all = all.concat(this.activeConfs(k)); });
+        const sm = this.ncsSummary(all); return { label: sm.label, n: sm.n, barStyle: "display: block; width: 72px; height: 5px; border-radius: 9999px; background: " + sm.fill,
+          title: sm.n ? "Digdir samlet NCS " + sm.label + " (" + sm.n + " nøkkelresultater: " + sm.g + " grønne, " + sm.y + " gule, " + sm.r + " røde)" : "Ingen OKR registrert i perioden" }; })(),
+      direktorStyle: "position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 1; white-space: nowrap; display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 240px; min-height: 90px; justify-content: center; padding: 10px 24px; border: none; border-radius: 4px; background: #1E2B3C; color: #fff; font-size: 15px; font-weight: 600; letter-spacing: 0.06em; font-family: inherit; cursor: pointer",
+      komColStyle: "display: flex; align-items: flex-start; padding-top: 100px; padding-bottom: 28px",
+      direktorHover: "background: #0062B8",
       isDirektor: page === "direktor",
       goDirektor: this.go("direktor"),
       unit: unit ? {
@@ -2890,6 +3560,8 @@ class Component extends DCLogic {
         long: (TOOL_DETAILS[tool.name] || {}).long || "Ingen utvidet beskrivelse er lagt inn ennå.",
         owner: (TOOL_DETAILS[tool.name] || {}).owner || "Ikke registrert",
         contact: (TOOL_DETAILS[tool.name] || {}).contact || "Ikke registrert",
+        uses: (tool.uses || []).map((n) => { const u = TOOLS.find((x) => x.name === n) || {}; return { name: n, type: u.type, desc: u.desc, go: this.openTool(n) }; }),
+        hasUses: !!(tool.uses && tool.uses.length),
         resources: ((TOOL_DETAILS[tool.name] || {}).resources || []).map((r) => ({ label: r[0], where: r[1] })),
         noResources: !((TOOL_DETAILS[tool.name] || {}).resources || []).length,
         users: TEAMS.filter((x) => x.tools.indexOf(tool.name) !== -1).map((x) => ({

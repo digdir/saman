@@ -23,9 +23,7 @@ MANIFEST="$ROOT/.extract-manifest"
 # to the prototype root. Edit this list as the export changes.
 # ---------------------------------------------------------------------------
 REMOVE=(
-  "uploads/*.pptx"
-  "uploads/*.pdf"
-  "uploads/*.docx"
+  "uploads"
   "_ds"
 )
 
