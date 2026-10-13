@@ -80,7 +80,7 @@
             <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #44505f">Søk etter navn, rolle, enhet eller team.</p>
           </div>
           <form onSubmit="{{ homeSearchSubmit }}" style="display: flex; gap: 8px; flex: 2 1 22rem; min-width: 0">
-            <input type="search" value="{{ homeSearch }}" onInput="{{ setHomeSearch }}" aria-label="Søk etter kollega" placeholder="F.eks. Ingrid eller produkteier" style="flex: 1; min-width: 0; padding: 11px 14px; border: 1px solid #65707D; border-radius: 4px; font-size: 17px; font-family: inherit; background: #fff"></input>
+            <input type="search" value="{{ homeSearch }}" onInput="{{ setHomeSearch }}" aria-label="Søk etter kollega" placeholder="F.eks. Ingrid eller produkteier" style="flex: 1; min-width: 0; padding: 11px 14px; border: 1px solid #65707D; border-radius: 4px; font-size: 17px; font-family: inherit; background: #fff">
             <button type="submit" style="padding: 11px 20px; border-radius: 4px; border: none; background: #0062B8; color: #fff; font-size: 16px; font-weight: 500; font-family: inherit; cursor: pointer" style-hover="background: #00417d">Søk</button>
           </form>
         </section>
@@ -259,11 +259,11 @@
           </div>
           <sc-for list="{{ okrKrRows }}" as="r" hint-placeholder-count="3">
             <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px 16px; align-items: center; padding: 12px; border: 1px solid #dce1e7; border-radius: 4px; background: #fff">
-              <input value="{{ r.text }}" onChange="{{ r.setText }}" aria-label="{{ r.label }}" placeholder="{{ r.label }}" style="padding: 9px 12px; border: 1px solid #65707D; border-radius: 4px; font-size: 16px; font-family: inherit; min-width: 0"></input>
+              <input value="{{ r.text }}" onChange="{{ r.setText }}" aria-label="{{ r.label }}" placeholder="{{ r.label }}" style="padding: 9px 12px; border: 1px solid #65707D; border-radius: 4px; font-size: 16px; font-family: inherit; min-width: 0">
               <button onClick="{{ r.remove }}" disabled="{{ r.cannotRemove }}" style="background: none; border: none; padding: 0; color: #44505f; font-size: 14px; font-family: inherit; cursor: pointer; text-decoration: underline">Fjern</button>
               <label style="grid-column: 1 / -1; display: flex; align-items: center; gap: 12px">
                 <span style="font-size: 14px; color: #44505f; white-space: nowrap">Confidence</span>
-                <input type="range" min="0" max="10" step="1" value="{{ r.conf }}" onChange="{{ r.setConf }}" style="flex: 1; min-width: 0; accent-color: #0062B8"></input>
+                <input type="range" min="0" max="10" step="1" value="{{ r.conf }}" onChange="{{ r.setConf }}" style="flex: 1; min-width: 0; accent-color: #0062B8">
                 <span style="{{ r.confStyle }}">{{ r.confLabel }}</span>
               </label>
             </div>
@@ -294,7 +294,7 @@
 
           <sc-if value="{{ memberSearching }}" hint-placeholder-val="{{ true }}">
             <div style="display: flex; flex-direction: column; gap: 12px">
-              <input type="search" value="{{ memberQuery }}" onInput="{{ setMemberQuery }}" aria-label="Søk i ansattlisten" placeholder="Søk etter navn, rolle eller enhet" style="padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; font-size: 16px; font-family: inherit"></input>
+              <input type="search" value="{{ memberQuery }}" onInput="{{ setMemberQuery }}" aria-label="Søk i ansattlisten" placeholder="Søk etter navn, rolle eller enhet" style="padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; font-size: 16px; font-family: inherit">
               <div style="display: flex; flex-direction: column; max-height: 360px; overflow: auto">
                 <sc-for list="{{ memberResults }}" as="c" hint-placeholder-count="5">
                   <button onClick="{{ c.pick }}" style="text-align: left; width: 100%; display: flex; align-items: center; gap: 12px; padding: 10px 6px; border: none; border-top: 1px solid #eaeef2; background: transparent; font-family: inherit; cursor: pointer" style-hover="background: #f2f4f6">
@@ -325,7 +325,7 @@
               </div>
               <label style="display: flex; flex-direction: column; gap: 6px">
                 <span style="font-size: 15px; font-weight: 500">Rolle i teamet</span>
-                <input value="{{ memberRole }}" onChange="{{ setMemberRole }}" style="padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; font-size: 16px; font-family: inherit"></input>
+                <input value="{{ memberRole }}" onChange="{{ setMemberRole }}" style="padding: 10px 12px; border: 1px solid #65707D; border-radius: 4px; font-size: 16px; font-family: inherit">
               </label>
               <div style="display: flex; gap: 8px; flex-wrap: wrap">
                 <button onClick="{{ confirmAddMember }}" style="padding: 10px 18px; border-radius: 4px; border: none; background: #0062B8; color: #fff; font-size: 15px; font-weight: 500; font-family: inherit; cursor: pointer" style-hover="background: #00417d">Legg til i teamet</button>
@@ -1041,7 +1041,7 @@
                 <span style="display: flex; align-items: center; gap: 6px"><span aria-hidden="true" style="width: 14px; height: 14px; border-radius: 9999px; border: 3px solid #C30000; flex: none"></span>Over 120 %</span>
               </div>
               <div style="display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 8px 12px; border-bottom: 1px solid #c3cbd4; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #65707D">
-                <span style="flex: 1 1 16rem">Navn og rolle</span><span style="flex: 1 1 14rem">Enhet i linjen</span><span style="flex: 1 1 14rem">Team</span>
+                <span style="flex: 1 1 16rem">Navn og rolle</span><span style="flex: 1 1 14rem">TILHØRIGHET I LINJEN</span><span style="flex: 1 1 14rem">Team</span>
               </div>
               <div style="display: flex; flex-direction: column; margin-top: -12px">
                 <sc-for list="{{ people }}" as="p" hint-placeholder-count="8">
@@ -1101,7 +1101,7 @@
       <div style="padding-top: 40px; display: flex; flex-direction: column; gap: 32px">
         <div style="display: flex; flex-direction: column; gap: 10px; max-width: 760px">
           <h1 style="margin: 0; font-size: 34px; font-weight: 600; letter-spacing: -0.005em">Linjeorganisasjon</h1>
-          <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f"><span style="color: rgb(30, 43, 60); font-size: 15px; letter-spacing: 0.08px; background-color: rgb(238, 244, 250);">Bestemme hvilke fagmiljøer og ressurser Digdir trenger, og hvordan vi skal utvikle og forvalte dem.</span></p>
+          <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #44505f"><span style="color: rgb(30, 43, 60); font-size: 15px; letter-spacing: 0.08px;">Bestemme hvilke fagmiljøer og ressurser Digdir trenger, og hvordan vi skal utvikle og forvalte dem.</span></p>
         </div>
 
         
@@ -2004,7 +2004,7 @@ const TEAMS = [
 
 const ROLES = [
   { name: "Teameier", ramo: [
-    { label: "Rolle", value: "Formelt utpekt som teameier ved etablering av teamet. Teameiere bør ha personalansvar for flere av teammedlemmene og/eller et tyngre fagansvar og risikoeierskap rundt teamets leveranser. For team som hører til et innsatsområde så fyller områdeansvarlig rollen som teameier.\n" },
+    { label: "Rolle", value: "Formelt utpekt som teameier ved etablering av teamet. Teameiere bør ha personalansvar for flere av teammedlemmene og/eller et tyngre fagansvar og risikoeierskap rundt teamets leveranser. For team som hører til et innsatsområde vil teameieren fortsatt måtte sørge for at teamet har de nødvendige rammene til å kunne levere, men teameierens ansvar, myndighet og oppgaver vil være avgrenset til drift/linjeoppgaver som ligger i teamet, mens områdeansvarlig vil styre ny utvikling og samkjøringsaktiviteter som kommer via innsatsområdet. Teameier og områdeansvarlig må formelt avtale kapasitetsfordeling og evt. endringer i mandat seg i mellom når et team går inn i et innsatsområde." },
     { label: "Ansvar", value: "Sikre at teamet leverer i tråd med virksomhetens mål og har de nødvendige rammer." },
     { label: "Myndighet", value: "Fastsette mandat, mål/OKR, budsjett og prioriteringer på overordnet nivå." },
     { label: "Oppgaver", value: "Definere mål og forventninger, godkjenne mandat og teamkontrakt, sikre linjeforankring og riktig bemanning i dialog med andre linjeledere, evaluere teamets måloppnåelse og tilrettelegge for samspill med andre team. Tett dialog med teamleder." } ] },
@@ -2079,12 +2079,12 @@ const ROLE_EXTRA = {
     { label: "Myndighet", value: "Beslutter møteform, tema og hvordan kunnskap deles, innenfor formålet nettverket er opprettet for. Kan ikke pålegge deltakerne oppgaver eller leveranser." },
     { label: "Oppgaver", value: "Legge til rette for aktivitet, kalle inn og fasilitere samlinger, avklare hvem nettverket er for og hvordan deltakelse fungerer, og sørge for at kunnskap, erfaringer og praksis deles videre." } ] } ],
   "Prosjektteam": [
-    { name: "Prosjekteier", ramo: projectRamo(ROLES[0].ramo) },
+    { name: "Prosjekteier", ramo: projectRamo(ROLES[0].ramo).map((r) => r.label === "Rolle" ? { label: "Rolle", value: "Formelt utpekt som prosjekteier ved etablering av prosjektet." } : r) },
     { name: "Prosjektleder", ramo: projectRamo(ROLES[1].ramo) },
     { name: "Prosjektdeltaker", ramo: projectRamo(ROLES[2].ramo) }
   ],
   "Produktteam": [ { name: "Produkteier", ramo: [
-    { label: "Rolle", value: "Produktteam bør ha produkteier, enten kombinert med teamlederrollen eller som egen rolle i tillegg. Begrepet produktleder brukes ikke i Digdir. Rollen utøves i tråd med anbefaling for produktorganisering i offentlig sektor." },
+    { label: "Rolle", value: "Produktteam bør ha produkteier, enten kombinert med teamlederrollen eller som egen rolle i tillegg. Rollen utøves i tråd med anbefaling for produktorganisering i offentlig sektor. Begrepet produktleder brukes ikke i Digdir." },
     { label: "Ansvar", value: "En produkteier har ansvar for å sikre at produktteamet jobber med de riktige behovene og prioriteringene innenfor produktets mål, mandat og rammer. Rollen skal bidra til at produktet utvikles og forbedres over tid på en måte som gir verdi for brukerne og bidrar til ønskede nytteverdier for virksomheten og samfunnet." },
     { label: "Myndighet", value: "Forvalter og prioriterer produktkøen innenfor produktets mål, mandat og rammer." },
     { label: "Oppgaver", value: "Produkteieren har vanligvis ansvar for å forvalte og prioritere produktkøen, avklare behov og forventninger med interessenter, og sørge for at teamets arbeid henger sammen med produktstrategien og virksomhetens mål." } ] } ]
@@ -2521,9 +2521,9 @@ const CONTRACT_GROUPS = [
 const MANDATE_LABELS = [
   { key: "formal", label: "Hva skal vi løse?", help: "Gi en presis og avgrenset beskrivelse av problemet eller behovet som skal løses. Lenk til mer detaljerte beskrivelser av brukerbehov." },
   { key: "oppna", label: "Hva skal vi oppnå?", help: "Beskriv konkrete, målbare resultater og gevinster. Tenk suksesskriterier som gjør oss i stand til å vite at oppdraget er løst godt nok." },
-  { key: "myndighet", label: "Hva forventes av oss?", help: "Beskriv forventninger og retning for arbeidet (fra TLG, ansvarlig leder eller teameier), konkrete ansvarsområder og oppgaver og hvem teamet rapporterer til." },
+  { key: "myndighet", label: "Hva forventes av oss?", help: "Beskriv forventninger og retning for teamet, inkludert. spesifikke ansvarsområder og evt. milepæler. For produktteam bør styringsinformasjon* inkluderes her. Spesifiser hvem teamet rapporterer til (beslutningslinjer) og evt. budsjettrammer." },
   { key: "ansvarsomrader", label: "Hva forventes av oss? – ansvar i det daglige", help: "Hva teamet eier og svarer for i det daglige.", mergeInto: "myndighet" },
-  { key: "involvering", label: "Hvordan samarbeider vi med andre?", help: "Beskriv samspill og samarbeidsområder med andre team eller enheter, eller med eksterne aktører." },
+  { key: "involvering", label: "Hvordan samarbeider vi med andre?", help: "Beskriv ønsket samspill og samarbeidsområder med andre team, enheter eller eksterne aktører. Avhengigheter bør også synliggjøres her, spesielt for produktteam." },
   { key: "begreper", label: "Nyttige begrepsavklaringer", help: "Legg inn begreper og definisjoner som er viktige for å forstå oppdraget.", section: "Andre rammer" },
   { key: "ikkeAnsvar", label: "Avgrensninger og avhengigheter", help: "Hva er eksplisitt utenfor scope? Hvilke andre oppdrag er dette avhengig av?", section: "Andre rammer" },
   { key: "forankring", label: "Hvordan er arbeidet forankret?", help: "Beskriv forankring og lenk til eventuelle styringsdokumenter.", section: "Andre rammer" },
