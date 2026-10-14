@@ -1,0 +1,1 @@
+- Når brukeren gir tekst som skal inn ordrett: rett åpenbare skrivefeil (dobbel punktum, feilstavede ord) uten å spørre, men ikke endre formuleringer.
