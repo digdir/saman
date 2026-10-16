@@ -8,6 +8,7 @@
 <body>
 <x-dc>
 <helmet>
+<script src="./posthog.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
@@ -2193,9 +2194,24 @@
         <button onClick="{{ goFbHere }}" style="padding: 2px 10px; border-radius: 9999px; border: none; background: #fdf2da; color: #6b4a00; font-size: 13px; font-weight: 500; font-family: inherit; cursor: pointer" style-hover="background: #f8e4b4">{{ fbOpenHereLabel }}</button>
       </sc-if>
       <button onClick="{{ goFeedback }}" style="background: none; border: none; padding: 0; color: #0062B8; font-size: 14px; font-family: inherit; cursor: pointer; text-decoration: underline; text-underline-offset: 3px">Tilbakemeldinger</button>
+      <button onClick="{{ openConsent }}" style="background: none; border: none; padding: 0; color: #0062B8; font-size: 14px; font-family: inherit; cursor: pointer; text-decoration: underline; text-underline-offset: 3px">Måling av bruk</button>
       <span style="flex-basis: 100%; font-size: 14px; color: #65707D">Prototype. Team og medlemmer er hentet fra baksia.digdir.no, organisasjonen fra Digdir 2.0.</span>
     </div>
   </footer>
+
+  <sc-if value="{{ showConsent }}" hint-placeholder-val="{{ false }}">
+    <div role="region" aria-labelledby="samtykke-tittel" style="position: fixed; left: 24px; bottom: 24px; z-index: 50; max-width: 480px; width: calc(100% - 48px); box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; padding: 20px 22px; background: #fff; border: 1px solid #dce1e7; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 6px 16px rgba(0,0,0,.12)">
+      <h2 id="samtykke-tittel" style="margin: 0; font-size: 18px; font-weight: 600; line-height: 1.3; color: #1E2B3C">Kan vi bruke informasjonskapsler?</h2>
+      <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #44505f; text-wrap: pretty">Vi teller sidevisninger anonymt og uten informasjonskapsler for å forbedre prototypen. Godtar du informasjonskapsler, kan vi også se hvordan du beveger deg mellom sider over tid. Dataene lagres hos PostHog i EU. Du kan endre valget når som helst under «Måling av bruk» nederst på siden.</p>
+      <sc-if value="{{ consentStatus }}">
+        <p style="margin: 0; font-size: 14px; color: #65707D">{{ consentStatus }}</p>
+      </sc-if>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap">
+        <button onClick="{{ acceptConsent }}" style="padding: 10px 18px; border-radius: 4px; border: none; background: #0062B8; color: #fff; font-size: 15px; font-weight: 500; font-family: inherit; cursor: pointer" style-hover="background: #004a8c">Godta</button>
+        <button onClick="{{ declineConsent }}" style="padding: 10px 18px; border-radius: 4px; border: none; background: #0062B8; color: #fff; font-size: 15px; font-weight: 500; font-family: inherit; cursor: pointer" style-hover="background: #004a8c">Avslå</button>
+      </div>
+    </div>
+  </sc-if>
 
 </div>
 </x-dc>
@@ -3382,7 +3398,7 @@ class Component extends DCLogic {
     this.setState(Object.assign({ editing: false, saved: false, unitEditing: false, contractEditing: false, personUnitEdit: false }, snap));
   };
   componentWillUnmount() { document.removeEventListener("keydown", this.onPersonEsc, true); this._personEscBound = false; window.removeEventListener("resize", this.equalizeDocTops); window.removeEventListener("popstate", this.onPopState); }
-  componentDidMount() { if (!this._personEscBound) { this._personEscBound = true; document.addEventListener("keydown", this.onPersonEsc, true); } try { history.replaceState({ saman: this.navSnap(this.state) }, ""); } catch (e) {} window.addEventListener("popstate", this.onPopState); window.addEventListener("resize", this.equalizeDocTops); requestAnimationFrame(this.equalizeDocTops); this.drawIcons(); setTimeout(() => this.drawIcons(), 400); this.initTermTips(); this.decorateTerms(); }
+  componentDidMount() { try { this.setState({ consent: localStorage.getItem('saman_analyse') || 'ukjent' }); } catch (e) {} if (!this._personEscBound) { this._personEscBound = true; document.addEventListener("keydown", this.onPersonEsc, true); } try { history.replaceState({ saman: this.navSnap(this.state) }, ""); } catch (e) {} window.addEventListener("popstate", this.onPopState); window.addEventListener("resize", this.equalizeDocTops); requestAnimationFrame(this.equalizeDocTops); this.drawIcons(); setTimeout(() => this.drawIcons(), 400); this.initTermTips(); this.decorateTerms(); }
   componentDidUpdate(prevProps, prevState) {
     if (!this._personEscBound) { this._personEscBound = true; document.addEventListener("keydown", this.onPersonEsc, true); }
     if (prevState && prevState.sqActive !== this.state.sqActive && this.state.sqActive >= 0) {
@@ -3396,6 +3412,7 @@ class Component extends DCLogic {
     }
     const a = this.navSnap(prevState || {}), b = this.navSnap(this.state);
     if (JSON.stringify(a) !== JSON.stringify(b)) {
+      try { if (window.posthog) { const seg = [b.page || "forside", b.teamId || b.unitId || b.toolName || b.roleDetail || b.personName].filter(Boolean).map((x) => encodeURIComponent(String(x).toLowerCase())); const path = location.pathname.replace(/\/$/, "") + "/" + seg.join("/"); window.posthog.capture('$pageview', Object.assign({ $current_url: location.origin + path, $pathname: path, saman_side: b.page }, b)); } } catch (e) {}
       if (this.fromHistory) this.fromHistory = false;
       else { try { history.pushState({ saman: b }, ""); } catch (e) {} if (a.page !== b.page || a.teamId !== b.teamId || a.unitId !== b.unitId || a.toolName !== b.toolName) window.scrollTo(0, 0); }
     }
@@ -4057,6 +4074,11 @@ class Component extends DCLogic {
         iconStyle: "display: inline-block; width: 24px; height: 24px; background: currentColor; -webkit-mask: url('assets/icons/" + a.icon + ".svg') center / contain no-repeat; mask: url('assets/icons/" + a.icon + ".svg') center / contain no-repeat",
         iconWrapStyle: "width: 44px; height: 44px; border-radius: 4px; display: grid; place-items: center; background: " + a.tint + "; color: " + a.ink })),
       hasSubnav, subnav, subnavLabel: activeGroup ? activeGroup.label : "",
+      showConsent: s.consent === 'ukjent' || s.consentOpen === true,
+      acceptConsent: () => { try { localStorage.setItem('saman_analyse', 'ja'); window.posthog && window.posthog.opt_in_capturing(); } catch (e) {} this.setState({ consent: 'ja', consentOpen: false }); },
+      declineConsent: () => { try { localStorage.setItem('saman_analyse', 'nei'); window.posthog && window.posthog.opt_out_capturing(); } catch (e) {} this.setState({ consent: 'nei', consentOpen: false }); },
+      openConsent: () => this.setState({ consentOpen: true }),
+      consentStatus: s.consent === 'ja' ? 'Du har godtatt informasjonskapsler.' : s.consent === 'nei' ? 'Du har avslått informasjonskapsler. Bruk telles fortsatt anonymt.' : '',
       asstExpand: () => { if (!this.state.asstHover) this.setState({ asstHover: true }); },
       asstCollapse: () => { if (this.state.asstHover) this.setState({ asstHover: false }); },
       asstBtnStyle: "position: fixed; right: 24px; bottom: 24px; z-index: 40; display: flex; align-items: center; gap: " + (s.asstHover ? "10px" : "0px") + "; padding: 14px " + (s.asstHover ? "20px" : "14px") + "; border: none; border-radius: 9999px; background: #0062B8; color: #fff; font-size: 15px; font-weight: 500; font-family: inherit; cursor: pointer; white-space: nowrap; box-shadow: 0 4px 8px rgba(0,0,0,.12), 0 12px 24px rgba(0,0,0,.1); transition: padding .15s ease-out, gap .15s ease-out",
