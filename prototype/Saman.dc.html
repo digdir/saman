@@ -3391,14 +3391,62 @@ class Component extends DCLogic {
     tops.forEach((t) => { t.style.minHeight = max + "px"; });
   };
   navSnap(s) { return { page: s.page || null, teamId: s.teamId || null, unitId: s.unitId || null, toolName: s.toolName || null, personName: s.personName || null, roleDetail: s.roleDetail || null }; }
+  slugOf(x) { return String(x || "").toLowerCase().replace(/æ/g, "ae").replace(/ø/g, "o").replace(/å/g, "a").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); }
+  allRoles() {
+    const out = [];
+    ROLES.forEach((r) => out.push({ name: r.name, ramo: r.ramo, scope: "Obligatorisk for produkt-, leveranse- og støtteteam" }));
+    Object.keys(ROLE_EXTRA).forEach((type) => ROLE_EXTRA[type].forEach((r) => out.push({ name: r.name, ramo: r.ramo, scope: type === "Prosjektteam" ? "Obligatorisk for prosjektteam" : type === "Fagnettverk" ? "Obligatorisk for fagnettverk" : "Egen rolle i " + type.toLowerCase() })));
+    [LINE_MANAGER, EMPLOYEE].forEach((r) => out.push({ name: r.name, ramo: r.ramo, scope: "Rolle i linjeorganisasjonen" }));
+    out.push({ name: AREA_OWNER.name, ramo: AREA_OWNER.ramo, scope: "Rolle for strategiske innsatsområder" });
+    out.push({ name: AI_AGENT.name, ramo: AI_AGENT.ramo, scope: "Aktuell for alle team" });
+    return out;
+  }
+  toHash(s) {
+    const p = s.page;
+    if (!p || p === "home") return "#/" + (s.personName ? "?person=" + encodeURIComponent(s.personName) : "");
+    let path;
+    if (p === "team" || p === "mandat" || p === "kontrakt") path = "team/" + encodeURIComponent(s.teamId || "") + (p === "team" ? "" : "/" + p);
+    else if (p === "unit" || p === "enhetsmandat") path = "enhet/" + encodeURIComponent(s.unitId || "") + (p === "unit" ? "" : "/mandat");
+    else if (p === "tool") path = "verktoy/" + encodeURIComponent(this.slugOf(s.toolName));
+    else if (p === "rolle") path = "roller/" + encodeURIComponent(this.slugOf(s.roleDetail && s.roleDetail.name));
+    else path = encodeURIComponent(p);
+    const q = [];
+    if (p === "roller" && s.roleFilter && s.roleFilter !== "Alle") q.push("filter=" + encodeURIComponent(this.slugOf(s.roleFilter)));
+    if (s.personName) q.push("person=" + encodeURIComponent(s.personName));
+    return "#/" + path + (q.length ? "?" + q.join("&") : "");
+  }
+  fromHash(hash) {
+    const raw = String(hash || "").replace(/^#\/?/, "");
+    if (!raw) return null;
+    const qi = raw.indexOf("?");
+    const parts = (qi >= 0 ? raw.slice(0, qi) : raw).split("/").filter(Boolean).map((x) => { try { return decodeURIComponent(x); } catch (e) { return x; } });
+    const params = {};
+    (qi >= 0 ? raw.slice(qi + 1) : "").split("&").forEach((kv) => { const i = kv.indexOf("="); if (i > 0) { try { params[kv.slice(0, i)] = decodeURIComponent(kv.slice(i + 1)); } catch (e) {} } });
+    const r = { page: null, teamId: null, unitId: null, toolName: null, roleDetail: null, personName: params.person || null };
+    const [a, b, c] = parts;
+    if (!a) return r;
+    if (a === "team" && b) { r.page = c === "mandat" || c === "kontrakt" ? c : "team"; r.teamId = b; }
+    else if (a === "enhet" && b) { r.page = c === "mandat" ? "enhetsmandat" : "unit"; r.unitId = b; }
+    else if (a === "verktoy" && b) { const t = TOOLS.find((x) => this.slugOf(x.name) === this.slugOf(b)); if (t) { r.page = "tool"; r.toolName = t.name; } else r.page = "verktoy"; }
+    else if (a === "roller" && b) { const role = this.allRoles().find((x) => this.slugOf(x.name) === this.slugOf(b)); if (role) { r.page = "rolle"; r.roleDetail = role; } else r.page = "roller"; }
+    else r.page = a === "home" ? null : a;
+    if (r.page === "roller") { const f = ["Produktteam", "Leveranseteam", "Støtteteam", "Prosjektteam", "Fagnettverk", "Innsatsområde", "Linjen"].find((x) => this.slugOf(x) === this.slugOf(params.filter)); r.roleFilter = f || "Alle"; }
+    return r;
+  }
+  onHashChange = () => {
+    if (location.hash === this.toHash(this.state)) return;
+    const r = this.fromHash(location.hash) || { page: null, teamId: null, unitId: null, toolName: null, roleDetail: null, personName: null };
+    this.fromHistory = true; this.hashReplace = true;
+    this.setState(Object.assign({ editing: false, saved: false, unitEditing: false, contractEditing: false, personUnitEdit: false }, r));
+  };
   onPopState = (e) => {
     const snap = e.state && e.state.saman;
     if (!snap) return;
     this.fromHistory = true;
     this.setState(Object.assign({ editing: false, saved: false, unitEditing: false, contractEditing: false, personUnitEdit: false }, snap));
   };
-  componentWillUnmount() { document.removeEventListener("keydown", this.onPersonEsc, true); this._personEscBound = false; window.removeEventListener("resize", this.equalizeDocTops); window.removeEventListener("popstate", this.onPopState); }
-  componentDidMount() { try { this.setState({ consent: localStorage.getItem('saman_analyse') || 'ukjent' }); } catch (e) {} if (!this._personEscBound) { this._personEscBound = true; document.addEventListener("keydown", this.onPersonEsc, true); } try { history.replaceState({ saman: this.navSnap(this.state) }, ""); } catch (e) {} window.addEventListener("popstate", this.onPopState); window.addEventListener("resize", this.equalizeDocTops); requestAnimationFrame(this.equalizeDocTops); this.drawIcons(); setTimeout(() => this.drawIcons(), 400); this.initTermTips(); this.decorateTerms(); }
+  componentWillUnmount() { document.removeEventListener("keydown", this.onPersonEsc, true); this._personEscBound = false; window.removeEventListener("resize", this.equalizeDocTops); window.removeEventListener("popstate", this.onPopState); window.removeEventListener("hashchange", this.onHashChange); }
+  componentDidMount() { try { this.setState({ consent: localStorage.getItem('saman_analyse') || 'ukjent' }); } catch (e) {} if (!this._personEscBound) { this._personEscBound = true; document.addEventListener("keydown", this.onPersonEsc, true); } const fromUrl = this.fromHash(location.hash); if (fromUrl) { this.fromHistory = true; this.hashReplace = true; this.setState(fromUrl); } else { try { history.replaceState({ saman: this.navSnap(this.state) }, "", this.toHash(this.state)); } catch (e) {} } window.addEventListener("popstate", this.onPopState); window.addEventListener("hashchange", this.onHashChange); window.addEventListener("resize", this.equalizeDocTops); requestAnimationFrame(this.equalizeDocTops); this.drawIcons(); setTimeout(() => this.drawIcons(), 400); this.initTermTips(); this.decorateTerms(); }
   componentDidUpdate(prevProps, prevState) {
     if (!this._personEscBound) { this._personEscBound = true; document.addEventListener("keydown", this.onPersonEsc, true); }
     if (prevState && prevState.sqActive !== this.state.sqActive && this.state.sqActive >= 0) {
@@ -3413,9 +3461,10 @@ class Component extends DCLogic {
     const a = this.navSnap(prevState || {}), b = this.navSnap(this.state);
     if (JSON.stringify(a) !== JSON.stringify(b)) {
       try { if (window.posthog) { const seg = [b.page || "forside", b.teamId || b.unitId || b.toolName || b.roleDetail || b.personName].filter(Boolean).map((x) => encodeURIComponent(String(x).toLowerCase())); const path = location.pathname.replace(/\/$/, "") + "/" + seg.join("/"); window.posthog.capture('$pageview', Object.assign({ $current_url: location.origin + path, $pathname: path, saman_side: b.page }, b)); } } catch (e) {}
-      if (this.fromHistory) this.fromHistory = false;
-      else { try { history.pushState({ saman: b }, ""); } catch (e) {} if (a.page !== b.page || a.teamId !== b.teamId || a.unitId !== b.unitId || a.toolName !== b.toolName) window.scrollTo(0, 0); }
+      if (this.fromHistory) { this.fromHistory = false; if (this.hashReplace) { this.hashReplace = false; try { history.replaceState({ saman: b }, "", this.toHash(this.state)); } catch (e) {} } }
+      else { try { history.pushState({ saman: b }, "", this.toHash(this.state)); } catch (e) {} if (a.page !== b.page || a.teamId !== b.teamId || a.unitId !== b.unitId || a.toolName !== b.toolName) window.scrollTo(0, 0); }
     }
+    else if (prevState && prevState.roleFilter !== this.state.roleFilter && this.state.page === "roller") { try { history.replaceState({ saman: b }, "", this.toHash(this.state)); } catch (e) {} }
     this.drawIcons(); this.scrollChat(); this.decorateTerms(); requestAnimationFrame(this.equalizeDocTops); }
 
   initTermTips() {
