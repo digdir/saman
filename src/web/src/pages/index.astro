@@ -1,0 +1,29 @@
+---
+import { find } from '@saman/shared'
+
+const cmsURL = import.meta.env.PUBLIC_CMS_URL
+
+let status: string
+try {
+  const media = await find('media', 'limit=0')
+  status = `Connected — ${media.totalDocs} document(s) in the media collection.`
+} catch (err) {
+  status = `Not reachable: ${err instanceof Error ? err.message : String(err)}`
+}
+---
+
+<html lang="no">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Saman — utviklingsmiljø</title>
+  </head>
+  <body>
+    <h1>Saman</h1>
+    <p>Astro frontend. Scaffold only — no application code yet.</p>
+    <h2>Payload CMS</h2>
+    <p>{cmsURL}</p>
+    <p>{status}</p>
+    <p><a href={`${cmsURL}/admin`}>Open the admin panel</a></p>
+  </body>
+</html>
