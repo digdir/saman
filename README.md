@@ -38,6 +38,8 @@ http://localhost:4321 shows a page that verifies the frontend can reach the CMS.
 | `pnpm db:up` / `pnpm db:down` | Start/stop PostgreSQL |
 | `pnpm db:reset` | Drop the volume and start a fresh database |
 | `pnpm generate:types` | Regenerate Payload types into `src/shared` |
+| `pnpm test` | Integration tests (vitest, Payload Local API) |
+| `pnpm test:e2e` | End-to-end tests (Playwright, needs browsers installed) |
 
 ## Ports
 
@@ -46,6 +48,22 @@ http://localhost:4321 shows a page that verifies the frontend can reach the CMS.
 | PostgreSQL | 5432 |
 | Payload / Next.js | 3000 |
 | Astro | 4321 |
+
+## Tests
+
+`pnpm test` runs the integration tests against the running database — they use
+Payload's Local API directly, so no dev server is needed.
+
+`pnpm test:e2e` drives a real browser against the CMS and reuses a dev server on
+:3000 if one is running. Install the browser once first:
+
+```bash
+pnpm --filter cms exec playwright install chromium
+```
+
+The e2e tests seed and then delete a `dev@payloadcms.com` user in whatever
+database `DATABASE_URL` points at, so don't run them against anything but a
+local database.
 
 ## Database schema
 
