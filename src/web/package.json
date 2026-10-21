@@ -9,11 +9,15 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "test": "vitest run",
     "astro": "astro"
   },
   "dependencies": {
     "@astrojs/node": "^11.1.9",
     "@saman/shared": "workspace:*",
     "astro": "^7.4.2"
+  },
+  "devDependencies": {
+    "vitest": "^5.0.5"
   }
 }

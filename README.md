@@ -38,7 +38,9 @@ http://localhost:4321 shows a page that verifies the frontend can reach the CMS.
 | `pnpm db:up` / `pnpm db:down` | Start/stop PostgreSQL |
 | `pnpm db:reset` | Drop the volume and start a fresh database |
 | `pnpm generate:types` | Regenerate Payload types into `src/shared` |
-| `pnpm test` / `pnpm test:int` | Integration tests (vitest, Payload Local API) |
+| `pnpm test` | All non-browser tests (CMS + frontend) |
+| `pnpm test:int` | CMS integration tests (vitest, Payload Local API) |
+| `pnpm test:web` | Frontend render tests (vitest, Astro container API) |
 | `pnpm test:e2e` | End-to-end tests (Playwright, needs browsers installed) |
 
 ## Ports
@@ -51,9 +53,14 @@ http://localhost:4321 shows a page that verifies the frontend can reach the CMS.
 
 ## Tests
 
-`pnpm test` (or `pnpm test:int`, the name the CMS package uses) runs the
-integration tests against the running database — they use
-Payload's Local API directly, so no dev server is needed.
+`pnpm test` runs both non-browser suites:
+
+- `pnpm test:int` — CMS integration tests against the running database, using
+  Payload's Local API directly. No dev server needed, but the database must be up.
+- `pnpm test:web` — frontend tests that render `.astro` pages through Astro's
+  container API with `fetch` stubbed, so they need neither a server nor a database.
+  They cover the seam to the CMS: the URL that gets requested, the rendered
+  result, and the failure path when the CMS is unreachable.
 
 `pnpm test:e2e` drives a real browser against the CMS and reuses a dev server on
 :3000 if one is running. Install the browser once first:
