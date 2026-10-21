@@ -18,6 +18,7 @@ Prototype of the Saman application.
 ```bash
 nvm use
 pnpm install
+pnpm setup      # creates .env files, generates a PAYLOAD_SECRET
 pnpm db:up      # PostgreSQL 17 in Docker on localhost:5432
 pnpm dev        # CMS on :3000, frontend on :4321
 ```
@@ -33,6 +34,7 @@ http://localhost:4321 shows a page that verifies the frontend can reach the CMS.
 | `pnpm dev:cms` / `pnpm dev:web` | Run one of them |
 | `pnpm dev:stop` | Stop both dev servers (Astro runs as a detached daemon, so Ctrl+C alone leaves it running) |
 | `pnpm build` | Production build of both |
+| `pnpm setup` | Create missing `.env` files from the examples (safe to re-run) |
 | `pnpm db:up` / `pnpm db:down` | Start/stop PostgreSQL |
 | `pnpm db:reset` | Drop the volume and start a fresh database |
 | `pnpm generate:types` | Regenerate Payload types into `src/shared` |
@@ -59,5 +61,14 @@ and run `pnpm --filter cms payload migrate` on deploy with push disabled.
 
 ## Environment variables
 
-Copy `.env.example` to `.env` in `src/cms` and `src/web`. The committed defaults
-point at the local Docker database and throwaway credentials.
+`pnpm setup` creates both `.env` files from the committed `.env.example`
+templates and generates a `PAYLOAD_SECRET` for this machine. Existing files are
+left alone, so it is safe to re-run.
+
+`PAYLOAD_SECRET` is not shared between developers: it signs session tokens and
+encrypts encrypted fields, so each environment has its own. Changing it after
+the fact logs everyone out and makes existing API keys and encrypted values
+unreadable, so keep it stable once an environment is running.
+
+The database credentials in the examples are local-only throwaways that match
+`docker-compose.yml`.
