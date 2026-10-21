@@ -33,9 +33,23 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'], channel: 'chromium' },
     },
   ],
-  webServer: {
-    command: 'pnpm dev',
-    reuseExistingServer: true,
-    url: 'http://localhost:3000',
-  },
+  webServer: [
+    {
+      command: 'pnpm dev',
+      reuseExistingServer: true,
+      url: 'http://localhost:3000',
+    },
+    {
+      // --ignore-lock keeps Astro in the foreground. Without it the dev server
+      // daemonizes when it detects an agent session, and Playwright sees the
+      // spawned process exit immediately.
+      command: 'pnpm --filter web exec astro dev --ignore-lock',
+      // This package runs Playwright with `--import=tsx/esm` in NODE_OPTIONS,
+      // which the spawned process inherits — and tsx only exists here, so the
+      // frontend would fail to boot with ERR_MODULE_NOT_FOUND.
+      env: { NODE_OPTIONS: '--no-deprecation' },
+      reuseExistingServer: true,
+      url: 'http://localhost:4321',
+    },
+  ],
 })
