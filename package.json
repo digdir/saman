@@ -16,6 +16,7 @@
     "dev:stop": "sh scripts/dev-stop.sh",
     "build": "pnpm --filter cms build && pnpm --filter web build",
     "test": "pnpm --filter cms test:int",
+    "test:int": "pnpm --filter cms test:int",
     "test:e2e": "pnpm --filter cms test:e2e",
     "generate:types": "pnpm --filter cms generate:types"
   }
