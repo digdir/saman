@@ -6,6 +6,7 @@ Prototype of the Saman application.
 - `src/cms/` — Payload 3 (on Next.js 16), admin UI and REST/GraphQL API.
 - `src/web/` — Astro 7 frontend (SSR via `@astrojs/node`).
 - `src/shared/` — generated Payload types + a thin REST client shared by the frontend.
+- `agent/` — an [agentctl](https://github.com/digdir/digdir-agents/tree/main/agentctl) Agent for developing Saman in a sandbox; see [`agent/README.md`](agent/README.md).
 
 ## Requirements
 
