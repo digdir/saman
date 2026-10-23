@@ -2407,7 +2407,7 @@ const AI_AGENT = { name: "KI-agent", ramo: [
 
 const LINE_MANAGER = { name: "Linjeleder", ramo: [
   { label: "Rolle", value: "Formelt ansatt som divisjonsdirektør, avdelingsleder eller seksjonsleder med personalansvar." },
-  { label: "Ansvar", value: "Er ressurseier, har arbeidsgiveransvaret og beslutningsmyndighet i arbeidsforholdet. Bygger og sikrer riktig kompetansekapasitet basert på behov i linja og i innsatsområdene, sørger for ressurstildeling (allokering). Setter retning og fart på det arbeidet som skal løses i linja. Ivaretar personalansvar, trivsel og medarbeiderutvikling. Leder strategisk rekruttering og omstilling (kompetanseutvikling)." },
+  { label: "Ansvar", value: "Er ressurseier, har arbeidsgiveransvaret og beslutningsmyndighet i arbeidsforholdet. Har fagansvar og budsjettansvar. Bygger og sikrer riktig kompetansekapasitet basert på behov i linja og i innsatsområdene, sørger for ressurstildeling (allokering). Setter retning og fart på det arbeidet som skal løses i linja. Ivaretar personalansvar og medarbeiderutvikling. Leder strategisk rekruttering og omstilling (kompetanseutvikling)." },
   { label: "Myndighet", value: "Godkjenner ansettelser og oppsigelser. Setter lønn, godkjenner ferie og fravær. Godkjenner kurs, sertifiseringer og opplæringsbudsjetter og rollebeskrivelser. Bestemmer endelig ressurstildeling ved konflikter." },
   { label: "Oppgaver", value: "Gjennomfører medarbeidersamtaler og lønnssamtaler. Følger opp sykefravær og HR-prosesser. Planlegger langsiktige kompetanseløp og kurs. Kjører rekrutteringsprosesser. Matcher konsulenter/ansatte mot ressursforespørsler." }
 ] };
@@ -4292,7 +4292,8 @@ class Component extends DCLogic {
               : type === "Fagnettverk" ? "Obligatorisk for fagnettverk" : "Egen rolle i " + type.toLowerCase() }));
         });
         const area = f === "Alle" ? [{ name: AREA_OWNER.name, ramo: AREA_OWNER.ramo, scope: "Rolle for strategiske innsatsområder" }] : [];
-        return (f === "Prosjektteam" || f === "Fagnettverk" ? extra.concat(base) : base.concat(extra)).concat(area).concat(ai);
+        const lineAll = f === "Alle" ? line.concat([{ name: EMPLOYEE.name, ramo: EMPLOYEE.ramo, scope: "Rolle i linjeorganisasjonen" }]) : [];
+        return (f === "Prosjektteam" || f === "Fagnettverk" ? extra.concat(base) : base.concat(extra)).concat(area).concat(lineAll).concat(ai);
       })(s.roleFilter)),
       roleTypeFilters: ["Alle", "Produktteam", "Leveranseteam", "Støtteteam", "Prosjektteam", "Fagnettverk", "Innsatsområde", "Linjen"].map((label) => ({
         label, style: chipStyle(s.roleFilter === label), go: () => this.setState({ roleFilter: label })
