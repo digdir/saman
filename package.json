@@ -1,0 +1,24 @@
+{
+  "name": "saman",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "setup": "sh scripts/setup-env.sh",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:reset": "docker compose down -v && docker compose up -d",
+    "dev": "pnpm --parallel --filter \"./src/**\" dev",
+    "dev:cms": "pnpm --filter cms dev",
+    "dev:web": "pnpm --filter web dev",
+    "dev:stop": "sh scripts/dev-stop.sh",
+    "build": "pnpm --filter cms build && pnpm --filter web build",
+    "test": "pnpm --filter cms test:int && pnpm --filter web test",
+    "test:int": "pnpm --filter cms test:int",
+    "test:web": "pnpm --filter web test",
+    "test:e2e": "pnpm --filter cms test:e2e",
+    "generate:types": "pnpm --filter cms generate:types"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "web",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "vitest run",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/node": "^11.1.9",
+    "@saman/shared": "workspace:*",
+    "astro": "^7.4.2"
+  },
+  "devDependencies": {
+    "vitest": "^5.0.5"
+  }
+}
