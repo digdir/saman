@@ -12,6 +12,7 @@ GitHub token and the Claude login stay on the host; the Sandbox sees placeholder
 | [`workspace.list`](workspace.list) | The repository cloned into `/home/agent/code` at boot |
 | [`home/`](home) | Files copied into `/home/agent` on every reconciliation; empty here |
 | [`.env.example`](.env.example) | The values `agentctl apply` reads: Git identity and the GitHub token |
+| [`QUICK-REFERENCE.md`](QUICK-REFERENCE.md) | The `agentctl` commands for day-to-day work, on one page |
 
 ## Getting started
 
