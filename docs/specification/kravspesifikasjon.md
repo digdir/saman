@@ -476,7 +476,32 @@ Aktuelle entiteter systemet skal håndtere. Listen er ikke nødvendigvis komplet
 ### 4.2 Logisk datamodell
 Den logiske datamodell viser entitetene og relasjonene imellom dem, samt hva relasjonen er.
 
-![Logisk datamodell for Saman](saman-logisk-datamodell.png)
+```mermaid
+erDiagram
+    Medlem["Medlem/Ansatt"]
+    Verktoy["Verktøy"]
+
+    Enhet ||--|| Enhet : "hører til"
+    Lokasjon ||--|{ Medlem : "hører til"
+    Medlem }o--|{ Enhet : "er ansatt i"
+    Medlem }o--o{ Team : "hører til"
+    Medlem }o--o{ Rolle : "har"
+    Rolle }o--o{ Team : "hører til"
+    Rolle }o--o{ Prinsipp : "hører til"
+    Prinsipp }o--o{ Enhet : "hører til"
+    Prinsipp }o--o{ Team : "hører til"
+    Enhet ||--o{ Prosjekt : "eier"
+    Enhet ||--o{ Team : "eier"
+    Prosjekt ||--|{ Team : ""
+    Enhet ||--o{ Innhold : "skaper"
+    Team ||--o{ Innhold : "skaper"
+    Innhold }o--o{ Begrep : "bruker"
+    Innholdstype ||--o{ Innhold : "er av"
+    Enhet }|--|{ Leveranse : "skaper"
+    Team }|--|{ Leveranse : "skaper"
+    Enhet }o--o{ Verktoy : "bruker"
+    Team }o--o{ Verktoy : "bruker"
+```
 
 ## 5. Ikke funksjonelle krav
 | ID    | Beskrivelse                                                                                                                     | Prioritet |
