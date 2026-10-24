@@ -1,0 +1,63 @@
+# The Saman development Agent: Claude Code in a Sandbox with a checkout of digdir/saman, Node 24, pnpm and Podman
+# for the repository's PostgreSQL compose file. See README.md beside this file.
+apiVersion: agents.platform/v1alpha1
+kind: Agent
+metadata:
+  name: saman
+spec:
+  sandbox:
+    # Built from the Dockerfile beside this manifest. Paths in a manifest resolve against its directory.
+    image:
+      type: build
+      context: .
+      dockerfile: Dockerfile
+    platform:
+      os: linux
+    resources:
+      # Next.js builds and the PostgreSQL container need room.
+      cpu: "4"
+      memory: "8Gi"
+      # Direct, not layered: Podman's overlay storage cannot run on a layered (overlayfs) root filesystem, so
+      # `pnpm db:up` would fail.
+      rootFilesystem:
+        capacity: "64Gi"
+        mode: direct
+    # The base image boots systemd, which Podman's socket and the boot-time clone need.
+    initSystem: image
+    # The Sandbox default sizes /tmp at a quarter of guest memory, capped at 512 MiB, which is too small for a
+    # Next.js build's scratch space. A tmpfs holds only what is written to it.
+    mounts:
+      - type: tmpfs
+        target: /tmp
+        capacity: "2Gi"
+  home:
+    source: home
+  # Installed where each harness reads its instructions; for Claude Code, ~/.claude/CLAUDE.md. The repository's own
+  # CLAUDE.md is discovered by the harness inside the checkout.
+  instructions:
+    - source: instructions.md
+  harnesses:
+    # Mediated: the Claude login stays on the host, and the Sandbox sees only a placeholder.
+    - type: claudeCode
+      auth: mediated
+      default: true
+  environment:
+    - name: GIT_USER_NAME
+    - name: GIT_USER_EMAIL
+  secrets:
+    # A fine-grained token on digdir/saman with Contents and Pull requests read and write. It stays on the host; the
+    # Sandbox sees the placeholder, which carries the fine-grained prefix gh classifies tokens by.
+    - environment: GITHUB_TOKEN
+      placeholder: github_pat_AGENT_MEDIATED_GITHUB_TOKEN
+      allowedHosts:
+        - github.com
+        - api.github.com
+        - uploads.github.com
+  access:
+    - type: ssh
+  # All traffic passes through the host's network mediator. Narrow `allow` once the traffic is known.
+  network:
+    mode: mediated
+    allow: all
+    deny:
+      - metadata.google.internal

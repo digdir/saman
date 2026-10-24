@@ -8,11 +8,13 @@ Prototype of the Saman application. See README.md for the full setup.
 - `src/web` — Astro frontend, SSR, reads the CMS over REST
 - `src/shared` — generated Payload types + REST client, imported as `@saman/shared`
 - `prototype/` — the original clickable HTML prototype. Read it as a spec; never modify it.
+- `agent/` — the agentctl Agent for developing Saman in a sandbox. See `agent/README.md`.
 
 ## Before running anything
 
-Run `nvm use` first. The repo needs Node 24 (`.nvmrc`); the default nvm alias on
-this machine is 22, and Astro refuses to start on it.
+On a developer machine, run `nvm use` first. The repo needs Node 24 (`.nvmrc`); the
+default nvm alias on this machine is 22, and Astro refuses to start on it. In the
+agent sandbox Node 24 is the system default and there is no nvm, so skip this step.
 
 Use pnpm, never npm or yarn. Scripts live at the repo root — run them from there,
 not from inside `src/*`.
