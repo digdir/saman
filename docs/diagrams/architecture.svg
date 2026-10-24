@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" role="img" aria-labelledby="title desc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">Saman architecture</title>
+  <desc id="desc">Employees and editors reach the Saman frontend and CMS, both running in the Saman namespace on the DIS Core AKS cluster in Azure Norway East. The CMS stores data in Azure Database for PostgreSQL and files in Azure Blob Storage. Both apps sign people in through Microsoft Entra ID, and the frontend passes the employee's token to the CMS.</desc>
+
+  <style>
+    svg {
+      --bg: #ffffff; --ink: #1e2b3c; --muted: #5d6b7b;
+      --azure: #f3f7fc; --azure-line: #b9cce4; --zone-ink: #2c5d9a;
+      --aks: #e9f1fa; --aks-line: #a9c0de;
+      --ns: #dde9f6; --ns-line: #7fa3cf;
+      --card: #ffffff; --card-line: #b8c7d9;
+      --chip: #f5f8fb; --chip-line: #c8d4e2;
+      --web: #0b7a75; --cms: #5146c9;
+      --entra: #fff6e5; --entra-line: #e0a43a;
+      --store: #eef7f1; --store-line: #7fb495;
+      --line: #3f4d5e; --id: #b9730b;
+    }
+    @media (prefers-color-scheme: dark) {
+      svg {
+        --bg: #0f1620; --ink: #e6edf5; --muted: #9aa8b8;
+        --azure: #131d29; --azure-line: #2e4a6b; --zone-ink: #8db6e6;
+        --aks: #172434; --aks-line: #35557c;
+        --ns: #1b2c41; --ns-line: #4d76a6;
+        --card: #101924; --card-line: #3a4b5e;
+        --chip: #172230; --chip-line: #33465b;
+        --web: #3fb8b0; --cms: #8f88f0;
+        --entra: #2b2210; --entra-line: #c9902e;
+        --store: #12261b; --store-line: #3f7a58;
+        --line: #b9c5d3; --id: #e0a43a;
+      }
+    }
+    .bg { fill: var(--bg); }
+    text { fill: var(--ink); }
+    .title { font-size: 22px; font-weight: 650; }
+    .lede { font-size: 13px; fill: var(--muted); }
+    .zone-azure { fill: var(--azure); stroke: var(--azure-line); }
+    .zone-aks { fill: var(--aks); stroke: var(--aks-line); }
+    .zone-ns { fill: var(--ns); stroke: var(--ns-line); stroke-dasharray: 6 4; }
+    .zone-label { font-size: 11.5px; font-weight: 650; letter-spacing: 0.08em; fill: var(--zone-ink); }
+    .card { fill: var(--card); stroke: var(--card-line); }
+    .chip { fill: var(--chip); stroke: var(--chip-line); }
+    .chip-unused { fill: none; stroke: var(--chip-line); stroke-dasharray: 4 3; }
+    .actor { fill: var(--card); stroke: var(--card-line); }
+    .entra { fill: var(--entra); stroke: var(--entra-line); }
+    .store { fill: var(--store); stroke: var(--store-line); }
+    .h { font-size: 16px; font-weight: 650; }
+    .b { font-size: 13.5px; font-weight: 600; }
+    .s { font-size: 12px; fill: var(--muted); }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 11.5px; fill: var(--muted); }
+    .faded { opacity: 0.6; }
+    .edge { fill: none; stroke: var(--line); stroke-width: 1.6; }
+    .edge-id { fill: none; stroke: var(--id); stroke-width: 1.6; stroke-dasharray: 6 5; }
+    .label-bg { fill: var(--bg); }
+    .label { font-size: 12px; fill: var(--muted); }
+    .label-id { font-size: 12px; fill: var(--id); }
+    .head { fill: var(--line); }
+    .head-id { fill: var(--id); }
+    .dot-web { fill: var(--web); }
+    .dot-cms { fill: var(--cms); }
+  </style>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path class="head" d="M0,1 L10,5 L0,9 z"/>
+    </marker>
+    <marker id="arrow-id" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path class="head-id" d="M0,1 L10,5 L0,9 z"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1200" height="900"/>
+
+  <text class="title" x="40" y="48">Saman architecture</text>
+  <text class="lede" x="40" y="72">Target setup. Entra ID sign-in and the Azure hosting are decided but not built yet.</text>
+
+  <!-- Zones -->
+  <rect class="zone-azure" x="40" y="210" width="1120" height="650" rx="16"/>
+  <text class="zone-label" x="62" y="236">AZURE · NORWAY EAST</text>
+
+  <rect class="zone-aks" x="70" y="252" width="1060" height="388" rx="14"/>
+  <text class="zone-label" x="92" y="278">AKS · DIS CORE</text>
+
+  <rect class="zone-ns" x="100" y="294" width="1000" height="316" rx="12"/>
+  <text class="zone-label" x="122" y="320">SAMAN NAMESPACE</text>
+
+  <!-- Actors and identity provider -->
+  <rect class="actor" x="210" y="104" width="180" height="56" rx="28"/>
+  <text class="b" x="300" y="128" text-anchor="middle">Employee</text>
+  <text class="s" x="300" y="146" text-anchor="middle">browser</text>
+
+  <rect class="actor" x="900" y="104" width="180" height="56" rx="28"/>
+  <text class="b" x="990" y="128" text-anchor="middle">Editor</text>
+  <text class="s" x="990" y="146" text-anchor="middle">browser</text>
+
+  <rect class="entra" x="500" y="100" width="220" height="64" rx="12"/>
+  <text class="b" x="610" y="127" text-anchor="middle">Microsoft Entra ID</text>
+  <text class="s" x="610" y="146" text-anchor="middle">Digdir tenant · global service</text>
+
+  <!-- Frontend -->
+  <rect class="card" x="130" y="350" width="340" height="230" rx="12"/>
+  <circle class="dot-web" cx="156" cy="371" r="5"/>
+  <text class="h" x="168" y="377">Frontend</text>
+  <text class="s" x="150" y="396">src/web · Astro 7 SSR</text>
+
+  <rect class="chip" x="155" y="410" width="290" height="52" rx="8"/>
+  <text class="b" x="300" y="432" text-anchor="middle">Pages</text>
+  <text class="s" x="300" y="450" text-anchor="middle">rendered on the server per request</text>
+
+  <rect class="chip" x="155" y="490" width="290" height="60" rx="8"/>
+  <text class="b" x="300" y="514" text-anchor="middle">@saman/shared</text>
+  <text class="s" x="300" y="533" text-anchor="middle">src/shared · REST client + Payload types</text>
+
+  <!-- CMS -->
+  <rect class="card" x="640" y="350" width="430" height="230" rx="12"/>
+  <circle class="dot-cms" cx="666" cy="371" r="5"/>
+  <text class="h" x="678" y="377">CMS</text>
+  <text class="s" x="660" y="396">src/cms · Payload 3 on Next.js 16</text>
+
+  <rect class="chip" x="660" y="410" width="120" height="44" rx="8"/>
+  <text class="b" x="720" y="429" text-anchor="middle">REST API</text>
+  <text class="mono" x="720" y="446" text-anchor="middle">/api/*</text>
+
+  <g class="faded">
+    <rect class="chip-unused" x="795" y="410" width="120" height="44" rx="8"/>
+    <text class="b" x="855" y="429" text-anchor="middle">GraphQL API</text>
+    <text class="mono" x="855" y="446" text-anchor="middle">/api/graphql</text>
+  </g>
+
+  <rect class="chip" x="930" y="410" width="120" height="44" rx="8"/>
+  <text class="b" x="990" y="429" text-anchor="middle">Admin UI</text>
+  <text class="mono" x="990" y="446" text-anchor="middle">/admin</text>
+
+  <rect class="chip" x="660" y="490" width="390" height="60" rx="8"/>
+  <text class="b" x="855" y="514" text-anchor="middle">Payload core</text>
+  <text class="s" x="855" y="533" text-anchor="middle">collections · access control · hooks · editor roles</text>
+
+  <path class="edge" d="M720,454 V486" marker-end="url(#arrow)"/>
+  <path class="edge faded" d="M855,454 V486" marker-end="url(#arrow)"/>
+  <path class="edge" d="M990,454 V486" marker-end="url(#arrow)"/>
+
+  <!-- Data stores -->
+  <path class="store" d="M680,700 V780 A80,12 0 0 0 840,780 V700"/>
+  <ellipse class="store" cx="760" cy="700" rx="80" ry="12"/>
+  <text class="b" x="760" y="738" text-anchor="middle">Azure Database</text>
+  <text class="b" x="760" y="756" text-anchor="middle">for PostgreSQL</text>
+  <text class="s" x="760" y="776" text-anchor="middle">content</text>
+
+  <path class="store" d="M870,700 V780 A80,12 0 0 0 1030,780 V700"/>
+  <ellipse class="store" cx="950" cy="700" rx="80" ry="12"/>
+  <text class="b" x="950" y="738" text-anchor="middle">Azure Blob</text>
+  <text class="b" x="950" y="756" text-anchor="middle">Storage</text>
+  <text class="s" x="950" y="776" text-anchor="middle">uploaded files</text>
+
+  <!-- Requests -->
+  <path class="edge" d="M300,160 V406" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="276" y="178" width="48" height="18" rx="4"/>
+  <text class="label" x="300" y="191" text-anchor="middle">HTTPS</text>
+
+  <path class="edge" d="M990,160 V406" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="966" y="178" width="48" height="18" rx="4"/>
+  <text class="label" x="990" y="191" text-anchor="middle">HTTPS</text>
+
+  <path class="edge" d="M445,520 H555 V432 H656" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="483" y="456" width="144" height="38" rx="5"/>
+  <text class="label" x="555" y="471" text-anchor="middle">REST over HTTPS</text>
+  <text class="label" x="555" y="487" text-anchor="middle">with employee's token</text>
+
+  <path class="edge" d="M760,550 V684" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="740" y="656" width="40" height="18" rx="4"/>
+  <text class="label" x="760" y="669" text-anchor="middle">SQL</text>
+
+  <path class="edge" d="M950,550 V684" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="908" y="656" width="84" height="18" rx="4"/>
+  <text class="label" x="950" y="669" text-anchor="middle">file uploads</text>
+
+  <!-- Identity -->
+  <path class="edge-id" d="M545,168 C545,260 440,260 440,346" marker-start="url(#arrow-id)" marker-end="url(#arrow-id)"/>
+  <rect class="label-bg" x="430" y="250" width="124" height="20" rx="5"/>
+  <text class="label-id" x="492" y="264" text-anchor="middle">employee sign-in</text>
+
+  <path class="edge-id" d="M675,168 C675,260 760,260 760,346" marker-start="url(#arrow-id)" marker-end="url(#arrow-id)"/>
+  <rect class="label-bg" x="656" y="242" width="124" height="36" rx="5"/>
+  <text class="label-id" x="718" y="256" text-anchor="middle">editor sign-in,</text>
+  <text class="label-id" x="718" y="272" text-anchor="middle">token signing keys</text>
+
+  <!-- Legend -->
+  <rect class="card" x="130" y="680" width="340" height="140" rx="12"/>
+  <text class="zone-label" x="150" y="706">LEGEND</text>
+  <path class="edge" d="M150,732 H200" marker-end="url(#arrow)"/>
+  <text class="s" x="214" y="736">Request</text>
+  <path class="edge-id" d="M150,762 H200" marker-end="url(#arrow-id)"/>
+  <text class="s" x="214" y="766">Sign-in and token checks with Entra ID</text>
+  <rect class="chip-unused faded" x="150" y="782" width="50" height="22" rx="5"/>
+  <text class="s" x="214" y="797">Exposed but not used yet</text>
+
+  <text class="s" x="40" y="886">Locally: PostgreSQL in Docker, uploads on disk, Payload's own login. Details in architecture.md.</text>
+</svg>

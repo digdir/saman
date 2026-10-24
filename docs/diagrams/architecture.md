@@ -9,6 +9,14 @@ sign-in redirects and the signing keys the CMS checks tokens against.
 > [Local development](#local-development) for how this maps to a developer machine
 > today.
 
+![Saman architecture: employees and editors reach the frontend and CMS in the Saman namespace on DIS Core in Azure Norway East, with sign-in through Entra ID](architecture.svg)
+
+### Diagram source
+
+The picture above is drawn by hand from the Mermaid diagram below. The Mermaid
+diagram is the source of truth: change it first, then redraw
+`architecture.svg` to match.
+
 ```mermaid
 flowchart TB
     employee(["Employee<br/>browser"])
