@@ -49,3 +49,18 @@ Once the content model settles, snapshot it with
   API keys unreadable.
 - The e2e tests write to whatever `DATABASE_URL` points at — they seed and delete
   a user and a media document. Local databases only.
+
+## Branches
+
+Name branches `<type>/<short-description>`, or `<type>/<issue>-<short-description>`
+when there is an issue: lowercase kebab-case, in English, describing the change.
+One branch per PR, deleted after merge.
+
+| Type | For | Example |
+| --- | --- | --- |
+| `feat/` | New functionality | `feat/42-ansattmottak-batch-endpoint` |
+| `fix/` | Bug fixes | `fix/media-upload-alt-text` |
+| `docs/` | Documentation only | `docs/architecture` |
+| `refactor/` | Restructuring without changing behaviour | `refactor/shared-rest-client` |
+| `test/` | Adding or fixing tests only | `test/e2e-admin-login` |
+| `chore/` | Tooling, dependencies, setup, CI | `chore/agentctl-setup` |
