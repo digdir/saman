@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" role="img" aria-labelledby="title desc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
   <title id="title">Saman architecture</title>
-  <desc id="desc">Employees and editors reach the Saman frontend and CMS, both running in the Saman namespace on the DIS Core AKS cluster in Azure Norway East. The CMS stores data in Azure Database for PostgreSQL and files in Azure Blob Storage. Both apps sign people in through Microsoft Entra ID, and the frontend passes the employee's token to the CMS.</desc>
+  <desc id="desc">Employees and editors reach the Saman frontend and CMS, both running in the Saman namespace on the DIS Core AKS cluster in Azure Norway East. Ansattmottak, on a server in Digdir's server room in Leikanger, posts employees and the organisation structure in batches to a custom endpoint on the CMS's API, authenticated with a Payload API key. The CMS stores data in Azure Database for PostgreSQL and files in Azure Blob Storage. Both apps sign people in through Microsoft Entra ID, and the frontend passes the employee's token to the CMS.</desc>
 
   <style>
     svg {
@@ -14,6 +14,7 @@
       --entra: #fff6e5; --entra-line: #e0a43a;
       --store: #eef7f1; --store-line: #7fb495;
       --line: #3f4d5e; --id: #b9730b;
+      --onprem: #f4f2ee; --onprem-line: #c4bcae;
     }
     @media (prefers-color-scheme: dark) {
       svg {
@@ -27,6 +28,7 @@
         --entra: #2b2210; --entra-line: #c9902e;
         --store: #12261b; --store-line: #3f7a58;
         --line: #b9c5d3; --id: #e0a43a;
+        --onprem: #1d1b18; --onprem-line: #5a5246;
       }
     }
     .bg { fill: var(--bg); }
@@ -35,6 +37,8 @@
     .lede { font-size: 13px; fill: var(--muted); }
     .zone-azure { fill: var(--azure); stroke: var(--azure-line); }
     .zone-aks { fill: var(--aks); stroke: var(--aks-line); }
+    .zone-onprem { fill: var(--onprem); stroke: var(--onprem-line); }
+    .zone-label-onprem { font-size: 10.5px; font-weight: 650; letter-spacing: 0.08em; fill: var(--muted); }
     .zone-ns { fill: var(--ns); stroke: var(--ns-line); stroke-dasharray: 6 4; }
     .zone-label { font-size: 11.5px; font-weight: 650; letter-spacing: 0.08em; fill: var(--zone-ink); }
     .card { fill: var(--card); stroke: var(--card-line); }
@@ -92,9 +96,15 @@
   <text class="b" x="990" y="128" text-anchor="middle">Editor</text>
   <text class="s" x="990" y="146" text-anchor="middle">browser</text>
 
-  <rect class="entra" x="500" y="100" width="220" height="64" rx="12"/>
-  <text class="b" x="610" y="127" text-anchor="middle">Microsoft Entra ID</text>
-  <text class="s" x="610" y="146" text-anchor="middle">Digdir tenant · global service</text>
+  <rect class="entra" x="420" y="100" width="200" height="64" rx="12"/>
+  <text class="b" x="520" y="127" text-anchor="middle">Microsoft Entra ID</text>
+  <text class="s" x="520" y="146" text-anchor="middle">Digdir tenant · global service</text>
+
+  <rect class="zone-onprem" x="640" y="86" width="220" height="86" rx="12"/>
+  <text class="zone-label-onprem" x="750" y="104" text-anchor="middle">SERVER ROOM · LEIKANGER</text>
+  <rect class="actor" x="660" y="114" width="180" height="46" rx="8"/>
+  <text class="b" x="750" y="133" text-anchor="middle">Ansattmottak</text>
+  <text class="s" x="750" y="150" text-anchor="middle">employees · org structure</text>
 
   <!-- Frontend -->
   <rect class="card" x="130" y="350" width="340" height="230" rx="12"/>
@@ -112,9 +122,9 @@
 
   <!-- CMS -->
   <rect class="card" x="640" y="350" width="430" height="230" rx="12"/>
-  <circle class="dot-cms" cx="666" cy="371" r="5"/>
-  <text class="h" x="678" y="377">CMS</text>
-  <text class="s" x="660" y="396">src/cms · Payload 3 on Next.js 16</text>
+  <circle class="dot-cms" cx="752" cy="371" r="5"/>
+  <text class="h" x="764" y="377">CMS</text>
+  <text class="s" x="746" y="396">src/cms · Payload 3 on Next.js 16</text>
 
   <rect class="chip" x="660" y="410" width="120" height="44" rx="8"/>
   <text class="b" x="720" y="429" text-anchor="middle">REST API</text>
@@ -160,6 +170,10 @@
   <rect class="label-bg" x="966" y="178" width="48" height="18" rx="4"/>
   <text class="label" x="990" y="191" text-anchor="middle">HTTPS</text>
 
+  <path class="edge" d="M720,160 V406" marker-end="url(#arrow)"/>
+  <rect class="label-bg" x="656" y="181" width="128" height="18" rx="4"/>
+  <text class="label" x="720" y="194" text-anchor="middle">POST batch · API key</text>
+
   <path class="edge" d="M445,520 H555 V432 H656" marker-end="url(#arrow)"/>
   <rect class="label-bg" x="483" y="456" width="144" height="38" rx="5"/>
   <text class="label" x="555" y="471" text-anchor="middle">REST over HTTPS</text>
@@ -174,14 +188,14 @@
   <text class="label" x="950" y="669" text-anchor="middle">file uploads</text>
 
   <!-- Identity -->
-  <path class="edge-id" d="M545,168 C545,260 440,260 440,346" marker-start="url(#arrow-id)" marker-end="url(#arrow-id)"/>
-  <rect class="label-bg" x="430" y="250" width="124" height="20" rx="5"/>
-  <text class="label-id" x="492" y="264" text-anchor="middle">employee sign-in</text>
+  <path class="edge-id" d="M470,168 C470,260 440,260 440,346" marker-start="url(#arrow-id)" marker-end="url(#arrow-id)"/>
+  <rect class="label-bg" x="393" y="250" width="124" height="20" rx="5"/>
+  <text class="label-id" x="455" y="264" text-anchor="middle">employee sign-in</text>
 
-  <path class="edge-id" d="M675,168 C675,260 760,260 760,346" marker-start="url(#arrow-id)" marker-end="url(#arrow-id)"/>
-  <rect class="label-bg" x="656" y="242" width="124" height="36" rx="5"/>
-  <text class="label-id" x="718" y="256" text-anchor="middle">editor sign-in,</text>
-  <text class="label-id" x="718" y="272" text-anchor="middle">token signing keys</text>
+  <path class="edge-id" d="M590,168 C590,260 670,260 670,346" marker-start="url(#arrow-id)" marker-end="url(#arrow-id)"/>
+  <rect class="label-bg" x="568" y="242" width="124" height="36" rx="5"/>
+  <text class="label-id" x="630" y="256" text-anchor="middle">editor sign-in,</text>
+  <text class="label-id" x="630" y="272" text-anchor="middle">token signing keys</text>
 
   <!-- Legend -->
   <rect class="card" x="130" y="680" width="340" height="140" rx="12"/>
