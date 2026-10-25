@@ -127,7 +127,7 @@ Saman inngår i og må sees i sammenheng med følgende:
 
 - **Digdirs nye organisering** — besluttes gjennom den pågående organisasjonsutviklingen (OU), og Saman skal reflektere og understøtte denne.
 
-- **Ressursstyring/porteføljestyring** — Saman viser hvordan den enkelte ansatte er allokert på tvers av team og prosjekter (jf. Folk), men selve prioriteringen og fordelingen av ressurser håndteres i egne prosesser/systemer for porteføljestyring.
+- **Ressursstyring/porteføljestyring** — Saman viser hvordan den enkelte ansatte er allokert på tvers av team og prosjekter (jf. Allokering), men selve prioriteringen og fordelingen av ressurser håndteres i egne prosesser/systemer for porteføljestyring.
 
 - **Ekstern begrepskatalog (data.norge.no)** — begreper i Saman kan kobles mot denne katalogen (jf. BG-04).
 
@@ -318,24 +318,35 @@ Styringsfundament skal gi alle ansatte en samlet og alltid oppdatert kilde til D
 | SF-05 | Systemet skal vise historikk over tidligere versjoner av styringsfundamentet, inkludert tidspunkt for endring.                                                                          | Bør       |
 
 ### 3.8 Folk
-Mange vet ikke hvem kollegene er, hvilken enhet de hører til eller hvilke team de er med i. Når samme person er med i flere team og prosjekter, er det heller ikke synlig hvor mye av kapasiteten som er bundet opp hvor.
+Mange vet ikke hvem kollegene er, hvilken enhet de hører til eller hvilke team de er med i.
 
-Folk gir en samlet oversikt over alle ansatte, deres tilhørighet i linjen, teamene og prosjektene de er med i, og hvordan den enkeltes kapasitet er fordelt. Oversikten gjør det enklere å finne riktig person, og å se når noen er over- eller underallokert.
+Folk gir en samlet oversikt over alle ansatte, deres tilhørighet i linjen og teamene og prosjektene de er med i. Oversikten gjør det enklere å finne riktig person. Hvordan den enkeltes kapasitet er fordelt, beskrives i 3.9 Allokering.
 
 #### Krav
-Folk skal gi en samlet oversikt over alle ansatte, deres tilhørighet i linjen og i team, og hvordan kapasiteten deres er allokert.
+Folk skal gi en samlet oversikt over alle ansatte og deres tilhørighet i linjen og i team.
+
+| ID    | Beskrivelse                                                                                              | Prioritet |
+|-------|----------------------------------------------------------------------------------------------------------|-----------|
+| FO-01 | Systemet skal vise en liste over alle ansatte i Digdir med navn og rolle.                                | Må        |
+| FO-02 | Systemet skal for hver ansatt vise enhet i linjen og hvilke team og prosjekter vedkommende er medlem av. | Må        |
+| FO-03 | Systemet skal la brukeren søke etter ansatte på navn, rolle, enhet eller team.                           | Bør       |
+
+### 3.9 Allokering
+Når samme person er med i flere team og prosjekter, er det ikke synlig hvor mye av kapasiteten som er bundet opp hvor.
+
+Allokering viser hvordan den enkeltes kapasitet er fordelt på team og prosjekter, og gjør det mulig å se når noen er over- eller underallokert. Allokering er opplysninger om den enkelte ansatte, og bare de som har behov for dem skal se dem (AL-04). Visningen krever personvernvurdering før den tas i bruk (jf. åpen avklaring 3).
+
+#### Krav
+Allokering skal vise hvordan den enkelte ansattes kapasitet er fordelt på team og prosjekter, for dem som har behov for å se det.
 
 | ID    | Beskrivelse                                                                                                                    | Prioritet |
 |-------|--------------------------------------------------------------------------------------------------------------------------------|-----------|
-| FO-01 | Systemet skal vise en liste over alle ansatte i Digdir med navn og rolle.                                                      | Må        |
-| FO-02 | Systemet skal for hver ansatt vise enhet i linjen og hvilke team og prosjekter vedkommende er medlem av.                       | Må        |
-| FO-03 | Systemet skal la brukeren søke etter ansatte på navn, rolle, enhet eller team.                                                 | Bør       |
-| FO-04 | Systemet skal vise hvor stor andel av den ansattes kapasitet som er allokert til hvert team og prosjekt, og samlet allokering. | Bør       |
-| FO-05 | Systemet skal la teamleder registrere allokering for teamets medlemmer.                                                        | Bør       |
-| FO-06 | Systemet skal markere ansatte med samlet allokering under 80 % eller over 100 %.                                               | Kan       |
-| FO-07 | Systemet skal begrense visning av allokering til den ansatte selv, teamleder, teameier og personalleder.                       | Må        |
+| AL-01 | Systemet skal vise hvor stor andel av den ansattes kapasitet som er allokert til hvert team og prosjekt, og samlet allokering. | Bør       |
+| AL-02 | Systemet skal la teamleder registrere allokering for teamets medlemmer.                                                        | Bør       |
+| AL-03 | Systemet skal markere ansatte med samlet allokering under 80 % eller over 100 %.                                               | Kan       |
+| AL-04 | Systemet skal begrense visning av allokering til den ansatte selv, teamleder, teameier og personalleder.                       | Må        |
 
-### 3.9 Spør Saman (KI-assistent)
+### 3.10 Spør Saman (KI-assistent)
 Rammeverket samler mye innhold på ett sted: roller, teamtyper, prinsipper, verktøy, begreper og organisasjonen. Brukerne kommer ofte med et konkret spørsmål, for eksempel hvem som bør være teameier for et nytt team eller hvilken teamtype som passer en oppgave, og må i dag sette sammen svaret fra flere sider selv.
 
 En KI-assistent kan gi svar i kontekst, basert på innholdet i Saman, og vise hvor svaret kommer fra slik at brukeren kan kontrollere det.
@@ -347,12 +358,12 @@ Spør Saman skal gi brukerne svar på spørsmål om hvordan vi jobber sammen i D
 |-------|----------------------------------------------------------------------------------------------------------------------------------|-----------|
 | AI-01 | Systemet skal la brukeren stille spørsmål i naturlig språk om innholdet i Saman og få svar.                                      | Bør       |
 | AI-02 | Svarene skal bygge på innholdet i Saman og vise hvilke sider eller elementer svaret er basert på.                                | Må        |
-| AI-03 | Assistenten skal bare bruke innhold brukeren selv har tilgang til, og skal ikke gi ut allokeringsdata utover det FO-07 tillater. | Må        |
+| AI-03 | Assistenten skal bare bruke innhold brukeren selv har tilgang til, og skal ikke gi ut allokeringsdata utover det AL-04 tillater. | Må        |
 | AI-04 | Systemet skal tydelig opplyse om at svarene er generert av KI og kan inneholde feil.                                             | Må        |
 | AI-05 | Assistenten skal foreslå relevante spørsmål ut fra siden brukeren står på.                                                       | Kan       |
 | AI-06 | Systemet skal la administrator slå assistenten av og på uten at resten av løsningen påvirkes.                                    | Bør       |
 
-### 3.10 Mål og nøkkelresultater (OKR)
+### 3.11 Mål og nøkkelresultater (OKR)
 OKR er et målstyringsverktøy som hjelper team og enheter å holde fokus på effekten de ønsker å oppnå, og hvordan de vet om de lykkes (jf. Vedlegg 5). I dag ligger OKR spredt i ulike dokumenter og verktøy, og det er vanskelig å se hvordan teamenes mål henger sammen med enhetenes mål.
 
 Når OKR registreres og følges opp i Saman, blir målene synlige på tvers, og det blir lettere å holde dem levende gjennom tertialet i stedet for at de havner i skuffen. Confidence på nøkkelresultatene gir et raskt bilde av hvor det går bra og hvor det trengs hjelp.
@@ -371,7 +382,7 @@ OKR skal gjøre mål og nøkkelresultater for team og enheter synlige, og gi et 
 | OK-07 | Systemet skal vise samlet OKR-status på forsiden og i organisasjonskartet.                                           | Kan       |
 | OK-08 | Systemet skal bare la teamets egne medlemmer endre teamets confidence.                                               | Må        |
 
-### 3.11 Linjeorganisasjon
+### 3.12 Linjeorganisasjon
 Med ny organisering av Digdir får mange ansatte ny enhet, ny leder og nye kolleger. Det er behov for et oppdatert organisasjonskart som viser hvilke enheter som finnes, hva de har ansvar for, hvem som leder dem og hvem som jobber der, og hvordan linjen henger sammen med teamene.
 
 Enhetssidene samler denne informasjonen, og enhetsleder vedlikeholder den selv. Direktøren har en egen side som presenterer direktøren, direktørens ansvar og toppledergruppens rolle.
@@ -390,7 +401,7 @@ Linjeorganisasjon skal gi alle ansatte en oppdatert oversikt over Digdirs enhete
 | LO-07 | Systemet skal ha en egen side for direktøren med presentasjon, direktørens ansvar og lenker til aktuelle opptak og nyheter.  | Bør       |
 | LO-08 | Systemet skal la administrator oppdatere innholdet på direktørsiden.                                                         | Må        |
 
-### 3.12 Innsatsområder
+### 3.13 Innsatsområder
 Digdir skal ha innsatsområder på tvers av linjeorganisasjonen: strategiske satsinger som krever helhetlig og tverrgående styring av mål, effekter, virkemidler og ressursprioriteringer. Et innsatsområde koordineres av en områdeansvarlig, som får kapasitet fra relevante team etter avtale med teameierne. Innsatsområder evalueres årlig og avvikles eller overføres til linjen når effekten er nådd.
 
 For at ansatte og ledere skal forstå hvordan arbeidet henger sammen, må det være synlig hvilke innsatsområder som finnes, hvem som leder dem og hvilke team som bidrar. Modellen for innsatsområder er ikke ferdig besluttet, og kravene må justeres når den er det.
@@ -407,12 +418,12 @@ Innsatsområder skal gi en oversikt over Digdirs innsatsområder, hvem som leder
 | IO-05 | Systemet skal vise innsatsområdets mål og nøkkelresultater (OKR).                              | Kan       |
 | IO-06 | Systemet skal la administrator opprette, endre og avvikle innsatsområder.                      | Bør       |
 
-### 3.13 Porteføljestyring
+### 3.14 Porteføljestyring
 Toppledergruppen er Digdirs porteføljestyre, og beslutter strategisk retning og prioriteringer. Saman skal ha et eget funksjonsområde for porteføljestyring, men modellen for porteføljestyring i Digdir er fortsatt under utarbeidelse.
 
 Detaljerte krav avventes til det er avklart hva funksjonsområdet skal inneholde (jf. åpen avklaring 5).
 
-### 3.14 Forside
+### 3.15 Forside
 Forsiden er inngangen til Saman for alle ansatte. Den skal gjøre det enkelt å finne en kollega, et team eller en enhet, og lede nye brukere til det som er mest nyttig å starte med.
 
 Forsiden samler også innhold fra resten av Saman, som dagens begrep, status for OKR og det som er nytt, slik at rammeverket oppleves som levende og verdt å komme tilbake til.
@@ -430,7 +441,7 @@ Forsiden skal gi en enkel inngang til Saman, med samlet søk og snarveier til de
 | FS-06 | Systemet skal vise en oversikt over de siste endringene i innholdet i Saman.                                     | Kan       |
 | FS-07 | Systemet skal minne team og enheter om å oppdatere confidence og sette nye OKR når tertialet nærmer seg slutten. | Kan       |
 
-### 3.15 Tilbakemeldinger
+### 3.16 Tilbakemeldinger
 Rammeverket skal utvikles sammen med dem som bruker det. Når noe er feil, utdatert eller uklart, eller når rammeverket ikke fungerer etter hensikten, må læringen gå tilbake til dem som eier innholdet (jf. Omfang og avgrensning).
 
 Tilbakemeldinger gjør det enkelt å melde fra der man står, og gir eierne av innholdet et samlet bilde av hva som må rettes.
@@ -529,7 +540,7 @@ Punkter som er identifisert underveis, men som krever avklaring med flere enn kj
 |-----|-----------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
 | 1   | Navngiving av person-entitet                        | Bør Medlem, Ansatt og eksterne/innleide modelleres som én generisk entitet (der relasjonsnavnet varierer: «ansatt i» Enhet, «medlem av» Team/Prosjekt), eller som separate entiteter (f.eks. Ansatt + Ekstern ressurs)? Påvirker hvordan eksterne/innleide håndteres i datamodellen. | TBD                                 |
 | 2   | Teknisk forvaltning og videreutvikling              | Hvem har ansvar for drift, oppdateringer og feilretting fra 1.1.27, når det ikke er etablert et dedikert team?                                                                                                                                                                       | TBD                                 |
-| 3   | Personvern ved visning av allokering og bruksmåling | Visning av allokering per ansatt (jf. Folk) og måling av bruk (jf. NF-08 til NF-10) krever personvernvurdering og avklaring av medvirkning fra tillitsvalgte før funksjonene tas i bruk.                                                                                             | Personvernombud, tillitsvalgte      |
+| 3   | Personvern ved visning av allokering og bruksmåling | Visning av allokering per ansatt (jf. Allokering) og måling av bruk (jf. NF-08 til NF-10) krever personvernvurdering og avklaring av medvirkning fra tillitsvalgte før funksjonene tas i bruk.                                                                                       | Personvernombud, tillitsvalgte      |
 | 4   | Språkmodell for KI-assistenten                      | Hvilken språkmodelltjeneste skal Spør Saman bruke, og hvordan sikres databehandleravtale, personvern og en akseptabel kostnadsmodell?                                                                                                                                                | TBD                                 |
 | 5   | Innhold i Porteføljestyring                         | Hva skal funksjonsområdet Porteføljestyring inneholde: forklaring av porteføljestyringen, oversikt over porteføljen, støtte for prioriteringsprosessen, eller en kombinasjon? Støtte for prioriteringsprosessen vil kreve endring i 2.2.                                             | Arbeidspakken for porteføljestyring |
 | 6   | Kilde for ansatte og enheter                        | Skal ansatte, enhetstilhørighet og ledere hentes fra HR-systemet eller fra Entra ID? Valget påvirker datakvalitet, hvor raskt endringer blir synlige og hvilke opplysninger som er tilgjengelige.                                                                                    | TBD                                 |
