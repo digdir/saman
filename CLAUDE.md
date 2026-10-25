@@ -41,10 +41,10 @@ edit a Word copy and treat it as the source.
   most decisions. When the specification and the prototype disagree, follow the
   specification and mention the difference.
 - **Safeguards are not a starting point.** Requirements that restrict access to or
-  sharing of personal data (`FO-07`, `TO-13`, `NF-09`, `NF-10`, `AI-03`) only change
+  sharing of personal data (`AL-04`, `TO-13`, `NF-09`, `NF-10`, `AI-03`) only change
   when the user explicitly asks for it, and the change must be logged in
   `docs/specification/decisions.md`. Never relax them to simplify an implementation.
-- **Requirement IDs.** Every requirement has an ID (e.g. `TO-01`, `FO-07`, `NF-09`).
+- **Requirement IDs.** Every requirement has an ID (e.g. `TO-01`, `AL-04`, `NF-09`).
   Reference the ID in commit messages, PR descriptions and test names for the code
   that implements it.
 - **Priorities.** `Må`, `Bør` and `Kan` are MoSCoW (must, should, could). Build `Må`
@@ -68,7 +68,7 @@ Follow the specification here, not the prototype, unless the specification is ch
 
 | Area | Prototype | Specification |
 | --- | --- | --- |
-| Folk / allocation | Visible and editable by everyone; shows an even split when nothing is registered | Visible only to the employee, team lead, team owner and line manager (`FO-07`); show nothing until allocation is registered |
+| Folk / allocation | Visible and editable by everyone; shows an even split when nothing is registered | Visible only to the employee, team lead, team owner and line manager (`AL-04`); show nothing until allocation is registered |
 | Team contract | Personal user manual visible to everyone | Visible only to team members (`TO-13`) |
 | Analytics | Sends names of viewed colleagues; tracks after the user declines | No personal data about others (`NF-09`); anonymous without identifiers after decline (`NF-10`) |
 | Innsatsområde | Status page about an ongoing decision | Overview of focus areas, owner and linked teams (`IO-01`–`IO-06`) |
