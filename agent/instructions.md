@@ -17,6 +17,3 @@ against `main`.
   this Sandbox's own `PAYLOAD_SECRET`; never copy one from elsewhere.
 - Run `pnpm test`, with the database up, before reporting completion.
 - The developer reaches the dev servers on ports 3000 and 4321 with `agentctl port-forward` from the host.
-
-Real secrets are host-mediated: `GITHUB_TOKEN` holds an inert placeholder. Never search for, print, copy or persist
-secret values.
