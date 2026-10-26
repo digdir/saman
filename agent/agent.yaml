@@ -24,12 +24,6 @@ spec:
         mode: direct
     # The base image boots systemd, which Podman's socket and the boot-time clone need.
     initSystem: image
-    # The Sandbox default sizes /tmp at a quarter of guest memory, capped at 512 MiB, which is too small for a
-    # Next.js build's scratch space. A tmpfs holds only what is written to it.
-    mounts:
-      - type: tmpfs
-        target: /tmp
-        capacity: "2Gi"
   home:
     source: home
   # Installed where each harness reads its instructions; for Claude Code, ~/.claude/CLAUDE.md. The repository's own

@@ -7,7 +7,7 @@ GitHub token and the Claude login stay on the host; the Sandbox sees placeholder
 | File | Purpose |
 | --- | --- |
 | [`agent.yaml`](agent.yaml) | The manifest: image, resources, instructions, harness, secrets, SSH access and network |
-| [`Dockerfile`](Dockerfile) | The image: the [agentctl base image](https://github.com/digdir/digdir-agents/tree/main/images/agentctl-base) plus Podman, podman-compose and pnpm |
+| [`Dockerfile`](Dockerfile) | The image: the [agentctl base image](https://github.com/digdir/digdir-agents/tree/main/images/agentctl-base) plus Podman, `docker` and Docker Compose from its `containers` feature, and pnpm |
 | [`instructions.md`](instructions.md) | What Claude Code is told about this Sandbox, installed as `~/.claude/CLAUDE.md` |
 | [`workspace.list`](workspace.list) | The repository cloned into `/home/agent/code` at boot |
 | [`home/`](home) | Files copied into `/home/agent` on every reconciliation; empty here |
