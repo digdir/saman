@@ -28,6 +28,10 @@
 
 <div style="min-height: 100vh; display: flex; flex-direction: column">
 
+  <div role="note" style="background: #fdf2da; border-bottom: 1px solid #ecd69a; color: #1E2B3C; font-size: 14px; line-height: 1.5">
+    <div style="max-width: 1180px; margin: 0 auto; padding: 8px 24px"><strong>Prototype.</strong> Saman har ingen ekte innlogging eller backend ennå. Flere funksjoner er simulert, og det du legger inn, blir ikke lagret.</div>
+  </div>
+
   <header style="background: #fff; border-bottom: 1px solid #dce1e7; position: sticky; top: 0; z-index: 20">
     <div style="max-width: 1180px; margin: 0 auto; padding: 0 24px">
       <div style="display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; padding: 14px 0 6px">
@@ -39,8 +43,8 @@
           </span>
         </button>
         <div style="display: flex; align-items: center; gap: 10px">
-          <span style="font-size: 14px; color: #44505f">Adélie Elisabeth Dorseuil</span>
-          <span role="img" aria-label="Adélie Elisabeth Dorseuil" style="width: 32px; height: 32px; border-radius: 9999px; background: #eaeef2 url('assets/Adelie.jpg') center top / cover no-repeat"></span>
+          <span style="font-size: 14px; color: #44505f">&lt;innlogget bruker&gt;</span>
+          <span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 9999px; background: #eaeef2; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#65707D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 20.5c0-4 3.4-6.5 7.5-6.5s7.5 2.5 7.5 6.5"></path></svg></span>
         </div>
       </div>
       <div style="display: flex; align-items: center; gap: 8px 16px; flex-wrap: wrap; padding: 4px 0 8px">
@@ -2030,7 +2034,7 @@
             <input type="checkbox" checked="{{ fbContact }}" onChange="{{ toggleFbContact }}" style="width: 18px; height: 18px; accent-color: #0062B8">
             <span>Jeg kan kontaktes om tilbakemeldingen</span>
           </label>
-          <p style="margin: 0; font-size: 14px; color: #65707D">Tilbakemeldingen sendes som Adélie Elisabeth Dorseuil og er synlig for alle i oversikten over tilbakemeldinger.</p>
+          <p style="margin: 0; font-size: 14px; color: #65707D">Tilbakemeldingen sendes som &lt;innlogget bruker&gt; og er synlig for alle i oversikten over tilbakemeldinger.</p>
           <div style="display: flex; gap: 10px; flex-wrap: wrap">
             <button onClick="{{ sendFb }}" disabled="{{ fbCannotSend }}" style="{{ fbSendStyle }}">Send tilbakemelding</button>
             <button onClick="{{ closeFb }}" style="padding: 10px 18px; border-radius: 4px; border: 1px solid #65707D; background: transparent; color: #1e2b3c; font-size: 15px; font-family: inherit; cursor: pointer">Avbryt</button>
@@ -3751,7 +3755,7 @@ class Component extends DCLogic {
         if (!target || !canSend) return;
         const now = new Date();
         const item = { id: "fb-" + now.getTime(), key: target.key, label: target.label, owner: target.owner, nav: target.nav,
-          cat: d.cat, text: d.text.trim(), contact: !!d.contact, sender: "Adélie Elisabeth Dorseuil", status: "Ny", ts: now.getTime(),
+          cat: d.cat, text: d.text.trim(), contact: !!d.contact, sender: "<innlogget bruker>", status: "Ny", ts: now.getTime(),
           dateLabel: now.toLocaleDateString("nb-NO", { day: "numeric", month: "long", year: "numeric" }) };
         this.setState((st) => ({ feedback: (st.feedback || []).concat([item]), fbOpen: false, fbSent: true, fbDraft: null }));
       },
