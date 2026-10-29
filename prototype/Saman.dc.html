@@ -2150,6 +2150,8 @@
         </button>
       </div>
 
+      <p role="note" style="margin: 0; padding: 10px 16px; border-bottom: 1px solid #ecd69a; background: #fdf2da; font-size: 14px; line-height: 1.5; color: #1E2B3C"><strong>Mock-up.</strong> Assistenten er ikke koblet til noen tjeneste i Saman ennå, så spørsmål får ikke ekte svar.</p>
+
       <div ref="{{ chatRef }}" style="flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 14px">
         <sc-if value="{{ assistantEmpty }}" hint-placeholder-val="{{ true }}">
           <div style="display: flex; flex-direction: column; gap: 12px">
@@ -3946,7 +3948,7 @@ class Component extends DCLogic {
       });
       this.setState((st) => ({ assistantMessages: st.assistantMessages.concat([{ role: "assistant", text: reply }]), assistantBusy: false }));
     } catch (e) {
-      this.setState((st) => ({ assistantMessages: st.assistantMessages.concat([{ role: "assistant", text: "Noe gikk galt. Prøv igjen." }]), assistantBusy: false }));
+      this.setState((st) => ({ assistantMessages: st.assistantMessages.concat([{ role: "assistant", text: "Assistenten er ikke koblet til noen tjeneste i prototypen, så den kan ikke svare." }]), assistantBusy: false }));
     }
   };
 
