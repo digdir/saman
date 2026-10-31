@@ -3,18 +3,11 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import Index from '../src/pages/index.astro'
 
-const paginated = (totalDocs: number) =>
-  new Response(
-    JSON.stringify({
-      docs: [],
-      totalDocs,
-      page: 1,
-      totalPages: 1,
-      hasNextPage: false,
-      hasPrevPage: false,
-    }),
-    { status: 200, headers: { 'content-type': 'application/json' } },
-  )
+const healthy = () =>
+  new Response(JSON.stringify({ status: 'ok' }), {
+    status: 200,
+    headers: { 'content-type': 'application/json' },
+  })
 
 const render = async () => {
   const container = await AstroContainer.create()
@@ -26,20 +19,20 @@ describe('home page', () => {
     vi.unstubAllGlobals()
   })
 
-  it('queries the CMS media collection', async () => {
-    const fetchMock = vi.fn(async () => paginated(0))
+  it('queries the CMS health endpoint', async () => {
+    const fetchMock = vi.fn(async () => healthy())
     vi.stubGlobal('fetch', fetchMock)
 
     await render()
 
     expect(fetchMock).toHaveBeenCalledOnce()
-    expect(fetchMock.mock.calls[0]![0]).toBe('http://localhost:3000/api/medier?limit=0')
+    expect(fetchMock.mock.calls[0]![0]).toBe('http://localhost:3000/api/health')
   })
 
-  it('reports the document count the CMS returns', async () => {
-    vi.stubGlobal('fetch', vi.fn(async () => paginated(3)))
+  it('reports a connected CMS', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => healthy()))
 
-    expect(await render()).toContain('Connected — 3 document(s)')
+    expect(await render()).toContain('Connected — the CMS reached its database.')
   })
 
   it('reports an unreachable CMS instead of failing the render', async () => {

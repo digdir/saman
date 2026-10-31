@@ -1,12 +1,12 @@
 ---
-import { find } from '@saman/shared'
+import { cmsFetch } from '@saman/shared'
 
 const cmsURL = import.meta.env.PUBLIC_CMS_URL
 
 let status: string
 try {
-  const media = await find('medier', 'limit=0')
-  status = `Connected — ${media.totalDocs} document(s) in the media collection.`
+  await cmsFetch<{ status: string }>('/health')
+  status = 'Connected — the CMS reached its database.'
 } catch (err) {
   status = `Not reachable: ${err instanceof Error ? err.message : String(err)}`
 }

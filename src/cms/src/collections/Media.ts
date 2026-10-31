@@ -10,8 +10,10 @@ export const Media: CollectionConfig = {
   typescript: {
     interface: 'Media',
   },
+  // Media includes photos of employees (people.photo), so documents and files
+  // are only for signed-in users.
   access: {
-    read: () => true,
+    read: ({ req }) => Boolean(req.user),
   },
   fields: [
     {
