@@ -70,14 +70,14 @@ export interface Config {
     users: User;
     media: Media;
     people: Person;
-    locations: Location;
+    lokasjoner: Location;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {
-    locations: {
+    lokasjoner: {
       people: 'people';
     };
   };
@@ -85,7 +85,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     people: PeopleSelect<false> | PeopleSelect<true>;
-    locations: LocationsSelect<false> | LocationsSelect<true>;
+    lokasjoner: LokasjonerSelect<false> | LokasjonerSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -196,7 +196,7 @@ export interface Person {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "locations".
+ * via the `definition` "lokasjoner".
  */
 export interface Location {
   id: number;
@@ -248,7 +248,7 @@ export interface PayloadLockedDocument {
         value: number | Person;
       } | null)
     | ({
-        relationTo: 'locations';
+        relationTo: 'lokasjoner';
         value: number | Location;
       } | null);
   globalSlug?: string | null;
@@ -359,9 +359,9 @@ export interface PeopleSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "locations_select".
+ * via the `definition` "lokasjoner_select".
  */
-export interface LocationsSelect<T extends boolean = true> {
+export interface LokasjonerSelect<T extends boolean = true> {
   externalLocationId?: T;
   code?: T;
   name?: T;

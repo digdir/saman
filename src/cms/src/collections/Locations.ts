@@ -4,7 +4,14 @@ import type { CollectionConfig } from 'payload'
 // writes through the Local API, which bypasses access control, so nobody can
 // change locations through the admin panel or the REST/GraphQL API.
 export const Locations: CollectionConfig = {
-  slug: 'locations',
+  slug: 'lokasjoner',
+  labels: {
+    singular: 'Lokasjon',
+    plural: 'Lokasjoner',
+  },
+  typescript: {
+    interface: 'Location',
+  },
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'code', 'externalLocationId'],

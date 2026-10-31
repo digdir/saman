@@ -94,7 +94,7 @@ export const People: CollectionConfig = {
       // Set from externalLocationId.
       name: 'location',
       type: 'relationship',
-      relationTo: 'locations',
+      relationTo: 'lokasjoner',
     },
     {
       // Employee or contractor.

@@ -31,14 +31,14 @@ describe('People and locations', () => {
       data: { email: `${prefix}@example.com`, password: 'test-password' },
     })
     location = await payload.create({
-      collection: 'locations',
+      collection: 'lokasjoner',
       data: { externalLocationId: `${prefix}-loc`, code: `${prefix}-LEI`, name: 'Leikanger' },
     })
   })
 
   afterAll(async () => {
     await payload.delete({ collection: 'people', where: { externalId: { like: prefix } } })
-    await payload.delete({ collection: 'locations', where: { externalLocationId: { like: prefix } } })
+    await payload.delete({ collection: 'lokasjoner', where: { externalLocationId: { like: prefix } } })
     await payload.delete({ collection: 'users', where: { email: { like: prefix } } })
   })
 
@@ -82,7 +82,7 @@ describe('People and locations', () => {
   it('NF-07: rejects a duplicate location code', async () => {
     await expect(
       payload.create({
-        collection: 'locations',
+        collection: 'lokasjoner',
         data: { externalLocationId: `${prefix}-loc-2`, code: location.code, name: 'Oslo' },
       }),
     ).rejects.toThrow()
@@ -103,7 +103,7 @@ describe('People and locations', () => {
     expect((employee.manager as { id: number }).id).toBe(manager.id)
     expect((employee.location as Location).name).toBe('Leikanger')
 
-    const withPeople = await payload.findByID({ collection: 'locations', id: location.id })
+    const withPeople = await payload.findByID({ collection: 'lokasjoner', id: location.id })
     const ids = (withPeople.people?.docs ?? []).map((p) => (typeof p === 'object' ? p.id : p))
     expect(ids).toContain(employee.id)
   })
@@ -116,7 +116,7 @@ describe('People and locations', () => {
     expect(signedIn.docs).toHaveLength(1)
 
     await expect(payload.find({ collection: 'people', where, overrideAccess: false })).rejects.toThrow()
-    await expect(payload.find({ collection: 'locations', overrideAccess: false })).rejects.toThrow()
+    await expect(payload.find({ collection: 'lokasjoner', overrideAccess: false })).rejects.toThrow()
   })
 
   it('NF-07: only the import can change people and locations', async () => {
@@ -139,7 +139,7 @@ describe('People and locations', () => {
     ).rejects.toThrow()
     await expect(
       payload.update({
-        collection: 'locations',
+        collection: 'lokasjoner',
         id: location.id,
         data: { name: 'Oslo' },
         overrideAccess: false,
