@@ -1,0 +1,69 @@
+# Publishes prototype/ to GitHub Pages at https://digdir.github.io/saman/.
+# Requires Settings → Pages → Source to be "GitHub Actions".
+name: Deploy prototype
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'prototype/**'
+      - '.github/workflows/deploy-prototype.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time. Let a running deployment finish rather than
+# cancelling it halfway.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/configure-pages@v6
+
+      # The prototype has no build step. Copy it without the files that only
+      # matter for maintaining the export, and add the entry points.
+      - name: Assemble site
+        run: |
+          cp -R prototype _site
+          rm -f _site/{CLAUDE.md,github.md,extract-framework.sh,.extract-manifest,.thumbnail}
+
+          # The prototype runtime derives its root component from the
+          # *.dc.html file name in the URL, so the site root redirects to
+          # Saman.dc.html instead of serving a copy as index.html.
+          cat > _site/index.html <<'EOF'
+          <!doctype html>
+          <meta charset="utf-8">
+          <title>Saman</title>
+          <script>location.replace('Saman.dc.html' + location.hash)</script>
+          <meta http-equiv="refresh" content="0; url=Saman.dc.html">
+          <a href="Saman.dc.html">Saman</a>
+          EOF
+
+          # Pages used to publish the whole repository, with the prototype
+          # under /prototype/. Keep links to that address working.
+          mkdir _site/prototype
+          cat > _site/prototype/Saman.dc.html <<'EOF'
+          <!doctype html>
+          <meta charset="utf-8">
+          <title>Saman</title>
+          <script>location.replace('../Saman.dc.html' + location.hash)</script>
+          <meta http-equiv="refresh" content="0; url=../Saman.dc.html">
+          <a href="../Saman.dc.html">Saman</a>
+          EOF
+
+      - uses: actions/upload-pages-artifact@v5
+
+      - id: deployment
+        uses: actions/deploy-pages@v5

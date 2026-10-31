@@ -2,7 +2,7 @@
 
 Prototype of the Saman application.
 
-- `prototype/` — the original clickable HTML prototype. Reference/spec only; not part of the build.
+- `prototype/` — the original clickable HTML prototype. Reference/spec only; not part of the build. Published to <https://digdir.github.io/saman/> on every change.
 - `src/cms/` — Payload 3 (on Next.js 16), admin UI and REST/GraphQL API.
 - `src/web/` — Astro 7 frontend (SSR via `@astrojs/node`).
 - `src/shared/` — generated Payload types + a thin REST client shared by the frontend.
