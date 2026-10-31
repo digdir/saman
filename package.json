@@ -15,6 +15,7 @@
     "dev:web": "pnpm --filter web dev",
     "dev:stop": "sh scripts/dev-stop.sh",
     "build": "pnpm --filter cms build && pnpm --filter web build",
+    "lint": "pnpm --filter cms lint",
     "test": "pnpm --filter cms test:int && pnpm --filter web test",
     "test:int": "pnpm --filter cms test:int",
     "test:web": "pnpm --filter web test",

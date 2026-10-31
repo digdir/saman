@@ -39,6 +39,7 @@ http://localhost:4321 shows a page that verifies the frontend can reach the CMS.
 | `pnpm db:up` / `pnpm db:down` | Start/stop PostgreSQL |
 | `pnpm db:reset` | Drop the volume and start a fresh database |
 | `pnpm generate:types` | Regenerate Payload types into `src/shared` |
+| `pnpm lint` | ESLint for the CMS |
 | `pnpm test` | All non-browser tests (CMS + frontend) |
 | `pnpm test:int` | CMS integration tests (vitest, Payload Local API) |
 | `pnpm test:web` | Frontend render tests (vitest, Astro container API) |
@@ -73,6 +74,9 @@ pnpm --filter cms exec playwright install chromium
 The e2e tests seed and then delete a `dev@payloadcms.com` user in whatever
 database `DATABASE_URL` points at, so don't run them against anything but a
 local database.
+
+CI (`.github/workflows/ci.yml`) runs `pnpm lint`, `pnpm test` and `pnpm test:e2e`
+on every pull request to `main`, each against its own throwaway PostgreSQL.
 
 ## Database schema
 
