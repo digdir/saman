@@ -4,8 +4,8 @@ export const Media: CollectionConfig = {
   slug: 'medier',
   dbName: 'media',
   labels: {
-    singular: 'Fil',
-    plural: 'Filer',
+    singular: 'Media',
+    plural: 'Medier',
   },
   typescript: {
     interface: 'Media',
