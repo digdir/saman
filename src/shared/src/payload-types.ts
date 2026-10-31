@@ -69,15 +69,23 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    personer: Person;
+    lokasjoner: Location;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    lokasjoner: {
+      people: 'personer';
+    };
+  };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    personer: PersonerSelect<false> | PersonerSelect<true>;
+    lokasjoner: LokasjonerSelect<false> | LokasjonerSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -164,6 +172,47 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "personer".
+ */
+export interface Person {
+  id: number;
+  firstName: string;
+  lastName: string;
+  fullName?: string | null;
+  email: string;
+  title?: string | null;
+  employeeNumber?: string | null;
+  externalId: string;
+  externalManagerId?: string | null;
+  manager?: (number | null) | Person;
+  externalLocationId: string;
+  location?: (number | null) | Location;
+  isEmployee: boolean;
+  active: boolean;
+  mobile?: string | null;
+  photo?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "lokasjoner".
+ */
+export interface Location {
+  id: number;
+  externalLocationId: string;
+  code: string;
+  name: string;
+  people?: {
+    docs?: (number | Person)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -193,6 +242,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'personer';
+        value: number | Person;
+      } | null)
+    | ({
+        relationTo: 'lokasjoner';
+        value: number | Location;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -276,6 +333,41 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "personer_select".
+ */
+export interface PersonerSelect<T extends boolean = true> {
+  firstName?: T;
+  lastName?: T;
+  fullName?: T;
+  email?: T;
+  title?: T;
+  employeeNumber?: T;
+  externalId?: T;
+  externalManagerId?: T;
+  manager?: T;
+  externalLocationId?: T;
+  location?: T;
+  isEmployee?: T;
+  active?: T;
+  mobile?: T;
+  photo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "lokasjoner_select".
+ */
+export interface LokasjonerSelect<T extends boolean = true> {
+  externalLocationId?: T;
+  code?: T;
+  name?: T;
+  people?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

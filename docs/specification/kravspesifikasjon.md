@@ -464,7 +464,7 @@ Aktuelle entiteter systemet skal håndtere. Listen er ikke nødvendigvis komplet
 
 - **Enhet** – gruppe i linjeorganisasjonen (divisjon/avdeling/seksjon)
 
-- **Medlem** – person (ansatt/innleid/ekstern) som inngår i ett eller flere team, prosjekter eller enheter, tilknyttet én lokasjon
+- **Person** – ansatt eller innleid i Digdir som inngår i ett eller flere team, prosjekter eller enheter, tilknyttet én lokasjon. Personen er merket som ansatt eller innleid, og som aktiv eller sluttet. Opplysningene hentes fra Digdirs autoritative kilde (jf. NF-07).
 
 - **Rolle** – funksjon en person har, inkludert navn og beskrivelse (f.eks. teamleder, produkteier, prosjektleder, prosjektdeltager)
 
@@ -480,7 +480,7 @@ Aktuelle entiteter systemet skal håndtere. Listen er ikke nødvendigvis komplet
 
 - **Innhold** – tekstinnhold av en definert type knyttet til team eller prosjekt, f.eks. mandat
 
-- **Lokasjon** – sted en ansatt (Medlem) hører til
+- **Lokasjon** – kontor i en by som en person hører til, med kode og navn fra Digdirs autoritative kilde (jf. NF-07)
 
 - **Innholdstype** – definert type innhold f eks mandat og strategi
 
@@ -489,14 +489,13 @@ Den logiske datamodell viser entitetene og relasjonene imellom dem, samt hva rel
 
 ```mermaid
 erDiagram
-    Medlem["Medlem/Ansatt"]
     Verktoy["Verktøy"]
 
     Enhet ||--|| Enhet : "hører til"
-    Lokasjon ||--|{ Medlem : "hører til"
-    Medlem }o--|{ Enhet : "er ansatt i"
-    Medlem }o--o{ Team : "hører til"
-    Medlem }o--o{ Rolle : "har"
+    Lokasjon ||--|{ Person : "hører til"
+    Person }o--|{ Enhet : "er ansatt i"
+    Person }o--o{ Team : "hører til"
+    Person }o--o{ Rolle : "har"
     Rolle }o--o{ Team : "hører til"
     Rolle }o--o{ Prinsipp : "hører til"
     Prinsipp }o--o{ Enhet : "hører til"
@@ -538,12 +537,13 @@ Punkter som er identifisert underveis, men som krever avklaring med flere enn kj
 
 | #   | Tema                                                | Beskrivelse                                                                                                                                                                                                                                                                          | Diskuteres med                      |
 |-----|-----------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
-| 1   | Navngiving av person-entitet                        | Bør Medlem, Ansatt og eksterne/innleide modelleres som én generisk entitet (der relasjonsnavnet varierer: «ansatt i» Enhet, «medlem av» Team/Prosjekt), eller som separate entiteter (f.eks. Ansatt + Ekstern ressurs)? Påvirker hvordan eksterne/innleide håndteres i datamodellen. | TBD                                 |
+| 1   | Navngiving av person-entitet                        | Avklart 2026-10-31: ansatte og innleide modelleres som én entitet, Person, med et flagg for om personen er ansatt (jf. 4.1). Opprinnelig spørsmål: Bør Medlem, Ansatt og eksterne/innleide modelleres som én generisk entitet (der relasjonsnavnet varierer: «ansatt i» Enhet, «medlem av» Team/Prosjekt), eller som separate entiteter (f.eks. Ansatt + Ekstern ressurs)? Påvirker hvordan eksterne/innleide håndteres i datamodellen. | TBD                                 |
 | 2   | Teknisk forvaltning og videreutvikling              | Hvem har ansvar for drift, oppdateringer og feilretting fra 1.1.27, når det ikke er etablert et dedikert team?                                                                                                                                                                       | TBD                                 |
 | 3   | Personvern ved visning av allokering og bruksmåling | Visning av allokering per ansatt (jf. Allokering) og måling av bruk (jf. NF-08 til NF-10) krever personvernvurdering og avklaring av medvirkning fra tillitsvalgte før funksjonene tas i bruk.                                                                                       | Personvernombud, tillitsvalgte      |
 | 4   | Språkmodell for KI-assistenten                      | Hvilken språkmodelltjeneste skal Spør Saman bruke, og hvordan sikres databehandleravtale, personvern og en akseptabel kostnadsmodell?                                                                                                                                                | TBD                                 |
 | 5   | Innhold i Porteføljestyring                         | Hva skal funksjonsområdet Porteføljestyring inneholde: forklaring av porteføljestyringen, oversikt over porteføljen, støtte for prioriteringsprosessen, eller en kombinasjon? Støtte for prioriteringsprosessen vil kreve endring i 2.2.                                             | Arbeidspakken for porteføljestyring |
 | 6   | Kilde for ansatte og enheter                        | Skal ansatte, enhetstilhørighet og ledere hentes fra HR-systemet eller fra Entra ID? Valget påvirker datakvalitet, hvor raskt endringer blir synlige og hvilke opplysninger som er tilgjengelige.                                                                                    | TBD                                 |
+| 7   | Varig ID for personer                               | Personer kobles mot kilden med kildens egen ID. Det er ikke avklart om ID-en er den samme når en innleid blir ansatt. Endres den, blir personen registrert to ganger, og teamhistorikken følger ikke med. | TBD                                 |
 
 ## Vedlegg 1: Klassifisering av team (team veiviser)
 ### Egner oppgaven seg for teamarbeid?
