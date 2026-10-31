@@ -98,6 +98,7 @@ CMS `:3000`, frontend `:4321`, PostgreSQL `:5432` (Docker).
 | `pnpm setup` | Creates `.env` files. Safe to re-run. |
 | `pnpm db:up` | Starts PostgreSQL. `db:reset` destroys the volume and all data. |
 | `pnpm dev` | Both apps. `pnpm dev:stop` stops leftovers. |
+| `pnpm lint` | ESLint for the CMS. |
 | `pnpm test` | CMS integration + frontend tests. Needs the database up. |
 | `pnpm test:e2e` | Playwright. Needs `pnpm --filter cms exec playwright install chromium` once. |
 | `pnpm generate:types` | Run after every change to a collection — regenerates types and copies them into `src/shared`. |
