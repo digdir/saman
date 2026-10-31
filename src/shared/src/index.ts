@@ -25,7 +25,7 @@ export async function cmsFetch<T>(path: string, init?: RequestInit): Promise<T> 
   return (await res.json()) as T
 }
 
-/** Fetch a page of documents from a collection, e.g. find('users', 'limit=10'). */
+/** Fetch a page of documents from a collection, e.g. find('brukere', 'limit=10'). */
 export function find<T>(collection: string, query = ''): Promise<PaginatedDocs<T>> {
   return cmsFetch<PaginatedDocs<T>>(`/${collection}${query ? `?${query}` : ''}`)
 }

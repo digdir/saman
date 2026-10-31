@@ -1,7 +1,15 @@
 import type { CollectionConfig } from 'payload'
 
 export const Media: CollectionConfig = {
-  slug: 'media',
+  slug: 'medier',
+  dbName: 'media',
+  labels: {
+    singular: 'Medium',
+    plural: 'Medier',
+  },
+  typescript: {
+    interface: 'Media',
+  },
   access: {
     read: () => true,
   },
@@ -12,5 +20,8 @@ export const Media: CollectionConfig = {
       required: true,
     },
   ],
-  upload: true,
+  upload: {
+    // Defaults to the slug; keep the folder that .gitignore already covers.
+    staticDir: 'media',
+  },
 }

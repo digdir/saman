@@ -33,7 +33,7 @@ describe('home page', () => {
     await render()
 
     expect(fetchMock).toHaveBeenCalledOnce()
-    expect(fetchMock.mock.calls[0]![0]).toBe('http://localhost:3000/api/media?limit=0')
+    expect(fetchMock.mock.calls[0]![0]).toBe('http://localhost:3000/api/medier?limit=0')
   })
 
   it('reports the document count the CMS returns', async () => {

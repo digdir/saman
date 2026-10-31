@@ -25,7 +25,7 @@ test.describe('Full stack', () => {
     const payload = await getPayload({ config })
 
     const created = await payload.create({
-      collection: 'media',
+      collection: 'medier',
       data: { alt },
       file: {
         data: pixel,
@@ -40,12 +40,12 @@ test.describe('Full stack', () => {
 
   test.afterAll(async () => {
     const payload = await getPayload({ config })
-    await payload.delete({ collection: 'media', id: mediaID })
+    await payload.delete({ collection: 'medier', id: mediaID })
   })
 
   test('renders data that came from the database', async ({ page }) => {
     const payload = await getPayload({ config })
-    const { totalDocs } = await payload.count({ collection: 'media' })
+    const { totalDocs } = await payload.count({ collection: 'medier' })
 
     expect(totalDocs).toBeGreaterThan(0)
 

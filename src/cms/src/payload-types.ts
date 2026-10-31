@@ -63,12 +63,12 @@ export type SupportedTimezones =
 
 export interface Config {
   auth: {
-    users: UserAuthOperations;
+    brukere: BrukereAuthOperations;
   };
   blocks: {};
   collections: {
-    users: User;
-    media: Media;
+    brukere: User;
+    medier: Media;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -76,8 +76,8 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
+    brukere: BrukereSelect<false> | BrukereSelect<true>;
+    medier: MedierSelect<false> | MedierSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -99,7 +99,7 @@ export interface Config {
     workflows: unknown;
   };
 }
-export interface UserAuthOperations {
+export interface BrukereAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -119,7 +119,7 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
+ * via the `definition` "brukere".
  */
 export interface User {
   id: number;
@@ -141,11 +141,11 @@ export interface User {
       }[]
     | null;
   password?: string | null;
-  collection: 'users';
+  collection: 'brukere';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
+ * via the `definition` "medier".
  */
 export interface Media {
   id: number;
@@ -187,16 +187,16 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'users';
+        relationTo: 'brukere';
         value: number | User;
       } | null)
     | ({
-        relationTo: 'media';
+        relationTo: 'medier';
         value: number | Media;
       } | null);
   globalSlug?: string | null;
   user: {
-    relationTo: 'users';
+    relationTo: 'brukere';
     value: number | User;
   };
   updatedAt: string;
@@ -209,7 +209,7 @@ export interface PayloadLockedDocument {
 export interface PayloadPreference {
   id: number;
   user: {
-    relationTo: 'users';
+    relationTo: 'brukere';
     value: number | User;
   };
   key?: string | null;
@@ -238,9 +238,9 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
+ * via the `definition` "brukere_select".
  */
-export interface UsersSelect<T extends boolean = true> {
+export interface BrukereSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -261,9 +261,9 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
+ * via the `definition` "medier_select".
  */
-export interface MediaSelect<T extends boolean = true> {
+export interface MedierSelect<T extends boolean = true> {
   alt?: T;
   updatedAt?: T;
   createdAt?: T;
