@@ -10,7 +10,15 @@ import type { CollectionConfig } from 'payload'
 // `location` relationships from them once all people and locations exist.
 // An ID with no match leaves the relationship empty and keeps the raw ID.
 export const People: CollectionConfig = {
-  slug: 'people',
+  slug: 'personer',
+  dbName: 'people',
+  labels: {
+    singular: 'Person',
+    plural: 'Personer',
+  },
+  typescript: {
+    interface: 'Person',
+  },
   admin: {
     useAsTitle: 'fullName',
     defaultColumns: ['fullName', 'title', 'location', 'isEmployee', 'active'],
@@ -81,7 +89,7 @@ export const People: CollectionConfig = {
       // Personalleder, set from externalManagerId.
       name: 'manager',
       type: 'relationship',
-      relationTo: 'people',
+      relationTo: 'personer',
     },
     {
       // The location's externalLocationId, as it comes from the source.

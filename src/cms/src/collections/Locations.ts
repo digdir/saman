@@ -5,6 +5,7 @@ import type { CollectionConfig } from 'payload'
 // change locations through the admin panel or the REST/GraphQL API.
 export const Locations: CollectionConfig = {
   slug: 'lokasjoner',
+  dbName: 'locations',
   labels: {
     singular: 'Lokasjon',
     plural: 'Lokasjoner',
@@ -45,7 +46,7 @@ export const Locations: CollectionConfig = {
     {
       name: 'people',
       type: 'join',
-      collection: 'people',
+      collection: 'personer',
       on: 'location',
     },
   ],

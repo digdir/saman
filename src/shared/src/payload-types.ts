@@ -69,7 +69,7 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
-    people: Person;
+    personer: Person;
     lokasjoner: Location;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -78,13 +78,13 @@ export interface Config {
   };
   collectionsJoins: {
     lokasjoner: {
-      people: 'people';
+      people: 'personer';
     };
   };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    people: PeopleSelect<false> | PeopleSelect<true>;
+    personer: PersonerSelect<false> | PersonerSelect<true>;
     lokasjoner: LokasjonerSelect<false> | LokasjonerSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -172,7 +172,7 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "people".
+ * via the `definition` "personer".
  */
 export interface Person {
   id: number;
@@ -244,7 +244,7 @@ export interface PayloadLockedDocument {
         value: number | Media;
       } | null)
     | ({
-        relationTo: 'people';
+        relationTo: 'personer';
         value: number | Person;
       } | null)
     | ({
@@ -336,9 +336,9 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "people_select".
+ * via the `definition` "personer_select".
  */
-export interface PeopleSelect<T extends boolean = true> {
+export interface PersonerSelect<T extends boolean = true> {
   firstName?: T;
   lastName?: T;
   fullName?: T;

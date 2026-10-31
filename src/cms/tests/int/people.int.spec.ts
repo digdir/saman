@@ -21,7 +21,7 @@ const person = (n: number, extra: Record<string, unknown> = {}) =>
     externalId: `${prefix}-person-${n}`,
     externalLocationId: location.externalLocationId,
     ...extra,
-  }) as RequiredDataFromCollectionSlug<'people'>
+  }) as RequiredDataFromCollectionSlug<'personer'>
 
 describe('People and locations', () => {
   beforeAll(async () => {
@@ -37,17 +37,17 @@ describe('People and locations', () => {
   })
 
   afterAll(async () => {
-    await payload.delete({ collection: 'people', where: { externalId: { like: prefix } } })
+    await payload.delete({ collection: 'personer', where: { externalId: { like: prefix } } })
     await payload.delete({ collection: 'lokasjoner', where: { externalLocationId: { like: prefix } } })
     await payload.delete({ collection: 'users', where: { email: { like: prefix } } })
   })
 
   it('FO-01: sets fullName from first and last name', async () => {
-    const created = await payload.create({ collection: 'people', data: person(1) })
+    const created = await payload.create({ collection: 'personer', data: person(1) })
     expect(created.fullName).toBe('Kari Nordmann 1')
 
     const updated = await payload.update({
-      collection: 'people',
+      collection: 'personer',
       id: created.id,
       data: { firstName: 'Ola' },
     })
@@ -55,16 +55,16 @@ describe('People and locations', () => {
   })
 
   it('marks new people as contractors and active by default', async () => {
-    const created = await payload.create({ collection: 'people', data: person(2) })
+    const created = await payload.create({ collection: 'personer', data: person(2) })
     expect(created.isEmployee).toBe(false)
     expect(created.active).toBe(true)
   })
 
   it('NF-07: rejects a duplicate externalId', async () => {
-    await payload.create({ collection: 'people', data: person(3) })
+    await payload.create({ collection: 'personer', data: person(3) })
     await expect(
       payload.create({
-        collection: 'people',
+        collection: 'personer',
         data: person(4, { externalId: `${prefix}-person-3` }),
       }),
     ).rejects.toThrow()
@@ -73,7 +73,7 @@ describe('People and locations', () => {
   it('NF-07: requires externalLocationId', async () => {
     await expect(
       payload.create({
-        collection: 'people',
+        collection: 'personer',
         data: person(5, { externalLocationId: undefined }),
       }),
     ).rejects.toThrow()
@@ -89,9 +89,9 @@ describe('People and locations', () => {
   })
 
   it('links a person to a manager and a location, and lists people per location', async () => {
-    const manager = await payload.create({ collection: 'people', data: person(6) })
+    const manager = await payload.create({ collection: 'personer', data: person(6) })
     const employee = await payload.create({
-      collection: 'people',
+      collection: 'personer',
       data: person(7, {
         externalManagerId: manager.externalId,
         manager: manager.id,
@@ -109,25 +109,25 @@ describe('People and locations', () => {
   })
 
   it('NF-07: lets signed-in users read people and locations, but not anonymous users', async () => {
-    await payload.create({ collection: 'people', data: person(8) })
+    await payload.create({ collection: 'personer', data: person(8) })
     const where = { externalId: { equals: `${prefix}-person-8` } }
 
-    const signedIn = await payload.find({ collection: 'people', where, overrideAccess: false, user })
+    const signedIn = await payload.find({ collection: 'personer', where, overrideAccess: false, user })
     expect(signedIn.docs).toHaveLength(1)
 
-    await expect(payload.find({ collection: 'people', where, overrideAccess: false })).rejects.toThrow()
+    await expect(payload.find({ collection: 'personer', where, overrideAccess: false })).rejects.toThrow()
     await expect(payload.find({ collection: 'lokasjoner', overrideAccess: false })).rejects.toThrow()
   })
 
   it('NF-07: only the import can change people and locations', async () => {
-    const created = await payload.create({ collection: 'people', data: person(9) })
+    const created = await payload.create({ collection: 'personer', data: person(9) })
 
     await expect(
-      payload.create({ collection: 'people', data: person(10), overrideAccess: false, user }),
+      payload.create({ collection: 'personer', data: person(10), overrideAccess: false, user }),
     ).rejects.toThrow()
     await expect(
       payload.update({
-        collection: 'people',
+        collection: 'personer',
         id: created.id,
         data: { title: 'Seniorrådgiver' },
         overrideAccess: false,
@@ -135,7 +135,7 @@ describe('People and locations', () => {
       }),
     ).rejects.toThrow()
     await expect(
-      payload.delete({ collection: 'people', id: created.id, overrideAccess: false, user }),
+      payload.delete({ collection: 'personer', id: created.id, overrideAccess: false, user }),
     ).rejects.toThrow()
     await expect(
       payload.update({
