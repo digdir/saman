@@ -38,4 +38,19 @@ test.describe('Admin Panel', () => {
     const editViewArtifact = page.locator('input[name="email"]')
     await expect(editViewArtifact).toBeVisible()
   })
+
+  // Swedish has Payload translations but isn't enabled, so it falls back to Norwegian.
+  for (const [locale, loginLabel] of [
+    ['nb-NO', 'Logg inn'],
+    ['en-US', 'Login'],
+    ['sv-SE', 'Logg inn'],
+  ]) {
+    test(`shows the admin panel in the right language for ${locale}`, async ({ browser }) => {
+      const context = await browser.newContext({ locale })
+      const localePage = await context.newPage()
+      await localePage.goto('http://localhost:3000/admin/login')
+      await expect(localePage.locator('button[type="submit"]')).toHaveText(loginLabel)
+      await context.close()
+    })
+  }
 })
