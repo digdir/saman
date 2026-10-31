@@ -14,7 +14,7 @@ export async function seedTestUser(): Promise<void> {
 
   // Delete existing test user if any
   await payload.delete({
-    collection: 'users',
+    collection: 'brukere',
     where: {
       email: {
         equals: testUser.email,
@@ -24,7 +24,7 @@ export async function seedTestUser(): Promise<void> {
 
   // Create fresh test user
   await payload.create({
-    collection: 'users',
+    collection: 'brukere',
     data: testUser,
   })
 }
@@ -36,7 +36,7 @@ export async function cleanupTestUser(): Promise<void> {
   const payload = await getPayload({ config })
 
   await payload.delete({
-    collection: 'users',
+    collection: 'brukere',
     where: {
       email: {
         equals: testUser.email,

@@ -115,8 +115,7 @@ Once the content model settles, snapshot it with
 - Collections have a Norwegian `slug` and Norwegian `labels`, which show in the
   admin panel and the REST/GraphQL API, and an English `dbName` for the table:
   `slug: 'lokasjoner', dbName: 'locations'`. Field names and the TypeScript
-  interface (`typescript.interface`) stay in English. `users` and `media` predate
-  this rule.
+  interface (`typescript.interface`) stay in English.
 - `.env` files are per machine and never committed. `PAYLOAD_SECRET` is generated
   per environment; changing it logs everyone out and makes encrypted values and
   API keys unreadable.

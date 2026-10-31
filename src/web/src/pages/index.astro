@@ -5,7 +5,7 @@ const cmsURL = import.meta.env.PUBLIC_CMS_URL
 
 let status: string
 try {
-  const media = await find('media', 'limit=0')
+  const media = await find('medier', 'limit=0')
   status = `Connected — ${media.totalDocs} document(s) in the media collection.`
 } catch (err) {
   status = `Not reachable: ${err instanceof Error ? err.message : String(err)}`

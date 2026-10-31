@@ -1,7 +1,15 @@
 import type { CollectionConfig } from 'payload'
 
 export const Users: CollectionConfig = {
-  slug: 'users',
+  slug: 'brukere',
+  dbName: 'users',
+  labels: {
+    singular: 'Bruker',
+    plural: 'Brukere',
+  },
+  typescript: {
+    interface: 'User',
+  },
   admin: {
     useAsTitle: 'email',
   },

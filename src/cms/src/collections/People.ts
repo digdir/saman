@@ -126,7 +126,7 @@ export const People: CollectionConfig = {
     {
       name: 'photo',
       type: 'upload',
-      relationTo: 'media',
+      relationTo: 'medier',
     },
   ],
 }

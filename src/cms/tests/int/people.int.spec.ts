@@ -27,7 +27,7 @@ describe('People and locations', () => {
   beforeAll(async () => {
     payload = await getPayload({ config: await config })
     user = await payload.create({
-      collection: 'users',
+      collection: 'brukere',
       data: { email: `${prefix}@example.com`, password: 'test-password' },
     })
     location = await payload.create({
@@ -39,7 +39,7 @@ describe('People and locations', () => {
   afterAll(async () => {
     await payload.delete({ collection: 'personer', where: { externalId: { like: prefix } } })
     await payload.delete({ collection: 'lokasjoner', where: { externalLocationId: { like: prefix } } })
-    await payload.delete({ collection: 'users', where: { email: { like: prefix } } })
+    await payload.delete({ collection: 'brukere', where: { email: { like: prefix } } })
   })
 
   it('FO-01: sets fullName from first and last name', async () => {
