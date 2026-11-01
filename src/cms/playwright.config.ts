@@ -37,7 +37,9 @@ export default defineConfig({
     {
       command: 'pnpm dev',
       reuseExistingServer: true,
-      url: 'http://localhost:3000',
+      // Not the front page, which redirects to the frontend, and that isn't
+      // started until this server is up.
+      url: 'http://localhost:3000/api/health',
     },
     {
       // --ignore-lock keeps Astro in the foreground. Without it the dev server

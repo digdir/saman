@@ -1,13 +1,9 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Frontend', () => {
-  test('can go on homepage', async ({ page }) => {
+test.describe('CMS front page', () => {
+  test('sends visitors on to the web frontend, which asks them to log in (NF-11)', async ({ page }) => {
     await page.goto('http://localhost:3000')
 
-    await expect(page).toHaveTitle(/Payload Blank Template/)
-
-    const heading = page.locator('h1').first()
-
-    await expect(heading).toHaveText('Welcome to your new project.')
+    await expect(page).toHaveURL('http://localhost:4321/logg-inn?redirect=%2F')
   })
 })

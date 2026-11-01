@@ -24,8 +24,9 @@ pnpm db:up      # PostgreSQL 17 in Docker on localhost:5432
 pnpm dev        # CMS on :3000, frontend on :4321
 ```
 
-On first run, open http://localhost:3000/admin to create the admin user.
-http://localhost:4321 shows a page that verifies the frontend can reach the CMS.
+On first run, open http://localhost:3000/admin to create the first user, who
+becomes an administrator. Every page on http://localhost:4321 needs a login;
+the front page then verifies that the frontend can reach the CMS.
 
 ## Scripts
 
@@ -39,6 +40,7 @@ http://localhost:4321 shows a page that verifies the frontend can reach the CMS.
 | `pnpm db:up` / `pnpm db:down` | Start/stop PostgreSQL |
 | `pnpm db:reset` | Drop the volume and start a fresh database |
 | `pnpm generate:types` | Regenerate Payload types into `src/shared` |
+| `pnpm make-admin <email>` | Make an existing user an administrator |
 | `pnpm lint` | ESLint for the CMS |
 | `pnpm test` | All non-browser tests (CMS + frontend) |
 | `pnpm test:int` | CMS integration tests (vitest, Payload Local API) |
@@ -77,6 +79,38 @@ local database.
 
 CI (`.github/workflows/ci.yml`) runs `pnpm lint`, `pnpm test` and `pnpm test:e2e`
 on every pull request to `main`, each against its own throwaway PostgreSQL.
+
+## Login
+
+Nothing is available without logging in (NF-11). Payload owns the session: the
+Astro middleware (`src/web/src/middleware.ts`) asks Payload who the
+`payload-token` cookie belongs to and sends everyone else to `/logg-inn`. What a
+logged-in user may see is decided by the collections' access functions.
+
+- **Entra ID** (NF-02) is the main way in. The CMS runs the OpenID Connect flow
+  (`src/cms/src/auth/`) and creates the user on their first login. Someone whose
+  email matches an existing user gets linked to that user.
+- **Email and password** (NF-12) is Payload's own login, the fallback for when
+  Entra ID doesn't work. Users created by Entra ID have a random password, so
+  this only works for users an administrator has given a password.
+
+Only administrators use the admin panel and change users and media. The first
+user in an empty database becomes one; make others with `pnpm make-admin
+<email>` or in the admin panel. Users from before roles existed have no role,
+so run `pnpm make-admin` for yourself once.
+
+To log in with Entra ID locally, set `ENTRA_TENANT_ID`, `ENTRA_CLIENT_ID` and
+`ENTRA_CLIENT_SECRET` in `src/cms/.env`; ask the team for the values. The app
+registration has `http://localhost:3000/api/brukere/oauth/entra/callback` as a
+redirect URI, and the optional claims `given_name` and `family_name` in the ID
+token (*Token configuration*), which fill in the user's first and last name on
+every login. Without them only email and password is offered. The tests run
+the Entra ID flow against a mock provider, so they don't need them.
+
+Pages that read from the CMS pass the visitor's session on, so Payload's access
+control applies: `find('personer', '', { headers: authHeaders(cookie) })` from
+`@saman/shared`. Payload ignores its cookie on server-to-server requests, so
+`authHeaders` sends the token in the `Authorization` header instead.
 
 ## Database schema
 

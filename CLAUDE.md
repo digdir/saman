@@ -56,6 +56,10 @@ edit a Word copy and treat it as the source.
 - **Access control lives in Payload.** Enforce visibility and edit rights in the
   collection access functions. Hiding a field or button in the frontend is not
   access control.
+- **Read as the visitor.** Astro pages fetch from the CMS with the visitor's
+  session (`authHeaders` from `@saman/shared`), never with an API key or a
+  service account, so the access functions see who is asking. See «Login» in
+  README.md.
 - **Open questions are not ours to decide.** The section «Åpne avklaringer» lists
   questions that need decisions outside the team. If a task depends on one of them,
   stop and ask instead of picking an answer in code.
@@ -102,6 +106,7 @@ CMS `:3000`, frontend `:4321`, PostgreSQL `:5432` (Docker).
 | `pnpm test` | CMS integration + frontend tests. Needs the database up. |
 | `pnpm test:e2e` | Playwright. Needs `pnpm --filter cms exec playwright install chromium` once. |
 | `pnpm generate:types` | Run after every change to a collection — regenerates types and copies them into `src/shared`. |
+| `pnpm make-admin <email>` | Makes an existing user an administrator. |
 
 ## Database schema
 
