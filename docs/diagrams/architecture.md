@@ -138,9 +138,11 @@ one-time import from baksia.digdir.no to get realistic test data.
 
 - **The network path** from Leikanger to the CMS on DIS Core: over the internet
   through the cluster's ingress, or over a private connection.
-- **The batch endpoint's contract**: its path and payload, whether each batch is
-  a full snapshot or only changes, and how employees who leave and units that
-  are closed or merged are handled.
+- **The batch endpoint's contract**: proposed in
+  [ADR-0003](../adr/0003-imports-from-the-authoritative-source.md), starting with
+  the [unit import](../integrations/unit-import.md): one endpoint per kind of
+  data, a full snapshot in each CSV file, and units missing from the file
+  marked as closed.
 
 ## Later: public pages
 
