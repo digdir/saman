@@ -1,9 +1,20 @@
 ---
 import { login, loginProviders, providerLoginURL, type LoginProvider } from '@saman/shared'
 
-// Only paths on this site, so a crafted link can't send people elsewhere.
-const param = Astro.url.searchParams.get('redirect')
-const redirect = param?.startsWith('/') && !param.startsWith('//') && !param.includes('\\') ? param : '/'
+// Only pages on this site, so a crafted link can't send people elsewhere.
+// The target is resolved the way a browser resolves a Location header, which
+// drops tabs and newlines and reads backslashes as slashes, so a target like
+// "/<tab>/evil.example" is seen for what it is: //evil.example.
+const safeRedirect = (target: string | null): string => {
+  if (!target) return '/'
+  try {
+    const url = new URL(target, Astro.url)
+    return url.origin === Astro.url.origin ? url.pathname + url.search + url.hash : '/'
+  } catch {
+    return '/'
+  }
+}
+const redirect = safeRedirect(Astro.url.searchParams.get('redirect'))
 
 let error = Astro.url.searchParams.has('feil')
   ? 'Innloggingen mislyktes. Prøv igjen, eller logg inn med e-post og passord.'

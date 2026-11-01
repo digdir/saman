@@ -60,9 +60,33 @@ describe('login page', () => {
   it('only redirects within the site', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => Response.json({}, { headers: { 'Set-Cookie': 'payload-token=abc' } })))
 
-    for (const target of ['https://evil.example', '//evil.example', '/\\evil.example']) {
+    for (const target of [
+      'https://evil.example',
+      '//evil.example',
+      '/\\evil.example',
+      '\\/evil.example',
+      // Browsers drop tabs and newlines, which turns these into //evil.example.
+      '/\t/evil.example',
+      '/\n/evil.example',
+      '/\r\n/evil.example',
+      ' //evil.example',
+      'javascript:alert(1)',
+    ]) {
       const res = await postLogin(`/logg-inn?redirect=${encodeURIComponent(target)}`)
-      expect(res.headers.get('Location')).toBe('/')
+      expect(res.headers.get('Location'), JSON.stringify(target)).toBe('/')
+    }
+  })
+
+  it('keeps the path, query and fragment of a target on the site', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => Response.json({}, { headers: { 'Set-Cookie': 'payload-token=abc' } })))
+
+    for (const [target, location] of [
+      ['/team?vis=alle#ledere', '/team?vis=alle#ledere'],
+      ['http://localhost:4321/folk', '/folk'],
+      ['/a/../b', '/b'],
+    ]) {
+      const res = await postLogin(`/logg-inn?redirect=${encodeURIComponent(target!)}`)
+      expect(res.headers.get('Location')).toBe(location)
     }
   })
 
