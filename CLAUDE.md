@@ -12,6 +12,7 @@ Prototype of the Saman application. See README.md for the full setup.
   fixed contract. See «Specification» below before changing it.
 - `docs/specification/decisions.md` — log of why the specification has changed.
 - `docs/adr/` — architecture decision records: why Saman is built the way it is.
+- `docs/integrations/` — contracts for systems that send data to Saman.
 - `prototype/` — the original clickable HTML prototype. Use it for look, flow and
   wording, not as the specification. Never modify it.
 - `agent/` — the agentctl Agent for developing Saman in a sandbox. See `agent/README.md`.
