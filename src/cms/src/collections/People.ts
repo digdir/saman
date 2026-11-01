@@ -6,9 +6,10 @@ import type { CollectionConfig } from 'payload'
 // REST/GraphQL API.
 //
 // The import matches people on externalId. It stores the source's IDs for
-// the manager and the location as they come, and sets the `manager` and
-// `location` relationships from them once all people and locations exist.
-// An ID with no match leaves the relationship empty and keeps the raw ID.
+// the manager, the location and the units as they come, and sets the
+// `manager`, `location` and `units` relationships from them once all people,
+// locations and units exist. An ID with no match leaves the relationship
+// empty and keeps the raw ID.
 export const People: CollectionConfig = {
   slug: 'personer',
   dbName: 'people',
@@ -21,7 +22,7 @@ export const People: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'fullName',
-    defaultColumns: ['fullName', 'title', 'location', 'isEmployee', 'active'],
+    defaultColumns: ['fullName', 'title', 'units', 'location', 'isEmployee', 'active'],
   },
   access: {
     read: ({ req }) => Boolean(req.user),
@@ -103,6 +104,20 @@ export const People: CollectionConfig = {
       name: 'location',
       type: 'relationship',
       relationTo: 'lokasjoner',
+    },
+    {
+      // The units' externalUnitIds, as they come from the source. A person can
+      // belong to more than one unit (FO-02).
+      name: 'externalUnitIds',
+      type: 'text',
+      hasMany: true,
+    },
+    {
+      // Set from externalUnitIds.
+      name: 'units',
+      type: 'relationship',
+      relationTo: 'enheter',
+      hasMany: true,
     },
     {
       // Employee or contractor.
