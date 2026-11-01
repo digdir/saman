@@ -11,3 +11,10 @@ minimumReleaseAgeExclude:
   - "@astrojs/prism@4.1.1"
   - "@astrojs/telemetry@3.4.1"
   - astro@7.4.2
+
+# Security fixes for transitive dependencies that Payload and Astro pin to
+# vulnerable versions. Remove an entry once they depend on a fixed version.
+overrides:
+  sharp@<0.35.5: ^0.35.5
+  undici@<7.30.1: ^7.30.1
+  dompurify@<3.4.17: ^3.4.17
