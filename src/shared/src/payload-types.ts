@@ -131,6 +131,15 @@ export interface BrukereAuthOperations {
  */
 export interface User {
   id: number;
+  name?: string | null;
+  roles?: 'admin'[] | null;
+  identities?:
+    | {
+        provider: 'entra';
+        subject: string;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -298,6 +307,15 @@ export interface PayloadMigration {
  * via the `definition` "brukere_select".
  */
 export interface BrukereSelect<T extends boolean = true> {
+  name?: T;
+  roles?: T;
+  identities?:
+    | T
+    | {
+        provider?: T;
+        subject?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   email?: T;

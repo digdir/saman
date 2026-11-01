@@ -12,20 +12,22 @@ import { Media } from './collections/Media'
 import { People } from './collections/People'
 import { Locations } from './collections/Locations'
 import { health } from './endpoints/health'
+import { serverURL, webURL } from './urls'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-const webURL = process.env.PUBLIC_WEB_URL || 'http://localhost:4321'
-
 export default buildConfig({
-  serverURL: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
+  serverURL,
   cors: [webURL],
   csrf: [webURL],
   admin: {
     user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
+    },
+    components: {
+      afterLogin: ['/components/ProviderLoginButtons#ProviderLoginButtons'],
     },
   },
   // The admin panel uses the language a user picked under Account. Otherwise

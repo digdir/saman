@@ -20,6 +20,7 @@
     "test:int": "pnpm --filter cms test:int",
     "test:web": "pnpm --filter web test",
     "test:e2e": "pnpm --filter cms test:e2e",
-    "generate:types": "pnpm --filter cms generate:types"
+    "generate:types": "pnpm --filter cms generate:types",
+    "make-admin": "pnpm --filter cms payload run scripts/make-admin.ts"
   }
 }

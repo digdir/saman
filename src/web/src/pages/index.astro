@@ -2,6 +2,7 @@
 import { cmsFetch } from '@saman/shared'
 
 const cmsURL = import.meta.env.PUBLIC_CMS_URL
+const { user } = Astro.locals
 
 let status: string
 try {
@@ -20,6 +21,15 @@ try {
   </head>
   <body>
     <h1>Saman</h1>
+    {
+      user && (
+        <form method="post" action="/logg-ut">
+          <p>
+            Logget inn som {user.name ?? user.email} <button type="submit">Logg ut</button>
+          </p>
+        </form>
+      )
+    }
     <p>Astro frontend. Scaffold only — no application code yet.</p>
     <h2>Payload CMS</h2>
     <p>{cmsURL}</p>

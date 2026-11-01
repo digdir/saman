@@ -1,0 +1,64 @@
+---
+import { login, loginProviders, providerLoginURL, type LoginProvider } from '@saman/shared'
+
+// Only paths on this site, so a crafted link can't send people elsewhere.
+const param = Astro.url.searchParams.get('redirect')
+const redirect = param?.startsWith('/') && !param.startsWith('//') && !param.includes('\\') ? param : '/'
+
+let error = Astro.url.searchParams.has('feil')
+  ? 'Innloggingen mislyktes. Prøv igjen, eller logg inn med e-post og passord.'
+  : null
+
+// Email and password, the fallback when Entra ID doesn't work (NF-12).
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData()
+  const cookies = await login(String(form.get('email') ?? ''), String(form.get('password') ?? ''))
+  if (cookies) {
+    const headers = new Headers({ Location: redirect })
+    for (const cookie of cookies) headers.append('Set-Cookie', cookie)
+    return new Response(null, { status: 303, headers })
+  }
+  Astro.response.status = 401
+  error = 'Feil e-post eller passord. Etter fem forsøk blir kontoen låst i ti minutter.'
+}
+
+let providers: LoginProvider[] = []
+try {
+  providers = await loginProviders()
+} catch {
+  // The password form below still works if the list can't be fetched.
+}
+---
+
+<html lang="no">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Logg inn — Saman</title>
+  </head>
+  <body>
+    <h1>Logg inn i Saman</h1>
+    {error && <p role="alert">{error}</p>}
+    {
+      providers.map(({ id, label }) => (
+        <p>
+          <a href={providerLoginURL(id, new URL(redirect, Astro.url).href)}>Logg inn med {label}</a>
+        </p>
+      ))
+    }
+    <details open={providers.length === 0 || Astro.request.method === 'POST'}>
+      <summary>Logg inn med e-post og passord</summary>
+      <form method="post">
+        <p>
+          <label for="email">E-post</label>
+          <input id="email" name="email" type="email" autocomplete="username" required />
+        </p>
+        <p>
+          <label for="password">Passord</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required />
+        </p>
+        <button type="submit">Logg inn</button>
+      </form>
+    </details>
+  </body>
+</html>
