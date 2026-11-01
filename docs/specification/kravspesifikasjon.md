@@ -112,7 +112,7 @@ Saman henvender seg til alle ansatte og innleide i Digdir, men ulike grupper vil
 
 - **Prosjektdeltager** - for å forstå eget prosjektets mandat og leveranse
 
-I tillegg skal deler av rammeverket være tilgjengelig for eksterne brukergrupper som bidrar inn, og samarbeider om, leveranser.
+I tillegg skal deler av rammeverket være tilgjengelig for eksterne brukergrupper som bidrar inn, og samarbeider om, leveranser. Dette gjelder ikke første versjon, der alt innhold krever innlogging (jf. NF-11).
 
 ## 2. Systembeskrivelse
 ### 2.1 Hva er rammeverket
@@ -137,6 +137,8 @@ Saman inngår i og må sees i sammenheng med følgende:
 
 - **HR-system eller Entra ID** — ansatte, enhetstilhørighet og ledere hentes automatisk fra Digdirs autoritative kilde. Hvilken kilde som skal brukes, er ikke avklart (jf. åpen avklaring 6).
 
+- **Innlogging** — interne brukere logger inn med Entra ID (jf. NF-02). Payloads egen innlogging er reserveløsning når Entra ID ikke virker (jf. NF-12). Senere skal Ansattporten kunne brukes som alternativ (jf. NF-13).
+
 - **Analyseverktøy** — bruksmålingen (jf. NF-08) forutsetter et eksternt analyseverktøy. Prototypen bruker PostHog. Leverandør og databehandleravtale er ikke avklart.
 
 ### 2.3 Brukerroller
@@ -152,7 +154,7 @@ Saman inngår i og må sees i sammenheng med følgende:
 
 - **Administrator** — kan opprette og vedlikeholde felles innhold som gjelder på tvers av Digdir (f.eks. teamtyper, verktøytyper, roller, begreper og prinsippområder). Rollen innehas av Organisasjonslæring (VSU).
 
-- **Ekstern bruker** — har lesetilgang til innhold som er gjort tilgjengelig eksternt, uten redigeringsrettigheter.
+- **Ekstern bruker** — har lesetilgang til innhold som er gjort tilgjengelig eksternt, uten redigeringsrettigheter. Rollen er ikke med i første versjon (jf. NF-03 og NF-11).
 
 ### 2.4 Overordnede antakelser
 - Digdirs styringsfundament og nye organisering vedtas og gjelder som forutsatt gjennom OU-prosessen, og legger rammene Saman skal understøtte.
@@ -313,7 +315,7 @@ Styringsfundament skal gi alle ansatte en samlet og alltid oppdatert kilde til D
 |-------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
 | SF-01 | Systemet skal vise Digdirs styringsfundament (visjon, samfunnsoppdrag, målbilde, verdier, brukergrupper og institusjonelle roller) samlet på én side.                                   | Må        |
 | SF-02 | Systemet skal la en administrator oppdatere innholdet i styringsfundamentet.                                                                                                            | Må        |
-| SF-03 | Systemet skal vise styringsfundamentet også for eksterne interessenter, uten innlogging.                                                                                                | Bør       |
+| SF-03 | Systemet skal vise styringsfundamentet også for eksterne interessenter, uten innlogging.                                                                                                | Ikke nå   |
 | SF-04 | Systemet skal la brukeren navigere til styringsfundamentet fra andre relevante steder i systemet (f.eks. Prinsipper), der det er naturlig å vise sammenheng med overordnede ambisjoner. | Kan       |
 | SF-05 | Systemet skal vise historikk over tidligere versjoner av styringsfundamentet, inkludert tidspunkt for endring.                                                                          | Bør       |
 
@@ -517,8 +519,8 @@ erDiagram
 | ID    | Beskrivelse                                                                                                                     | Prioritet |
 |-------|---------------------------------------------------------------------------------------------------------------------------------|-----------|
 | NF-01 | Løsningen skal være universelt utformet i tråd med WCAG 2.1 nivå AA.                                                            | Må        |
-| NF-02 | Løsningen skal bruke Digdirs eksisterende innloggingsløsning for autentisering av interne brukere.                              | Må        |
-| NF-03 | Eksterne brukere skal kunne se innhold som er gjort tilgjengelig eksternt, uten innlogging.                                     | Må        |
+| NF-02 | Løsningen skal bruke Digdirs eksisterende innloggingsløsning, Entra ID, for autentisering av interne brukere.                   | Må        |
+| NF-03 | Eksterne brukere skal kunne se innhold som er gjort tilgjengelig eksternt, uten innlogging.                                     | Ikke nå   |
 | NF-04 | Brukergrensesnittet skal følge Digdirs designsystem.                                                                            | Må        |
 | NF-05 | Løsningen skal være tilgjengelig for alle ansatte og innleide i Digdir, uavhengig av lokasjon og enhet.                         | Må        |
 | NF-06 | Innhold skal kunne opprettes og redigeres av brukere uten teknisk bakgrunn, uten behov for opplæring i koding eller markup.     | Bør       |
@@ -526,6 +528,9 @@ erDiagram
 | NF-08 | Løsningen skal kunne måle bruken av sidene, for å forbedre innholdet og løsningen.                                              | Bør       |
 | NF-09 | Bruksmålingen skal ikke sende personopplysninger om andre ansatte, som navn på personer brukeren har slått opp.                 | Må        |
 | NF-10 | Når brukeren avslår informasjonskapsler, skal bruksmålingen være anonym og uten identifikatorer.                                | Må        |
+| NF-11 | Alle sider og alt innhold skal kreve innlogging. Ingenting skal være tilgjengelig uten innlogging.                              | Må        |
+| NF-12 | Løsningen skal ha egen innlogging i Payload som reserveløsning når Entra ID ikke virker.                                        | Må        |
+| NF-13 | Brukere skal kunne logge inn med Ansattporten som alternativ til Entra ID.                                                      | Bør       |
 
 ## 6. Prioritering (MoScoW)
 Kravene i kapittel 3 prioriteres etter MoSCoW-metoden: **M**ust have, **S**hould have, **C**ould have, **W**on't have (this time) — på norsk henholdsvis **Må** ha, **Bør** ha, **Kan** ha, og **Ikke nå**. De tre første brukes som prioritet i kravtabellene; "Won't"/"Ikke nå" brukes ved behov for å synliggjøre krav som er vurdert, men bevisst utsatt.
@@ -544,6 +549,7 @@ Punkter som er identifisert underveis, men som krever avklaring med flere enn kj
 | 5   | Innhold i Porteføljestyring                         | Hva skal funksjonsområdet Porteføljestyring inneholde: forklaring av porteføljestyringen, oversikt over porteføljen, støtte for prioriteringsprosessen, eller en kombinasjon? Støtte for prioriteringsprosessen vil kreve endring i 2.2.                                             | Arbeidspakken for porteføljestyring |
 | 6   | Kilde for ansatte og enheter                        | Skal ansatte, enhetstilhørighet og ledere hentes fra HR-systemet eller fra Entra ID? Valget påvirker datakvalitet, hvor raskt endringer blir synlige og hvilke opplysninger som er tilgjengelige.                                                                                    | TBD                                 |
 | 7   | Varig ID for personer                               | Personer kobles mot kilden med kildens egen ID. Det er ikke avklart om ID-en er den samme når en innleid blir ansatt. Endres den, blir personen registrert to ganger, og teamhistorikken følger ikke med. | TBD                                 |
+| 8   | Kobling av Ansattporten til brukere                 | Ansattporten (jf. NF-13) identifiserer brukeren med fødselsnummer, mens Entra ID bruker en ID i Digdirs tenant. Det er ikke avklart hvordan en innlogging med Ansattporten kobles til samme bruker, og om Saman kan lagre fødselsnummer for å gjøre det. | Personvernombud                     |
 
 ## Vedlegg 1: Klassifisering av team (team veiviser)
 ### Egner oppgaven seg for teamarbeid?
