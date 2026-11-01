@@ -82,7 +82,8 @@ on every pull request to `main`, each against its own throwaway PostgreSQL.
 
 ## Login
 
-Nothing is available without logging in (NF-11). Payload owns the session: the
+Nothing is available without logging in (NF-11). The reasons for the design
+are in [ADR-0001](docs/adr/0001-login-and-sessions.md). Payload owns the session: the
 Astro middleware (`src/web/src/middleware.ts`) asks Payload who the
 `payload-token` cookie belongs to and sends everyone else to `/logg-inn`. What a
 logged-in user may see is decided by the collections' access functions.

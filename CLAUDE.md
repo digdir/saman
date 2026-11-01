@@ -11,6 +11,7 @@ Prototype of the Saman application. See README.md for the full setup.
   (Norwegian). The intention and starting point for the implementation, not a
   fixed contract. See «Specification» below before changing it.
 - `docs/specification/decisions.md` — log of why the specification has changed.
+- `docs/adr/` — architecture decision records: why Saman is built the way it is.
 - `prototype/` — the original clickable HTML prototype. Use it for look, flow and
   wording, not as the specification. Never modify it.
 - `agent/` — the agentctl Agent for developing Saman in a sandbox. See `agent/README.md`.
@@ -81,6 +82,18 @@ Follow the specification here, not the prototype, unless the specification is ch
 | Porteføljestyring | Explanatory page | Placeholder without requirements (open question 5); do not build yet |
 
 Remove a row when the prototype has been updated.
+
+## Architecture decisions
+
+`docs/adr/` records technical decisions; see `docs/adr/README.md` for when and how.
+
+- **Follow accepted records.** Code that goes against an accepted record needs a
+  new record that supersedes it, not a quiet exception.
+- **Don't build proposed records.** A record with the status Proposed is still
+  being discussed. Implement it only once it is Accepted.
+- **Write a record** when a change makes a decision that is hard to reverse or
+  picks one of several reasonable options, and propose it in its own pull
+  request before the implementation.
 
 ## Before running anything
 
