@@ -30,7 +30,7 @@ export const Users: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'email',
-    defaultColumns: ['email', 'name', 'roles'],
+    defaultColumns: ['email', 'firstName', 'lastName', 'roles'],
   },
   auth: {
     // A working day, so people aren't sent through the login again before
@@ -50,8 +50,13 @@ export const Users: CollectionConfig = {
   endpoints: [providersEndpoint(providers), ...providers.flatMap(oidcEndpoints)],
   fields: [
     // Email added by default
+    // The names come from the provider on every login.
     {
-      name: 'name',
+      name: 'firstName',
+      type: 'text',
+    },
+    {
+      name: 'lastName',
       type: 'text',
     },
     {

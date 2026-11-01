@@ -4,7 +4,7 @@ import { onRequest } from '../src/middleware'
 
 // NF-11: no page without a logged-in user.
 
-const user = { id: 1, email: 'kari@digdir.no', name: 'Kari Nordmann' }
+const user = { id: 1, email: 'kari@digdir.no', firstName: 'Kari', lastName: 'Nordmann' }
 
 const run = async (path: string, cookie?: string) => {
   const url = new URL(path, 'http://localhost:4321')

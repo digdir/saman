@@ -110,6 +110,12 @@ async function findOrCreateUser(
   const { payload } = req
   const hasIdentity = (user: User) =>
     user.identities?.some((i) => i.provider === provider.id && i.subject === identity.subject)
+  // Names the provider didn't send are left as they are.
+  const names = Object.fromEntries(
+    Object.entries({ firstName: identity.firstName, lastName: identity.lastName }).filter(
+      ([, value]) => value !== undefined,
+    ),
+  ) as Pick<User, 'firstName' | 'lastName'>
 
   const { docs: linked } = await payload.find({
     collection: COLLECTION,
@@ -119,11 +125,12 @@ async function findOrCreateUser(
   })
   const user = linked.find(hasIdentity)
   if (user) {
-    if (user.email === identity.email && user.name === identity.name) return user
+    const data = { email: identity.email, ...names }
+    if (Object.entries(data).every(([key, value]) => user[key as keyof User] === value)) return user
     return payload.update({
       collection: COLLECTION,
       id: user.id,
-      data: { email: identity.email, name: identity.name },
+      data,
       depth: 0,
       req,
     })
@@ -141,7 +148,7 @@ async function findOrCreateUser(
       collection: COLLECTION,
       id: byEmail[0].id,
       data: {
-        name: identity.name,
+        ...names,
         identities: [...(byEmail[0].identities ?? []), newIdentity],
       },
       depth: 0,
@@ -153,7 +160,7 @@ async function findOrCreateUser(
     collection: COLLECTION,
     data: {
       email: identity.email,
-      name: identity.name,
+      ...names,
       identities: [newIdentity],
       // Payload requires a password. Nobody knows this one, so the user can
       // only use the password login (NF-12) if an administrator sets one.

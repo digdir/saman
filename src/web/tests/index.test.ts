@@ -50,7 +50,9 @@ describe('home page', () => {
   it('shows who is logged in, with a way to log out', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => healthy()))
 
-    const html = await render({ user: { name: 'Kari Nordmann' } as App.Locals['user'] })
+    const html = await render({
+      user: { email: 'kari@digdir.no', firstName: 'Kari', lastName: 'Nordmann' } as App.Locals['user'],
+    })
 
     expect(html).toContain('Logget inn som Kari Nordmann')
     expect(html).toContain('action="/logg-ut"')

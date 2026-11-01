@@ -16,7 +16,8 @@ export type OidcSettings = {
 export type Identity = {
   subject: string
   email: string
-  name?: string
+  firstName?: string
+  lastName?: string
 }
 
 /** The providers in the users' identities field, generated from `providers`. */
@@ -54,10 +55,16 @@ export const entra: OidcProvider = {
     const subject = claims.oid
     const email = claims.email ?? claims.preferred_username
     if (typeof subject !== 'string' || typeof email !== 'string') return null
+    // given_name and family_name are optional claims that the app
+    // registration has to add to the ID token. Without them the names stay
+    // empty: the display name (name) can't be split reliably, since it is
+    // written «Birkeli, Ronny».
+    const text = (value: unknown) => (typeof value === 'string' && value ? value : undefined)
     return {
       subject,
       email: email.toLowerCase(),
-      name: typeof claims.name === 'string' ? claims.name : undefined,
+      firstName: text(claims.given_name),
+      lastName: text(claims.family_name),
     }
   },
 }

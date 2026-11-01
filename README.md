@@ -102,7 +102,9 @@ so run `pnpm make-admin` for yourself once.
 To log in with Entra ID locally, set `ENTRA_TENANT_ID`, `ENTRA_CLIENT_ID` and
 `ENTRA_CLIENT_SECRET` in `src/cms/.env`; ask the team for the values. The app
 registration has `http://localhost:3000/api/brukere/oauth/entra/callback` as a
-redirect URI. Without them only email and password is offered. The tests run
+redirect URI, and the optional claims `given_name` and `family_name` in the ID
+token (*Token configuration*), which fill in the user's first and last name on
+every login. Without them only email and password is offered. The tests run
 the Entra ID flow against a mock provider, so they don't need them.
 
 Pages that read from the CMS pass the visitor's session on, so Payload's access

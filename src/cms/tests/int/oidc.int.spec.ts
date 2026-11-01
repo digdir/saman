@@ -70,7 +70,14 @@ describe('Login with Entra ID', () => {
   })
 
   beforeEach(() => {
-    claims = { tid: tenant, oid: `${prefix}-oid-1`, email: email(1), name: 'Kari Nordmann' }
+    claims = {
+      tid: tenant,
+      oid: `${prefix}-oid-1`,
+      email: email(1),
+      name: 'Nordmann, Kari',
+      given_name: 'Kari',
+      family_name: 'Nordmann',
+    }
   })
 
   afterAll(async () => {
@@ -85,7 +92,7 @@ describe('Login with Entra ID', () => {
     expect(res.status).toBe(302)
     expect(res.headers.get('Location')).toBe(`${webURL}/team`)
     const user = await sessionUser(res)
-    expect(user).toMatchObject({ email: email(1), name: 'Kari Nordmann' })
+    expect(user).toMatchObject({ email: email(1), firstName: 'Kari', lastName: 'Nordmann' })
     expect(user?.roles ?? []).toEqual([])
     expect(user?.identities).toMatchObject([{ provider: 'entra', subject: `${prefix}-oid-1` }])
   })
@@ -98,6 +105,25 @@ describe('Login with Entra ID', () => {
 
     expect(second?.id).toBe(first?.id)
     expect(second?.email).toBe(email('renamed'))
+  })
+
+  it('keeps the names when the provider stops sending them', async () => {
+    await logIn()
+    delete claims.given_name
+    delete claims.family_name
+
+    const user = await sessionUser(await logIn())
+
+    expect(user).toMatchObject({ firstName: 'Kari', lastName: 'Nordmann' })
+  })
+
+  it('updates the names when they change in Entra ID', async () => {
+    await logIn()
+    claims.family_name = 'Hansen'
+
+    const user = await sessionUser(await logIn())
+
+    expect(user).toMatchObject({ firstName: 'Kari', lastName: 'Hansen' })
   })
 
   it('links an existing account with the same email, keeping its roles', async () => {
