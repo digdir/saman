@@ -5,9 +5,10 @@ import { oidcEndpoints, providersEndpoint } from '../auth/oidc'
 import { providers } from '../auth/providers'
 
 // The first user, created on /admin of an empty database, has to be able to
-// use the admin panel and make others administrators.
-const makeFirstUserAdmin: CollectionBeforeChangeHook = async ({ data, operation, req }) => {
-  if (operation === 'create') {
+// use the admin panel and make others administrators. Not someone who just
+// happens to be the first to log in with a provider.
+const makeFirstUserAdmin: CollectionBeforeChangeHook = async ({ context, data, operation, req }) => {
+  if (operation === 'create' && !context.createdByLogin) {
     const { totalDocs } = await req.payload.count({ collection: 'brukere', req })
     if (totalDocs === 0) data.roles = ['admin']
   }

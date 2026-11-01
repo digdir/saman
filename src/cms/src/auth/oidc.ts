@@ -159,6 +159,7 @@ async function findOrCreateUser(
       // only use the password login (NF-12) if an administrator sets one.
       password: crypto.randomBytes(32).toString('base64url'),
     },
+    context: { createdByLogin: true },
     depth: 0,
     req,
   })
