@@ -2,5 +2,25 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "local>digdir/renovate-config"
+  ],
+  "major": {
+    "dependencyDashboardApproval": true
+  },
+  "packageRules": [
+    {
+      "description": "The overrides in pnpm-workspace.yaml lift vulnerable transitive dependencies to fixed versions. They are removed once the packages that pull them in are fixed, never upgraded.",
+      "matchFileNames": ["pnpm-workspace.yaml"],
+      "enabled": false
+    },
+    {
+      "description": "Payload requires graphql ^16.",
+      "matchPackageNames": ["graphql"],
+      "allowedVersions": "<17"
+    },
+    {
+      "description": "The Node types follow the Node major in .nvmrc. Raise this together with .nvmrc.",
+      "matchPackageNames": ["@types/node"],
+      "allowedVersions": "<25"
+    }
   ]
 }
