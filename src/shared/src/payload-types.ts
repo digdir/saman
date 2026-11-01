@@ -71,6 +71,7 @@ export interface Config {
     medier: Media;
     personer: Person;
     lokasjoner: Location;
+    enheter: Unit;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,12 +81,17 @@ export interface Config {
     lokasjoner: {
       people: 'personer';
     };
+    enheter: {
+      children: 'enheter';
+      people: 'personer';
+    };
   };
   collectionsSelect: {
     brukere: BrukereSelect<false> | BrukereSelect<true>;
     medier: MedierSelect<false> | MedierSelect<true>;
     personer: PersonerSelect<false> | PersonerSelect<true>;
     lokasjoner: LokasjonerSelect<false> | LokasjonerSelect<true>;
+    enheter: EnheterSelect<false> | EnheterSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -197,6 +203,8 @@ export interface Person {
   manager?: (number | null) | Person;
   externalLocationId: string;
   location?: (number | null) | Location;
+  externalUnitIds?: string[] | null;
+  units?: (number | Unit)[] | null;
   isEmployee: boolean;
   active: boolean;
   mobile?: string | null;
@@ -213,6 +221,34 @@ export interface Location {
   externalLocationId: string;
   code: string;
   name: string;
+  people?: {
+    docs?: (number | Person)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "enheter".
+ */
+export interface Unit {
+  id: number;
+  externalUnitId: string;
+  name: string;
+  code?: string | null;
+  level: 'division' | 'department' | 'section';
+  externalParentId?: string | null;
+  parent?: (number | null) | Unit;
+  externalLeaderId?: string | null;
+  leader?: (number | null) | Person;
+  active: boolean;
+  children?: {
+    docs?: (number | Unit)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   people?: {
     docs?: (number | Person)[];
     hasNextPage?: boolean;
@@ -260,6 +296,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'lokasjoner';
         value: number | Location;
+      } | null)
+    | ({
+        relationTo: 'enheter';
+        value: number | Unit;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -370,6 +410,8 @@ export interface PersonerSelect<T extends boolean = true> {
   manager?: T;
   externalLocationId?: T;
   location?: T;
+  externalUnitIds?: T;
+  units?: T;
   isEmployee?: T;
   active?: T;
   mobile?: T;
@@ -385,6 +427,25 @@ export interface LokasjonerSelect<T extends boolean = true> {
   externalLocationId?: T;
   code?: T;
   name?: T;
+  people?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "enheter_select".
+ */
+export interface EnheterSelect<T extends boolean = true> {
+  externalUnitId?: T;
+  name?: T;
+  code?: T;
+  level?: T;
+  externalParentId?: T;
+  parent?: T;
+  externalLeaderId?: T;
+  leader?: T;
+  active?: T;
+  children?: T;
   people?: T;
   updatedAt?: T;
   createdAt?: T;

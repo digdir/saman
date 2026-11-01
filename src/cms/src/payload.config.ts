@@ -11,6 +11,7 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { People } from './collections/People'
 import { Locations } from './collections/Locations'
+import { Units } from './collections/Units'
 import { health } from './endpoints/health'
 import { serverURL, webURL } from './urls'
 
@@ -37,7 +38,7 @@ export default buildConfig({
     supportedLanguages: { nb, en },
     fallbackLanguage: 'nb',
   },
-  collections: [Users, Media, People, Locations],
+  collections: [Users, Media, People, Locations, Units],
   endpoints: [health],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

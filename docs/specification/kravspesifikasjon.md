@@ -330,7 +330,7 @@ Folk skal gi en samlet oversikt over alle ansatte og deres tilhørighet i linjen
 | ID    | Beskrivelse                                                                                              | Prioritet |
 |-------|----------------------------------------------------------------------------------------------------------|-----------|
 | FO-01 | Systemet skal vise en liste over alle ansatte i Digdir med navn og rolle.                                | Må        |
-| FO-02 | Systemet skal for hver ansatt vise enhet i linjen og hvilke team og prosjekter vedkommende er medlem av. | Må        |
+| FO-02 | Systemet skal for hver ansatt vise enheten eller enhetene i linjen og hvilke team og prosjekter vedkommende er medlem av. | Må        |
 | FO-03 | Systemet skal la brukeren søke etter ansatte på navn, rolle, enhet eller team.                           | Bør       |
 
 ### 3.9 Allokering
@@ -464,7 +464,7 @@ Aktuelle entiteter systemet skal håndtere. Listen er ikke nødvendigvis komplet
 
 - **Team** – jobber sammen om leveranser. Kan være produktteam, prosjektteam, støtteteam etc.
 
-- **Enhet** – gruppe i linjeorganisasjonen (divisjon/avdeling/seksjon)
+- **Enhet** – gruppe i linjeorganisasjonen (divisjon/avdeling/seksjon). En enhet hører til høyst én overordnet enhet og kan ha ingen, én eller flere underenheter. Navn, nivå, overordnet enhet og leder hentes fra Digdirs autoritative kilde (jf. NF-07).
 
 - **Person** – ansatt eller innleid i Digdir som inngår i ett eller flere team, prosjekter eller enheter, tilknyttet én lokasjon. Personen er merket som ansatt eller innleid, og som aktiv eller sluttet. Opplysningene hentes fra Digdirs autoritative kilde (jf. NF-07).
 
@@ -493,7 +493,7 @@ Den logiske datamodell viser entitetene og relasjonene imellom dem, samt hva rel
 erDiagram
     Verktoy["Verktøy"]
 
-    Enhet ||--|| Enhet : "hører til"
+    Enhet }o--o| Enhet : "hører til"
     Lokasjon ||--|{ Person : "hører til"
     Person }o--|{ Enhet : "er ansatt i"
     Person }o--o{ Team : "hører til"
